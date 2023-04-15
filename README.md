@@ -1,2 +1,2 @@
-# Qouridor-AI
+# Quoridor-AI
 Quoridor-AI
