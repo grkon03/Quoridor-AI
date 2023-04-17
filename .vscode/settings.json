@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "__bit_reference": "cpp",
+    "atomic": "cpp",
+    "chrono": "cpp",
+    "complex": "cpp",
+    "string": "cpp",
+    "iterator": "cpp"
+  }
+}
