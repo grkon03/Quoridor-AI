@@ -11,14 +11,16 @@ namespace QuoridorAI
          * @enum BaseType
          * @brief base type of integer
          *
-         * @note BT_BIN: binary, BT_DEC: decimal, BT_HEX: hexadecimal
+         * @note BT_BIN: binary, BT_HEX: hexadecimal
          */
         enum BaseType
         {
             BT_BIN,
-            BT_DEC,
             BT_HEX,
         };
+
+        extern uint64_t fullbits64;
+        extern uint32_t fullbits32;
     }
 
     /**

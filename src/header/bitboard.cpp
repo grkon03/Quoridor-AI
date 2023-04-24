@@ -6,6 +6,18 @@ namespace QuoridorAI
 {
     /**
      *
+     * misc
+     *
+     */
+
+    namespace misc
+    {
+        uint64_t fullbits64 = 0xffffffffffffffffULL;
+        uint32_t fullbits32 = 0xffffffffUL;
+    }
+
+    /**
+     *
      * Bitboard96
      *
      */
@@ -21,15 +33,17 @@ namespace QuoridorAI
         int i;
         int length;
         int digit;
+        char cDigit;
 
         // initialize
         upperBits = 0;
         lowerBits = 0;
 
+        length = number.length();
+
         switch (bt)
         {
         case misc::BaseType::BT_BIN:
-            length = number.length();
 
             // over
             if (length > 96)
@@ -59,9 +73,42 @@ namespace QuoridorAI
             }
 
             break;
-        case misc::BaseType::BT_DEC:
-            break;
         case misc::BaseType::BT_HEX:
+            if (length > 24)
+                return;
+
+            for (i = length - 1; i >= 0; --i)
+            {
+                cDigit = number[length - i - 1];
+                if ('0' <= cDigit && cDigit <= '9')
+                {
+                    digit = int(cDigit - '0');
+                }
+                else if ('a' <= cDigit && cDigit <= 'f')
+                {
+                    digit = int(cDigit - 'a') + 10;
+                }
+                else if ('A' <= cDigit && cDigit <= 'F')
+                {
+                    digit = int(cDigit - 'A') + 10;
+                }
+                else
+                {
+                    lowerBits = 0;
+                    upperBits = 0;
+                    return;
+                }
+
+                if (i < 16)
+                {
+                    lowerBits += digit * (1ULL << (i * 4));
+                }
+                else
+                {
+                    upperBits += digit * (1ULL << (i * 4));
+                }
+            }
+
             break;
         default:
             return;
