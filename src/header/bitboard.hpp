@@ -34,6 +34,10 @@ namespace QuoridorAI
         uint64_t lowerBits;
         uint32_t upperBits;
 
+        // errors
+
+        bool overflow;
+
     public:
         // constructors
 
@@ -54,29 +58,33 @@ namespace QuoridorAI
         // operators
 
         Bitboard96 &operator+=(const Bitboard96 &b);
-        Bitboard96 operator+(const Bitboard96 &b);
-        Bitboard96 &operator*=(const uint64_t n);
-        Bitboard96 operator*(const uint64_t n);
+        Bitboard96 operator+(const Bitboard96 &b) const;
+        Bitboard96 &operator+=(const uint64_t n);
+        Bitboard96 operator+(const uint64_t n) const;
 
         Bitboard96 &operator-=(const Bitboard96 &b);
-        Bitboard96 operator-(const Bitboard96 &b);
-        Bitboard96 &operator*=(const uint64_t n);
-        Bitboard96 operator*(const uint64_t n);
+        Bitboard96 operator-(const Bitboard96 &b) const;
+        Bitboard96 &operator-=(const uint64_t n);
+        Bitboard96 operator-(const uint64_t n) const;
 
         Bitboard96 &operator*=(const Bitboard96 &b);
-        Bitboard96 operator*(const Bitboard96 &b);
+        Bitboard96 operator*(const Bitboard96 &b) const;
         Bitboard96 &operator*=(const uint64_t n);
-        Bitboard96 operator*(const uint64_t n);
+        Bitboard96 operator*(const uint64_t n) const;
 
         Bitboard96 &operator/=(const Bitboard96 &b);
-        Bitboard96 operator/(const Bitboard96 &b);
+        Bitboard96 operator/(const Bitboard96 &b) const;
         Bitboard96 &operator/=(const uint64_t n);
-        Bitboard96 operator/(const uint64_t n);
+        Bitboard96 operator/(const uint64_t n) const;
 
         Bitboard96 &operator<<=(const uint64_t n);
-        Bitboard96 operator<<(const uint64_t n);
+        Bitboard96 operator<<(const uint64_t n) const;
         Bitboard96 &operator>>=(const uint64_t n);
-        Bitboard96 operator>>(const uint64_t n);
+        Bitboard96 operator>>(const uint64_t n) const;
+
+        // functions
+
+        bool IsOverflow();
     };
 
     class Bitboard8x10 : public Bitboard96
