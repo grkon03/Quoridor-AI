@@ -59,6 +59,7 @@ namespace QuoridorAI
         // operators
 
         Bitboard96 operator=(const Bitboard96 &b);
+        Bitboard96 operator=(const std::string string);
 
         Bitboard96 &operator+=(const Bitboard96 &b);
         Bitboard96 operator+(const Bitboard96 &b) const;

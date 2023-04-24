@@ -154,6 +154,11 @@ namespace QuoridorAI
         return *this;
     }
 
+    Bitboard96 Bitboard96::operator=(const std::string number)
+    {
+        return (*this = Bitboard96(number));
+    }
+
     bool Bitboard96::operator==(const Bitboard96 &b) const
     {
         if (overflow || invalidExpression || b.overflow || b.invalidExpression)
