@@ -24,12 +24,17 @@ namespace QuoridorAI
 
     // constructors
 
-    Bitboard96::Bitboard96() : lowerBits(0), upperBits(0){};
-    Bitboard96::Bitboard96(uint64_t n) : lowerBits(n), upperBits(0){};
+    Bitboard96::Bitboard96()
+        : lowerBits(0), upperBits(0), overflow(false), invalidExpression(false){};
+    Bitboard96::Bitboard96(uint64_t n)
+        : lowerBits(n), upperBits(0), overflow(false), invalidExpression(false){};
     Bitboard96::Bitboard96(uint64_t low, uint32_t upp)
-        : lowerBits(low), upperBits(upp){};
+        : lowerBits(low), upperBits(upp), overflow(false), invalidExpression(false){};
     Bitboard96::Bitboard96(std::string number, misc::BaseType bt)
     {
+        overflow = false;
+        invalidExpression = false;
+
         int i;
         int length;
         int digit;
@@ -47,7 +52,10 @@ namespace QuoridorAI
 
             // over
             if (length > 96)
+            {
+                overflow = true;
                 return;
+            }
 
             for (i = length - 1; i >= 0; --i)
             {
@@ -68,6 +76,7 @@ namespace QuoridorAI
                 default:
                     lowerBits = 0;
                     upperBits = 0;
+                    invalidExpression = true;
                     return;
                 }
             }
@@ -75,7 +84,10 @@ namespace QuoridorAI
             break;
         case misc::BaseType::BT_HEX:
             if (length > 24)
+            {
+                overflow = true;
                 return;
+            }
 
             for (i = length - 1; i >= 0; --i)
             {
@@ -96,6 +108,7 @@ namespace QuoridorAI
                 {
                     lowerBits = 0;
                     upperBits = 0;
+                    invalidExpresion = true;
                     return;
                 }
 
@@ -111,6 +124,7 @@ namespace QuoridorAI
 
             break;
         default:
+            invalidExpression = true;
             return;
         }
     }
@@ -125,6 +139,13 @@ namespace QuoridorAI
         {
             lowerBits = 0;
             upperBits = 0;
+            overflow = false;
+            invalidExpression = true;
         }
     }
+
+    // functions
+
+    bool Bitboard96::IsOverflow() { return overflow; }
+    bool Bitboard96::IsInvalidExpression() { return invalidExpression; }
 }
