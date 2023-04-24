@@ -58,47 +58,47 @@ namespace QuoridorAI
 
         // operators
 
-        Bitboard96 operator=(const Bitboard96 &b);
-        Bitboard96 operator=(const std::string string);
+        Bitboard96 operator=(const Bitboard96 &);
+        Bitboard96 operator=(const std::string);
 
-        Bitboard96 &operator+=(const Bitboard96 &b);
-        Bitboard96 operator+(const Bitboard96 &b) const;
-        Bitboard96 &operator+=(const uint64_t n);
-        Bitboard96 operator+(const uint64_t n) const;
+        Bitboard96 &operator+=(const Bitboard96 &);
+        Bitboard96 operator+(const Bitboard96 &) const;
+        Bitboard96 &operator+=(const uint64_t);
+        Bitboard96 operator+(const uint64_t) const;
 
-        Bitboard96 &operator-=(const Bitboard96 &b);
-        Bitboard96 operator-(const Bitboard96 &b) const;
-        Bitboard96 &operator-=(const uint64_t n);
-        Bitboard96 operator-(const uint64_t n) const;
+        Bitboard96 &operator-=(const Bitboard96 &);
+        Bitboard96 operator-(const Bitboard96 &) const;
+        Bitboard96 &operator-=(const uint64_t);
+        Bitboard96 operator-(const uint64_t) const;
 
-        Bitboard96 &operator*=(const Bitboard96 &b);
-        Bitboard96 operator*(const Bitboard96 &b) const;
-        Bitboard96 &operator*=(const uint64_t n);
-        Bitboard96 operator*(const uint64_t n) const;
+        Bitboard96 &operator*=(const Bitboard96 &);
+        Bitboard96 operator*(const Bitboard96 &) const;
+        Bitboard96 &operator*=(const uint64_t);
+        Bitboard96 operator*(const uint64_t) const;
 
-        Bitboard96 &operator/=(const Bitboard96 &b);
-        Bitboard96 operator/(const Bitboard96 &b) const;
-        Bitboard96 &operator/=(const uint64_t n);
-        Bitboard96 operator/(const uint64_t n) const;
+        Bitboard96 &operator/=(const Bitboard96 &);
+        Bitboard96 operator/(const Bitboard96 &) const;
+        Bitboard96 &operator/=(const uint64_t);
+        Bitboard96 operator/(const uint64_t) const;
 
-        Bitboard96 &operator<<=(const uint64_t n);
-        Bitboard96 operator<<(const uint64_t n) const;
-        Bitboard96 &operator>>=(const uint64_t n);
-        Bitboard96 operator>>(const uint64_t n) const;
+        Bitboard96 &operator<<=(const uint64_t);
+        Bitboard96 operator<<(const uint64_t) const;
+        Bitboard96 &operator>>=(const uint64_t);
+        Bitboard96 operator>>(const uint64_t) const;
 
-        Bitboard96 &operator&=(const Bitboard96 &b);
-        Bitboard96 operator&(const Bitboard96 &b) const;
+        Bitboard96 &operator&=(const Bitboard96 &);
+        Bitboard96 operator&(const Bitboard96 &) const;
 
-        Bitboard96 &operator|=(const Bitboard96 &b);
-        Bitboard96 operator|(const Bitboard96 &b) const;
+        Bitboard96 &operator|=(const Bitboard96 &);
+        Bitboard96 operator|(const Bitboard96 &) const;
 
-        Bitboard96 &operator^=(const Bitboard96 &b);
-        Bitboard96 operator^(const Bitboard96 &b) const;
+        Bitboard96 &operator^=(const Bitboard96 &);
+        Bitboard96 operator^(const Bitboard96 &) const;
 
         Bitboard96 operator!() const;
 
-        bool operator==(const Bitboard96 &b) const;
-        bool operator!=(const Bitboard96 &b) const;
+        bool operator==(const Bitboard96 &) const;
+        bool operator!=(const Bitboard96 &) const;
 
         // functions
 
