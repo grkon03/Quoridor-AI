@@ -82,6 +82,17 @@ namespace QuoridorAI
         Bitboard96 &operator>>=(const uint64_t n);
         Bitboard96 operator>>(const uint64_t n) const;
 
+        Bitboard96 &operator&=(const Bitboard96 &b);
+        Bitboard96 operator&(const Bitboard96 &b) const;
+
+        Bitboard96 &operator|=(const Bitboard96 &b);
+        Bitboard96 operator|(const Bitboard96 &b) const;
+
+        Bitboard96 &operator^=(const Bitboard96 &b);
+        Bitboard96 operator^(const Bitboard96 &b) const;
+
+        Bitboard96 operator!() const;
+
         // functions
 
         bool IsOverflow();
