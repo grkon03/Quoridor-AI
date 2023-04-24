@@ -1,5 +1,3 @@
-#pragma once
-
 #include "bitboard.hpp"
 
 namespace QuoridorAI
