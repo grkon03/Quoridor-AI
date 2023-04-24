@@ -30,4 +30,9 @@ TEST(Bitboard96Constructions, Bitboard96ConstructionsWithString)
         std::string("0b111111111111111100000000000000000000000000000000") +
         std::string("00000000000000001111111111111111"));
     EXPECT_EQ(a, b);
+
+    a = Bitboard96(0xeaff9f91U, 0xf10083eabc87d6deULL);
+
+    b = Bitboard96("0xeaff9f91f10083eabc87d6de");
+    EXPECT_EQ(a, b);
 }
