@@ -26,7 +26,7 @@ namespace QuoridorAI
         : lowerBits(0), upperBits(0), overflow(false), invalidExpression(false){};
     Bitboard96::Bitboard96(uint64_t n)
         : lowerBits(n), upperBits(0), overflow(false), invalidExpression(false){};
-    Bitboard96::Bitboard96(uint64_t low, uint32_t upp)
+    Bitboard96::Bitboard96(uint32_t upp, uint64_t low)
         : lowerBits(low), upperBits(upp), overflow(false), invalidExpression(false){};
     Bitboard96::Bitboard96(std::string number, misc::BaseType bt)
     {
@@ -140,6 +140,31 @@ namespace QuoridorAI
             overflow = false;
             invalidExpression = true;
         }
+    }
+
+    // operators
+
+    Bitboard96 Bitboard96::operator=(const Bitboard96 &b)
+    {
+        upperBits = b.upperBits;
+        lowerBits = b.lowerBits;
+        overflow = b.overflow;
+        invalidExpression = b.invalidExpression;
+
+        return *this;
+    }
+
+    bool Bitboard96::operator==(const Bitboard96 &b) const
+    {
+        if (overflow || invalidExpression || b.overflow || b.invalidExpression)
+            return false;
+
+        return ((upperBits == b.upperBits) && (lowerBits == b.lowerBits));
+    }
+
+    bool Bitboard96::operator!=(const Bitboard96 &b) const
+    {
+        return !operator==(b);
     }
 
     // functions

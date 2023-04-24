@@ -44,7 +44,7 @@ namespace QuoridorAI
 
         Bitboard96();
         Bitboard96(uint64_t);
-        Bitboard96(uint64_t, uint32_t);
+        Bitboard96(uint32_t, uint64_t);
         /**
          * @brief Construct a new Bitboard96 object
          * @note If it is over the max value (2^96 - 1), or if something is wrong, the value is set to 0.
@@ -57,6 +57,8 @@ namespace QuoridorAI
         Bitboard96(std::string);
 
         // operators
+
+        Bitboard96 operator=(const Bitboard96 &b);
 
         Bitboard96 &operator+=(const Bitboard96 &b);
         Bitboard96 operator+(const Bitboard96 &b) const;
@@ -93,6 +95,9 @@ namespace QuoridorAI
         Bitboard96 operator^(const Bitboard96 &b) const;
 
         Bitboard96 operator!() const;
+
+        bool operator==(const Bitboard96 &b) const;
+        bool operator!=(const Bitboard96 &b) const;
 
         // functions
 
