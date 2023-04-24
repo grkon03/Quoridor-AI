@@ -108,7 +108,7 @@ namespace QuoridorAI
                 {
                     lowerBits = 0;
                     upperBits = 0;
-                    invalidExpresion = true;
+                    invalidExpression = true;
                     return;
                 }
 
