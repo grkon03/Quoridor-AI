@@ -37,6 +37,7 @@ namespace QuoridorAI
         // errors
 
         bool overflow;
+        bool invalidExpression;
 
     public:
         // constructors
@@ -96,6 +97,7 @@ namespace QuoridorAI
         // functions
 
         bool IsOverflow();
+        bool IsInvalidExpression();
     };
 
     class Bitboard8x10 : public Bitboard96
