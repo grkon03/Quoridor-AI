@@ -114,4 +114,17 @@ namespace QuoridorAI
             return;
         }
     }
+
+    Bitboard96::Bitboard96(std::string exp)
+    {
+        if (exp.substr(0, 2) == "0x")
+            *this = Bitboard96(exp.substr(2), misc::BaseType::BT_HEX);
+        else if (exp.substr(0, 2) == "0b")
+            *this = Bitboard96(exp.substr(2), misc::BaseType::BT_BIN);
+        else
+        {
+            lowerBits = 0;
+            upperBits = 0;
+        }
+    }
 }

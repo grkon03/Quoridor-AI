@@ -41,10 +41,15 @@ namespace QuoridorAI
         Bitboard96(uint64_t);
         Bitboard96(uint64_t, uint32_t);
         /**
-         * @brief Construct a new Bitboard 9 6 object
+         * @brief Construct a new Bitboard96 object
          * @note If it is over the max value (2^96 - 1), or if something is wrong, the value is set to 0.
          */
         Bitboard96(std::string, misc::BaseType);
+        /**
+         * @brief Construct a new Bitboard96 object
+         * @note Begin with "0x" or "0b".
+         */
+        Bitboard96(std::string);
 
         // operators
 
