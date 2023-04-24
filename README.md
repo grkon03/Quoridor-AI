@@ -14,6 +14,23 @@ When you are to edit this repository, you **must** follow the following rules.
   - Follow the rules of CMake.
   - After you edit or make .cpp files, fix `CMakeLists.txt` respect to your edits.
 
-## Compile
+## Build
 
-Compile with CMake.
+Build with CMake.
+
+### build QuoridorAI
+
+Make `src/build` directory, and move there. In `Quoridor-AI` folder
+
+```
+cd src
+mkdir build
+cd build
+```
+
+Build with using cmake commands.
+
+```
+cmake ..
+cmake --build .
+```
