@@ -1,3 +1,10 @@
+/**
+ * @file bitboardTest.cpp
+ * @author grkon03
+ * @brief testcases for bitboard.hpp/.cpp
+ *
+ */
+
 #include <gtest/gtest.h>
 #include "../src/includes/bitboard.hpp"
 
@@ -35,4 +42,65 @@ TEST(Bitboard96Constructions, Bitboard96ConstructionsWithString)
 
     b = Bitboard96("0xeaff9f91f10083eabc87d6de");
     EXPECT_EQ(a, b);
+}
+
+TEST(Bitboard96Operations, Bitboard96Additions)
+{
+    Bitboard96 a, b, cor;
+    uint64_t n;
+
+    // + Bitboard96, non-moveup
+
+    a = "0xabcd000012340000ffff";
+    b = "0x4f120000deeaff0000ff";
+    cor = "0xfadf0000f11eff0100fe";
+
+    EXPECT_EQ(a + b, cor);
+
+    // + Bitboard96, moveup
+
+    a = "0xff24ffacfdeeeddff";
+    b = "0xcdc87019afcfbbd67";
+    cor = "0x1cced6fc6adbea9b66";
+
+    EXPECT_EQ(a + b, cor);
+
+    // + Bitboard96, overflow errors, moveup
+
+    a = Bitboard96(misc::fullbits32, misc::fullbits64);
+    b = Bitboard96(1);
+    a += b;
+
+    EXPECT_EQ(a.IsOverflow(), true);
+
+    // + Bitboard96, overflow errors, upperBits
+
+    a = Bitboard96(misc::fullbits32, 0);
+    b = Bitboard96(1, 0);
+    a += b;
+
+    EXPECT_EQ(a.IsOverflow(), true);
+
+    // + uint64_t, non-moveup
+
+    a = "0xf13fed3f13dddfffff";
+    n = 0x123456789abcdefULL;
+    cor = "0xf14110847b678bcdee";
+
+    EXPECT_EQ(a + n, cor);
+
+    // + uint64_t, moveup
+
+    a = "0xfffffffffffffffffffff";
+    n = 0xffffffffffffffffULL;
+    cor = "0x100000fffffffffffffffe";
+
+    EXPECT_EQ(a + n, cor);
+
+    // + uint64_t, overflow errors
+    a = "0xffffffffffffffffffffaaaa";
+    n = 0xaaaaaaaa;
+    a += n;
+
+    EXPECT_EQ(a.IsOverflow(), true);
 }
