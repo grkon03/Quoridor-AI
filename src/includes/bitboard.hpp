@@ -102,8 +102,12 @@ namespace QuoridorAI
 
         // functions
 
+        bool IsError() const;
+
         bool IsOverflow();
         bool IsInvalidExpression();
+
+        void InheritError(const Bitboard96 &);
     };
 
     class Bitboard8x10 : public Bitboard96
