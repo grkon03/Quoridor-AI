@@ -194,6 +194,42 @@ namespace QuoridorAI
         return *this;
     }
 
+    Bitboard96 Bitboard96::operator+(const Bitboard96 &b) const
+    {
+        Bitboard96 res = *this;
+        return (res += b);
+    }
+
+    Bitboard96 &Bitboard96::operator+=(const uint64_t n)
+    {
+        if (IsError())
+            return *this;
+
+        if (misc::fullbits64 - n < lowerBits)
+        {
+            if (misc::fullbits32 == upperBits)
+            {
+                overflow = true;
+                return *this;
+            }
+
+            lowerBits -= misc::fullbits64 - n + 1;
+            ++upperBits;
+        }
+        else
+        {
+            lowerBits += n;
+        }
+
+        return *this;
+    }
+
+    Bitboard96 Bitboard96::operator+(const uint64_t n) const
+    {
+        Bitboard96 res = *this;
+        return (res += n);
+    }
+
     bool Bitboard96::operator==(const Bitboard96 &b) const
     {
         if (overflow || invalidExpression || b.overflow || b.invalidExpression)
