@@ -34,3 +34,26 @@ Build with using cmake commands.
 cmake ..
 cmake --build .
 ```
+
+### build test and run
+
+Make `test/build` directory, and move there. In `Quoridor-AI` folder
+
+```
+cd test
+mkdir build
+cd build
+```
+
+Build with using cmake commands.
+
+```
+cmake ..
+cmake --build .
+```
+
+Type the following binary file to run test.
+
+```
+./QuoridorAITest
+```
