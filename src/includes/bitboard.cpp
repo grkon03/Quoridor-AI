@@ -267,7 +267,7 @@ namespace QuoridorAI
     Bitboard96 Bitboard96::operator-(const Bitboard96 &b) const
     {
         Bitboard96 res = *this;
-        return (res += b);
+        return (res -= b);
     }
 
     Bitboard96 &Bitboard96::operator-=(const uint64_t n)
@@ -297,7 +297,7 @@ namespace QuoridorAI
     Bitboard96 Bitboard96::operator-(const uint64_t n) const
     {
         Bitboard96 res = *this;
-        return (res += n);
+        return (res -= n);
     }
 
     bool Bitboard96::operator==(const Bitboard96 &b) const
