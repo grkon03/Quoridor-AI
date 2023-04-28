@@ -230,6 +230,76 @@ namespace QuoridorAI
         return (res += n);
     }
 
+    Bitboard96 &Bitboard96::operator-=(const Bitboard96 &b)
+    {
+        if (IsError() || b.IsError())
+        {
+            InheritError(b);
+            return *this;
+        }
+
+        if (upperBits < b.upperBits)
+        {
+            overflow = true;
+            return *this;
+        }
+
+        if (lowerBits < b.lowerBits)
+        {
+            if (upperBits == b.upperBits)
+            {
+                overflow = true;
+                return *this;
+            }
+
+            upperBits -= b.upperBits + 1;
+            lowerBits += misc::fullbits64 - b.lowerBits + 1;
+        }
+        else
+        {
+            upperBits -= b.upperBits;
+            lowerBits -= b.lowerBits;
+        }
+
+        return *this;
+    }
+
+    Bitboard96 Bitboard96::operator-(const Bitboard96 &b) const
+    {
+        Bitboard96 res = *this;
+        return (res += b);
+    }
+
+    Bitboard96 &Bitboard96::operator-=(const uint64_t n)
+    {
+        if (IsError())
+            return *this;
+
+        if (lowerBits < n)
+        {
+            if (upperBits == 0)
+            {
+                overflow = true;
+                return *this;
+            }
+
+            --upperBits;
+            lowerBits += misc::fullbits64 - n + 1;
+        }
+        else
+        {
+            lowerBits -= n;
+        }
+
+        return *this;
+    }
+
+    Bitboard96 Bitboard96::operator-(const uint64_t n) const
+    {
+        Bitboard96 res = *this;
+        return (res += n);
+    }
+
     bool Bitboard96::operator==(const Bitboard96 &b) const
     {
         if (overflow || invalidExpression || b.overflow || b.invalidExpression)
