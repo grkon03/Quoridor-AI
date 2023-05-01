@@ -128,7 +128,7 @@ TEST(Bitboard96Operations, Bitboard96Substructions)
 
     // - Bitboard96, upperBits overflow
 
-    a = "0xf1f2f2ff2f1f223331f";
+    a = "0xa1f2f2ff2f1f223331f";
     b = "0xe12ffdfefa8761f18ca";
     a -= b;
 
