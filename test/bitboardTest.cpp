@@ -104,3 +104,65 @@ TEST(Bitboard96Operations, Bitboard96Additions)
 
     EXPECT_EQ(a.IsOverflow(), true);
 }
+
+TEST(Bitboard96Operations, Bitboard96Substructions)
+{
+    Bitboard96 a, b, cor;
+    uint64_t n;
+
+    // - Bitboard96, non-movedown
+
+    a = "0xf870fac7cb21bbcae7a73f";
+    b = "0x12a8fba311c13d8ee176ac";
+    cor = "0xe5c7ff24b9607e3c063093";
+
+    EXPECT_EQ(a - b, cor);
+
+    // - Bitboard96, movedown
+
+    a = "0x10ffa3e0d982cbbc302";
+    b = "0x100ff2eab3f27c727cc";
+    cor = "0xefb0f625904f49b36";
+
+    EXPECT_EQ(a - b, cor);
+
+    // - Bitboard96, upperBits overflow
+
+    a = "0xf1f2f2ff2f1f223331f";
+    b = "0xe12ffdfefa8761f18ca";
+    a -= b;
+
+    EXPECT_EQ(a.IsOverflow(), true);
+
+    // - Bitboard96, movedown overflow
+
+    a = "0xffffffff11111111111";
+    b = "0xffffffff11111111112";
+    a -= b;
+
+    EXPECT_EQ(a.IsOverflow(), true);
+
+    // - uint64_t, non-movedown
+
+    a = "0xf122ce81c766182ae";
+    n = 0x118f8ba7ec971d4dULL;
+    cor = "0xf009d5c7489ca6561";
+
+    EXPECT_EQ(a - n, cor);
+
+    // - uint64_t, movedown
+
+    a = "0xf122ce81c766182ae";
+    n = 0x318f8ba7ec971d4dULL;
+    cor = "0xee09d5c7489ca6561";
+
+    EXPECT_EQ(a - n, cor);
+
+    // - uint64_t, non-movedown overflow
+
+    a = "0xffffaaaa";
+    n = 0xfffffaaaaa;
+    a -= n;
+
+    EXPECT_EQ(a.IsOverflow(), true);
+}
