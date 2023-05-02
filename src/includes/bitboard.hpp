@@ -68,10 +68,10 @@ namespace QuoridorAI
         Bitboard96 &operator-=(const uint64_t);
         Bitboard96 operator-(const uint64_t) const;
 
-        Bitboard96 &operator<<=(const int);
-        Bitboard96 operator<<(const int) const;
-        Bitboard96 &operator>>=(const int);
-        Bitboard96 operator>>(const int) const;
+        Bitboard96 &operator<<=(const unsigned int);
+        Bitboard96 operator<<(const unsigned int) const;
+        Bitboard96 &operator>>=(const unsigned int);
+        Bitboard96 operator>>(const unsigned int) const;
 
         Bitboard96 &operator&=(const Bitboard96 &);
         Bitboard96 operator&(const Bitboard96 &) const;

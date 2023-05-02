@@ -289,6 +289,29 @@ namespace QuoridorAI
         return (res -= n);
     }
 
+    Bitboard96 &Bitboard96::operator<<=(const unsigned int n)
+    {
+        uint32_t moveup;
+
+        if (n < 64)
+        {
+            moveup = static_cast<uint32_t>(((lowerBits & misc::higherBitsFullMask64[n]) >> n) & misc::fullbits32);
+            lowerBits <<= n;
+            upperBits <<= n;
+            upperBits += moveup;
+        }
+        else if (n < 96)
+        {
+            lowerBits = 0;
+            upperBits = static_cast<uint32_t>(lowerBits & misc::lowerBitsFullMask32[96 - n]);
+        }
+        else
+        {
+            lowerBits = 0;
+            upperBits = 0;
+        }
+    }
+
     bool Bitboard96::operator==(const Bitboard96 &b) const
     {
         if (overflow || invalidExpression || b.overflow || b.invalidExpression)

@@ -232,8 +232,8 @@ namespace QuoridorAI
         };
 
         /**
-         * @brief one bit mask of 64-bit bitmap
-         * ex) oneBitMask64[3] = 0b100
+         * @brief one bit mask of 64-bit bitmap (0-indexed)
+         * ex) oneBitMask64[3] = 0b1000
          */
         constexpr uint64_t oneBitMask64[64] = {
             1ULL << 0,
@@ -303,8 +303,8 @@ namespace QuoridorAI
         };
 
         /**
-         * @brief one bit mask of 64-bit bitmap
-         * ex) oneBitMask64[3] = 0b100
+         * @brief one bit mask of 64-bit bitmap (0-indexed)
+         * ex) oneBitMask64[3] = 0b1000
          */
         constexpr uint32_t oneBitMask32[32] = {
             1UL << 0,
