@@ -11,7 +11,7 @@ namespace QuoridorAI
          * @brief lower bits mask of 64-bit bitmap
          * ex) lowerBitsFullMask64[5] = 0b11111
          */
-        const uint64_t lowerBitsFullMask64[65] = {
+        constexpr uint64_t lowerBitsFullMask64[65] = {
             0,
             fullbits64 >> 63,
             fullbits64 >> 62,
@@ -83,7 +83,7 @@ namespace QuoridorAI
          * @brief lower bits mask of 32-bit bitmap
          * ex) lowerBitsFullMask32[5] = 0b11111
          */
-        const uint32_t lowerBitsFullMask32[33] = {
+        constexpr uint32_t lowerBitsFullMask32[33] = {
             0,
             fullbits32 >> 31,
             fullbits32 >> 30,
