@@ -82,7 +82,7 @@ namespace QuoridorAI
         Bitboard96 &operator^=(const Bitboard96 &);
         Bitboard96 operator^(const Bitboard96 &) const;
 
-        Bitboard96 operator!() const;
+        Bitboard96 operator~() const;
 
         bool operator==(const Bitboard96 &) const;
         bool operator!=(const Bitboard96 &) const;
