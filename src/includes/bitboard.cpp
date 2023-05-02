@@ -310,6 +310,14 @@ namespace QuoridorAI
             lowerBits = 0;
             upperBits = 0;
         }
+
+        return *this;
+    }
+
+    Bitboard96 Bitboard96::operator<<(const unsigned int n) const
+    {
+        Bitboard96 res = *this;
+        return (res <<= n);
     }
 
     bool Bitboard96::operator==(const Bitboard96 &b) const
