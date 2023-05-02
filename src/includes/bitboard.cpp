@@ -311,8 +311,8 @@ namespace QuoridorAI
             invalidExpression);
     }
 
-    bool Bitboard96::IsOverflow() { return overflow; }
-    bool Bitboard96::IsInvalidExpression() { return invalidExpression; }
+    bool Bitboard96::IsOverflow() const { return overflow; }
+    bool Bitboard96::IsInvalidExpression() const { return invalidExpression; }
 
     void Bitboard96::InheritError(const Bitboard96 &b)
     {

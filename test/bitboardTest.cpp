@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include "../src/includes/bitboard.hpp"
+#include "../src/includes/misc.hpp"
 
 using namespace QuoridorAI;
 

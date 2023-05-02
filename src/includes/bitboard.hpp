@@ -91,8 +91,8 @@ namespace QuoridorAI
 
         bool IsError() const;
 
-        bool IsOverflow();
-        bool IsInvalidExpression();
+        bool IsOverflow() const;
+        bool IsInvalidExpression() const;
 
         void InheritError(const Bitboard96 &);
     };

@@ -14,3 +14,4 @@
 #include "bitboard.hpp"
 #include "bitboardConst.hpp"
 #include "board.hpp"
+#include "misc.hpp"
