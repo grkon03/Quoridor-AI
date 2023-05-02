@@ -18,9 +18,6 @@ namespace QuoridorAI
             BT_BIN,
             BT_HEX,
         };
-
-        extern uint64_t fullbits64;
-        extern uint32_t fullbits32;
     }
 
     /**

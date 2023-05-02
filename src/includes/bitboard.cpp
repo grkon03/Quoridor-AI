@@ -1,19 +1,8 @@
 #include "bitboard.hpp"
+#include "misc.hpp"
 
 namespace QuoridorAI
 {
-    /**
-     *
-     * misc
-     *
-     */
-
-    namespace misc
-    {
-        uint64_t fullbits64 = 0xffffffffffffffffULL;
-        uint32_t fullbits32 = 0xffffffffUL;
-    }
-
     /**
      *
      * Bitboard96
