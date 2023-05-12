@@ -303,7 +303,7 @@ namespace QuoridorAI
         else if (n < 96)
         {
             lowerBits = 0;
-            upperBits = static_cast<uint32_t>(lowerBits & misc::lowerBitsFullMask32[96 - n]);
+            upperBits = static_cast<uint32_t>(lowerBits & misc::fullbits32) << (n - 64);
         }
         else
         {
@@ -318,6 +318,42 @@ namespace QuoridorAI
     {
         Bitboard96 res = *this;
         return (res <<= n);
+    }
+
+    Bitboard96 &Bitboard96::operator>>=(const unsigned int n)
+    {
+        uint64_t movedown;
+
+        if (n >= 96)
+        {
+            upperBits = 0;
+            lowerBits = 0;
+        }
+
+        if (n < 32)
+        {
+            movedown = (upperBits & misc::lowerBitsFullMask32[n]) << (32 - n);
+        }
+        else if (n < 64)
+        {
+            movedown = upperBits << (32 - n);
+        }
+        else
+        {
+            movedown = upperBits >> (n - 64);
+        }
+
+        upperBits >>= n;
+        lowerBits >>= n;
+        lowerBits += movedown;
+
+        return *this;
+    }
+
+    Bitboard96 &Bitboard96::operator>>=(const unsigned int n)
+    {
+        Bitboard96 res = *this;
+        return (res >>= n);
     }
 
     bool Bitboard96::operator==(const Bitboard96 &b) const
