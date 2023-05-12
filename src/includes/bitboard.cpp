@@ -295,7 +295,7 @@ namespace QuoridorAI
 
         if (n < 64)
         {
-            moveup = static_cast<uint32_t>(((lowerBits & misc::higherBitsFullMask64[n]) >> n) & misc::fullbits32);
+            moveup = static_cast<uint32_t>(((lowerBits & misc::upperBitsFullMask64[n]) >> n) & misc::fullbits32);
             lowerBits <<= n;
             upperBits <<= n;
             upperBits += moveup;
