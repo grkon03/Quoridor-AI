@@ -356,6 +356,50 @@ namespace QuoridorAI
         return (res >>= n);
     }
 
+    Bitboard96 &Bitboard96::operator&=(const Bitboard96 &b)
+    {
+        upperBits &= b.upperBits;
+        lowerBits &= b.lowerBits;
+        return *this;
+    }
+
+    Bitboard96 Bitboard96::operator&(const Bitboard96 &b) const
+    {
+        Bitboard96 res = *this;
+        return (res &= b);
+    }
+
+    Bitboard96 &Bitboard96::operator|=(const Bitboard96 &b)
+    {
+        upperBits |= b.upperBits;
+        lowerBits |= b.lowerBits;
+        return *this;
+    }
+
+    Bitboard96 Bitboard96::operator|(const Bitboard96 &b) const
+    {
+        Bitboard96 res = *this;
+        return (res |= b);
+    }
+
+    Bitboard96 &Bitboard96::operator^=(const Bitboard96 &b)
+    {
+        upperBits ^= b.upperBits;
+        lowerBits ^= b.lowerBits;
+        return *this;
+    }
+
+    Bitboard96 Bitboard96::operator^(const Bitboard96 &b) const
+    {
+        Bitboard96 res = *this;
+        return (res ^= b);
+    }
+
+    Bitboard96 Bitboard96::operator~() const
+    {
+        return Bitboard96(~upperBits, ~lowerBits);
+    }
+
     bool Bitboard96::operator==(const Bitboard96 &b) const
     {
         if (overflow || invalidExpression || b.overflow || b.invalidExpression)
