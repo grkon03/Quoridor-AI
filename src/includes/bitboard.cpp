@@ -350,7 +350,7 @@ namespace QuoridorAI
         return *this;
     }
 
-    Bitboard96 &Bitboard96::operator>>=(const unsigned int n)
+    Bitboard96 Bitboard96::operator>>(const unsigned int n) const
     {
         Bitboard96 res = *this;
         return (res >>= n);
