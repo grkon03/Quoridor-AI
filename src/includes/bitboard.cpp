@@ -1,5 +1,8 @@
 #include "bitboard.hpp"
 #include "misc.hpp"
+#include <bitset>
+
+std::bitset<16> b;
 
 namespace QuoridorAI
 {
@@ -295,15 +298,15 @@ namespace QuoridorAI
 
         if (n < 64)
         {
-            moveup = static_cast<uint32_t>(((lowerBits & misc::upperBitsFullMask64[n]) >> n) & misc::fullbits32);
+            moveup = static_cast<uint32_t>(((lowerBits & misc::upperBitsFullMask64[n]) >> (64 - n)) & misc::fullbits32);
             lowerBits <<= n;
             upperBits <<= n;
             upperBits += moveup;
         }
         else if (n < 96)
         {
-            lowerBits = 0;
             upperBits = static_cast<uint32_t>(lowerBits & misc::fullbits32) << (n - 64);
+            lowerBits = 0;
         }
         else
         {
@@ -329,23 +332,26 @@ namespace QuoridorAI
             upperBits = 0;
             lowerBits = 0;
         }
-
-        if (n < 32)
-        {
-            movedown = (upperBits & misc::lowerBitsFullMask32[n]) << (32 - n);
-        }
         else if (n < 64)
         {
-            movedown = upperBits << (32 - n);
+            movedown = uint64_t(upperBits) << (64 - n);
+            if (n < 32)
+            {
+                upperBits >>= n;
+            }
+            else
+            {
+                upperBits = 0;
+            }
+            lowerBits >>= n;
+            lowerBits += movedown;
         }
         else
         {
-            movedown = upperBits >> (n - 64);
+            movedown = uint64_t(upperBits) >> (n - 64);
+            upperBits = 0;
+            lowerBits = movedown;
         }
-
-        upperBits >>= n;
-        lowerBits >>= n;
-        lowerBits += movedown;
 
         return *this;
     }
