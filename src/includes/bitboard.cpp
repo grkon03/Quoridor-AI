@@ -1,8 +1,5 @@
 #include "bitboard.hpp"
 #include "misc.hpp"
-#include <bitset>
-
-std::bitset<16> b;
 
 namespace QuoridorAI
 {
@@ -403,6 +400,8 @@ namespace QuoridorAI
 
     Bitboard96 Bitboard96::operator~() const
     {
+        if (IsError())
+            return *this;
         return Bitboard96(~upperBits, ~lowerBits);
     }
 
