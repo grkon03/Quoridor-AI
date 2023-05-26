@@ -18,9 +18,6 @@ namespace QuoridorAI
             BT_BIN,
             BT_HEX,
         };
-
-        extern uint64_t fullbits64;
-        extern uint32_t fullbits32;
     }
 
     /**
@@ -71,20 +68,10 @@ namespace QuoridorAI
         Bitboard96 &operator-=(const uint64_t);
         Bitboard96 operator-(const uint64_t) const;
 
-        Bitboard96 &operator*=(const Bitboard96 &);
-        Bitboard96 operator*(const Bitboard96 &) const;
-        Bitboard96 &operator*=(const uint64_t);
-        Bitboard96 operator*(const uint64_t) const;
-
-        Bitboard96 &operator/=(const Bitboard96 &);
-        Bitboard96 operator/(const Bitboard96 &) const;
-        Bitboard96 &operator/=(const uint64_t);
-        Bitboard96 operator/(const uint64_t) const;
-
-        Bitboard96 &operator<<=(const uint64_t);
-        Bitboard96 operator<<(const uint64_t) const;
-        Bitboard96 &operator>>=(const uint64_t);
-        Bitboard96 operator>>(const uint64_t) const;
+        Bitboard96 &operator<<=(const unsigned int);
+        Bitboard96 operator<<(const unsigned int) const;
+        Bitboard96 &operator>>=(const unsigned int);
+        Bitboard96 operator>>(const unsigned int) const;
 
         Bitboard96 &operator&=(const Bitboard96 &);
         Bitboard96 operator&(const Bitboard96 &) const;
@@ -95,7 +82,7 @@ namespace QuoridorAI
         Bitboard96 &operator^=(const Bitboard96 &);
         Bitboard96 operator^(const Bitboard96 &) const;
 
-        Bitboard96 operator!() const;
+        Bitboard96 operator~() const;
 
         bool operator==(const Bitboard96 &) const;
         bool operator!=(const Bitboard96 &) const;
@@ -104,8 +91,8 @@ namespace QuoridorAI
 
         bool IsError() const;
 
-        bool IsOverflow();
-        bool IsInvalidExpression();
+        bool IsOverflow() const;
+        bool IsInvalidExpression() const;
 
         void InheritError(const Bitboard96 &);
     };
