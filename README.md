@@ -57,3 +57,9 @@ Type the following binary file to run test.
 ```
 ./QuoridorAITest
 ```
+
+### Design
+
+The program design is written in HackMD in Japanese.
+
+[Design - HackMD](https://hackmd.io/3Ro1CFVLSeSJtVc-KsqLow)
