@@ -96,12 +96,4 @@ namespace QuoridorAI
 
         void InheritError(const Bitboard96 &);
     };
-
-    class Bitboard8x10 : public Bitboard96
-    {
-    };
-
-    class Bitboard9x9 : public Bitboard96
-    {
-    };
 }
