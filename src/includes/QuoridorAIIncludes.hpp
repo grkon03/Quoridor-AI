@@ -15,3 +15,5 @@
 #include "bitboardConst.hpp"
 #include "board.hpp"
 #include "misc.hpp"
+#include "types.hpp"
+#include "wall.hpp"

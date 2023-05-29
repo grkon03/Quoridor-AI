@@ -1,3 +1,5 @@
+#pragma once
+
 namespace QuoridorAI
 {
     // expressing player color
