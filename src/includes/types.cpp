@@ -50,6 +50,19 @@ namespace QuoridorAI
         }
     }
 
+    WallDir GetWallDir(Fence fence)
+    {
+        switch (int((fence >> 8) - fence & 0xff))
+        {
+        case 2:
+            return WallDir::Horizontal;
+        case 20:
+            return WallDir::Vertical;
+        default:
+            return WallDir::WallDirLimit;
+        }
+    }
+
     Move MakeMove(SquareEdge se1, SquareEdge se2)
     {
         int df = GetFile(se1) - GetFile(se2);

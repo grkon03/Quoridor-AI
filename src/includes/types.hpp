@@ -193,6 +193,8 @@ namespace QuoridorAI
 
     ActivateEnumOperation(Fence);
 
+    WallDir GetWallDir(Fence);
+
     // Move
 
     enum Move : int

@@ -84,6 +84,28 @@ TEST(TypesTest, MakeFenceTest)
     EXPECT_EQ(Fence::FenceInvalid, MakeFence(se2, se1));
 }
 
+TEST(TypesTest, GetWallDirTest)
+{
+    SquareEdge se1, se2;
+    Fence fence;
+
+    // horizontal
+
+    se1 = SE_C8;
+    se2 = SE_E8;
+    fence = MakeFence(se1, se2);
+
+    EXPECT_EQ(WallDir::Horizontal, GetWallDir(fence));
+
+    // vertical
+
+    se1 = SE_I2;
+    se2 = SE_I4;
+    fence = MakeFence(se1, se2);
+
+    EXPECT_EQ(WallDir::Vertical, GetWallDir(fence));
+}
+
 TEST(TypesTest, MakeMoveTest)
 {
     SquareEdge se1, se2;
