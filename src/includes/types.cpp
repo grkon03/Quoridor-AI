@@ -53,15 +53,14 @@ namespace QuoridorAI
     Move MakeMove(SquareEdge se1, SquareEdge se2)
     {
         int df = GetFile(se1) - GetFile(se2);
-        int dr = GetRank(se1) - GetFile(se2);
-        if ((df > 2) || (df < -2) || (dr > 2) || (dr < -2))
+        if ((df > 2) || (df < -2))
             return Move::MoveInvalid;
         switch (int(se1 - se2))
         {
         case 2:
         case 20:
         case 11:
-            return Move(se2 + se1 << 8);
+            return Move(se2 + (se1 << 8));
         case 9:
             return Move(se2 - 1 + ((se1 + 1) << 8));
         case -2:
