@@ -35,8 +35,7 @@ namespace QuoridorAI
     Fence MakeFence(SquareEdge se1, SquareEdge se2)
     {
         int df = GetFile(se1) - GetFile(se2);
-        int dr = GetRank(se1) - GetFile(se2);
-        if ((df > 2) || (df < -2) || (dr > 2) || (dr < -2))
+        if ((df > 2) || (df < -2))
             return Fence::FenceInvalid;
         switch (int(se1 - se2))
         {
