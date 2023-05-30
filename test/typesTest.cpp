@@ -18,7 +18,7 @@ TEST(TypesTest, GetFileGetRankTest)
     EXPECT_EQ(Rank7, GetRank(se));
 }
 
-TEST(TypesTest, MakeSquare)
+TEST(TypesTest, MakeSquareTest)
 {
     SquareEdge se1, se2;
 
