@@ -16,7 +16,7 @@
     constexpr TYPE operator/(TYPE a, TYPE b) { return TYPE(int(a) / int(b)); } \
     inline TYPE &operator/=(TYPE &a, const TYPE b) { return (a = a / b); }     \
     inline TYPE &operator++(TYPE &a) { return (a = a + TYPE(1)); }             \
-    inline TYPE &operator--(TYPE &a) { return (a = a + TYPE(1)); }
+    inline TYPE &operator--(TYPE &a) { return (a = a - TYPE(1)); }
 
 namespace QuoridorAI
 {
