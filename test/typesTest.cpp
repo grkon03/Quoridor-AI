@@ -76,4 +76,10 @@ TEST(TypesTest, MakeFenceTest)
 
     EXPECT_EQ(Fence::FenceInvalid, MakeFence(se1, se2));
     EXPECT_EQ(Fence::FenceInvalid, MakeFence(se2, se1));
+
+    se1 = SE_C8;
+    se2 = SE_D9;
+
+    EXPECT_EQ(Fence::FenceInvalid, MakeFence(se1, se2));
+    EXPECT_EQ(Fence::FenceInvalid, MakeFence(se2, se1));
 }
