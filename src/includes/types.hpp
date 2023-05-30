@@ -227,6 +227,6 @@ namespace QuoridorAI
     template <typename Type>
     Type MakeObjectForce(SquareEdge se1, SquareEdge se2)
     {
-        return Type(se1 + se2 << 8);
+        return Type(se1 + (se2 << 8));
     }
 }
