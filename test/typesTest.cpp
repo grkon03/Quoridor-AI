@@ -145,3 +145,34 @@ TEST(TypesTest, MakeMoveTest)
     EXPECT_EQ(Move::MoveInvalid, MakeMove(se1, se2));
     EXPECT_EQ(Move::MoveInvalid, MakeMove(se2, se1));
 }
+
+TEST(TypesTest, IsAnyMoveTest)
+{
+    SquareEdge se1, se2;
+    Move move;
+
+    // square case
+
+    se1 = SE_E3;
+    se2 = SE_D4;
+    move = MakeMove(se1, se2);
+
+    EXPECT_EQ(true, IsKingMove(move));
+    EXPECT_EQ(false, IsFenceMove(move));
+
+    // fence case
+
+    se1 = SE_J1;
+    se2 = SE_J3;
+    move = MakeMove(se1, se2);
+
+    EXPECT_EQ(false, IsKingMove(move));
+    EXPECT_EQ(true, IsFenceMove(move));
+
+    se1 = SE_F8;
+    se2 = SE_H8;
+    move = MakeMove(se1, se2);
+
+    EXPECT_EQ(false, IsKingMove(move));
+    EXPECT_EQ(true, IsFenceMove(move));
+}
