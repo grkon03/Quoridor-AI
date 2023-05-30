@@ -19,6 +19,46 @@ namespace QuoridorAI
         WallDirLimit,
     };
 
+    // Rank
+
+    enum Rank : int
+    {
+        Rank0 = 0,
+        Rank1,
+        Rank2,
+        Rank3,
+        Rank4,
+        Rank5,
+        Rank6,
+        Rank7,
+        Rank8,
+        Rank9,
+        RankLimit,
+    };
+
+    ActivateEnumOperation(Rank);
+
+    // File
+
+    enum File : int
+    {
+        FileA = 0,
+        FileB,
+        FileC,
+        FileD,
+        FileE,
+        FileF,
+        FileG,
+        FileH,
+        FileI,
+        FileJ,
+        FileLimit,
+    };
+
+    ActivateEnumOperation(File);
+
+    // SquareEdge
+
     enum SquareEdge : int
     {
         SE_A0 = 0,
@@ -126,6 +166,9 @@ namespace QuoridorAI
 
     ActivateEnumOperation(SquareEdge);
 
+    File GetFile(SquareEdge);
+    Rank GetRank(SquareEdge);
+
     // Square
 
     enum Square : int
@@ -165,8 +208,25 @@ namespace QuoridorAI
     bool IsKingMove(Move);
     bool IsFenceMove(Move);
 
+    // casting functions
+
     Move CastToMove(Square);
     Move CastToMove(Fence);
     Square CastToSquare(Move);
     Fence CastToFence(Move);
+
+    /**
+     * @brief make objects expressed by two SquareEdge objects forcibily, no error will be detected.
+     * @note follow the rule that se1 should be less than se2
+     *
+     * @tparam Type
+     * @param se1 should be less than se2
+     * @param se2
+     * @return Type
+     */
+    template <typename Type>
+    Type MakeObjectForce(SquareEdge se1, SquareEdge se2)
+    {
+        return Type(se1 + se2 << 8);
+    }
 }

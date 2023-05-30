@@ -2,8 +2,22 @@
 
 namespace QuoridorAI
 {
+    File GetFile(SquareEdge se)
+    {
+        return File(se % 10);
+    }
+
+    Rank GetRank(SquareEdge se)
+    {
+        return Rank(se / 10);
+    }
+
     Square MakeSquare(SquareEdge se1, SquareEdge se2)
     {
+        int df = GetFile(se1) - GetFile(se2);
+        int dr = GetRank(se1) - GetFile(se2);
+        if ((df = 1 && df != -1) || (dr != 1 && dr != -1))
+            return Square::SquareInvalid;
         switch (se1 - se2)
         {
         case 11:
@@ -21,6 +35,10 @@ namespace QuoridorAI
 
     Fence MakeFence(SquareEdge se1, SquareEdge se2)
     {
+        int df = GetFile(se1) - GetFile(se2);
+        int dr = GetRank(se1) - GetFile(se2);
+        if ((df > 2) || (df < -2) || (dr > 2) || (dr < -2))
+            return Fence::FenceInvalid;
         switch (se1 - se2)
         {
         case 2:
