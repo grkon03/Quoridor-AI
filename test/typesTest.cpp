@@ -83,3 +83,65 @@ TEST(TypesTest, MakeFenceTest)
     EXPECT_EQ(Fence::FenceInvalid, MakeFence(se1, se2));
     EXPECT_EQ(Fence::FenceInvalid, MakeFence(se2, se1));
 }
+
+TEST(TypesTest, MakeMoveTest)
+{
+    SquareEdge se1, se2;
+
+    // successfully make
+    // using testcases used MakeSquareTest, MakeFenceTest
+
+    // derived from MakeSquareTest
+
+    se1 = SE_A8; // 0b1010000
+    se2 = SE_B9; // 0b1011011
+
+    EXPECT_EQ(0x5b50, MakeMove(se1, se2));
+    EXPECT_EQ(0x5b50, MakeMove(se2, se1));
+
+    se1 = SE_D4; // 0b101011 (+1)
+    se2 = SE_E3; // 0b100010 (-1)
+
+    EXPECT_EQ(0x2c21, MakeMove(se1, se2));
+    EXPECT_EQ(0x2c21, MakeMove(se2, se1));
+
+    // derived from MakeFenceTest
+
+    se1 = SE_D3; // 0b100001
+    se2 = SE_D5; // 0b110101
+
+    EXPECT_EQ(0x3521, MakeMove(se1, se2));
+    EXPECT_EQ(0x3521, MakeMove(se2, se1));
+
+    se1 = SE_F7; // 0b1001011
+    se2 = SE_H7; // 0b1001101
+
+    EXPECT_EQ(0x4d4b, MakeMove(se1, se2));
+    EXPECT_EQ(0x4d4b, MakeMove(se2, se1));
+
+    // fatal
+
+    // derived from MakeSquareTest
+
+    se1 = SE_A9;
+    se2 = SE_J7;
+
+    EXPECT_EQ(Move::MoveInvalid, MakeMove(se1, se2));
+    EXPECT_EQ(Move::MoveInvalid, MakeMove(se2, se1));
+
+    // derived from MakeFenceTest
+
+    se1 = SE_A7;
+    se2 = SE_I6;
+
+    EXPECT_EQ(Move::MoveInvalid, MakeMove(se1, se2));
+    EXPECT_EQ(Move::MoveInvalid, MakeMove(se2, se1));
+
+    // ohter
+
+    se1 = SE_I7;
+    se2 = SE_C2;
+
+    EXPECT_EQ(Move::MoveInvalid, MakeMove(se1, se2));
+    EXPECT_EQ(Move::MoveInvalid, MakeMove(se2, se1));
+}
