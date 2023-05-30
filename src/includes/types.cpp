@@ -16,7 +16,7 @@ namespace QuoridorAI
     {
         int df = GetFile(se1) - GetFile(se2);
         int dr = GetRank(se1) - GetFile(se2);
-        if ((df = 1 && df != -1) || (dr != 1 && dr != -1))
+        if ((df != 1 && df != -1) || (dr != 1 && dr != -1))
             return Square::SquareInvalid;
         switch (se1 - se2)
         {
@@ -54,6 +54,10 @@ namespace QuoridorAI
 
     Move MakeMove(SquareEdge se1, SquareEdge se2)
     {
+        int df = GetFile(se1) - GetFile(se2);
+        int dr = GetRank(se1) - GetFile(se2);
+        if ((df > 2) || (df < -2) || (dr > 2) || (dr < -2))
+            return Move::MoveInvalid;
         switch (se1 - se2)
         {
         case 2:
