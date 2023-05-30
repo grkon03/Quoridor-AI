@@ -1,4 +1,5 @@
 #pragma once
+#include "misc.hpp"
 
 namespace QuoridorAI
 {
@@ -123,6 +124,8 @@ namespace QuoridorAI
         SELimit,
     };
 
+    ActivateEnumOperation(SquareEdge);
+
     // Square
 
     enum Square : int
@@ -132,6 +135,8 @@ namespace QuoridorAI
     };
 
     Square MakeSquare(SquareEdge, SquareEdge);
+
+    ActivateEnumOperation(Square);
 
     // Fence
 
@@ -143,6 +148,8 @@ namespace QuoridorAI
 
     Fence MakeFence(SquareEdge, SquareEdge);
 
+    ActivateEnumOperation(Fence);
+
     // Move
 
     enum Move : int
@@ -152,6 +159,8 @@ namespace QuoridorAI
     };
 
     Move MakeMove(SquareEdge, SquareEdge);
+
+    ActivateEnumOperation(Move);
 
     bool IsKingMove(Move);
     bool IsFenceMove(Move);
