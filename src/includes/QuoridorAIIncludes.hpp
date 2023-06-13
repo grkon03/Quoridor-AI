@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include "indexer/IndexerAllIncludes.hpp"
+
 #include "bitboard.hpp"
 #include "bitboardConst.hpp"
 #include "board.hpp"
