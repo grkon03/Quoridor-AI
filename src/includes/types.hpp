@@ -231,4 +231,13 @@ namespace QuoridorAI
     {
         return Type(se1 + (se2 << 8));
     }
+
+    /**
+     * @brief extract lower one of SquareEdge objects structuring Move.
+     */
+    SquareEdge ExtractSquareEdgeLower(Move);
+    /**
+     * @brief extract upper one of SquareEdge objects strcuturing Move.
+     */
+    SquareEdge ExtractSquareEdgeUpper(Move);
 }

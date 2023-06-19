@@ -124,4 +124,14 @@ namespace QuoridorAI
         else
             return Fence::FenceInvalid;
     }
+
+    SquareEdge ExtractSquareEdgeLower(Move move)
+    {
+        return SquareEdge(move & 0xff);
+    }
+
+    SquareEdge ExtractSquareEdgeUpper(Move move)
+    {
+        return SquareEdge(move >> 8);
+    }
 }
