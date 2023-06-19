@@ -1,4 +1,5 @@
 #include "indexes.hpp"
+#include <iostream>
 
 namespace QuoridorAI
 {
@@ -6,11 +7,20 @@ namespace QuoridorAI
     {
         void Initialize()
         {
-            int i;
+            int i = 0;
+            int index = 0;
+            Square s;
 
-            for (i = 0; i < 81; ++i)
+            while (index < 81)
             {
-                IndexedSquare[i] = MakeSquare(SE_A0 + i, SE_A0 + i + 11);
+                s = MakeSquare(SE_A0 + i, SE_A0 + i + 11);
+
+                if (s != SquareInvalid)
+                {
+                    IndexedSquare[index] = s;
+                    ++index;
+                }
+                ++i;
             }
         }
 

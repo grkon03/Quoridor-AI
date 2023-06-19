@@ -7,7 +7,8 @@ namespace QuoridorAI
     {
         int SquareToIndex(Square square)
         {
-            return ExtractSquareEdgeLower(Move(square));
+            SquareEdge se = ExtractSquareEdgeLower(Move(square));
+            return GetRank(se) * 9 + GetFile(se);
         }
     }
 }
