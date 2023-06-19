@@ -1,3 +1,8 @@
 #include "includes/QuoridorAIIncludes.hpp"
 
-int main() {}
+using namespace QuoridorAI;
+
+int main()
+{
+    Setting::Initialize();
+}

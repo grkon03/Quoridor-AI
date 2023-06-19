@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB IAITargets *.cpp)
 
-add_library(QuoridorAIIncludes ${IAITargets})
+add_library(QuoridorAIIndexerIncludes ${IAITargets})
