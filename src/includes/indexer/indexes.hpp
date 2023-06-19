@@ -11,6 +11,6 @@ namespace QuoridorAI
 
         extern Square IndexedSquare[81];
         extern Fence IndexedFence[128];
-        extern Fence IndexedMove[209];
+        extern Move IndexedMove[209];
     }
 }
