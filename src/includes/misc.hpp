@@ -8,11 +8,15 @@
     constexpr bool operator==(TYPE a, TYPE b) { return int(a) == int(b); }     \
     constexpr bool operator!=(TYPE a, TYPE b) { return !(a == b); }            \
     constexpr TYPE operator+(TYPE a, TYPE b) { return TYPE(int(a) + int(b)); } \
-    inline TYPE &operator+=(TYPE &a, TYPE b) { return (a = a + b); }           \
+    inline TYPE &operator+=(TYPE &a, const TYPE b) { return (a = a + b); }     \
     constexpr TYPE operator-(TYPE a, TYPE b) { return TYPE(int(a) - int(b)); } \
     inline TYPE &operator-=(TYPE &a, const TYPE b) { return (a = a - b); }     \
+    constexpr TYPE operator+(TYPE a, int b) { return TYPE(int(a) + b); }       \
+    inline TYPE &operator+=(TYPE &a, const int b) { return (a = a + b); }      \
+    constexpr TYPE operator-(TYPE a, int b) { return TYPE(int(a) - b); }       \
+    inline TYPE &operator-=(TYPE &a, const int b) { return (a = a - b); }      \
     constexpr TYPE operator*(TYPE a, TYPE b) { return TYPE(int(a) * int(b)); } \
-    inline TYPE &operator*=(TYPE &a, TYPE b) { return (a = a * b); }           \
+    inline TYPE &operator*=(TYPE &a, const TYPE b) { return (a = a * b); }     \
     constexpr TYPE operator/(TYPE a, TYPE b) { return TYPE(int(a) / int(b)); } \
     inline TYPE &operator/=(TYPE &a, const TYPE b) { return (a = a / b); }     \
     inline TYPE &operator++(TYPE &a) { return (a = a + TYPE(1)); }             \

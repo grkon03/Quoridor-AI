@@ -40,11 +40,25 @@ namespace QuoridorAI
         switch (int(se1 - se2))
         {
         case 2:
+            if (Rank1 <= GetRank(se1) && GetRank(se1) <= Rank8)
+                return Fence(se2 + (se1 << 8));
+            else
+                return FenceInvalid;
         case 20:
-            return Fence(se2 + (se1 << 8));
+            if (FileB <= GetFile(se1) && GetFile(se1) <= FileI)
+                return Fence(se2 + (se1 << 8));
+            else
+                return FenceInvalid;
         case -2:
+            if (Rank1 <= GetRank(se1) && GetRank(se1) <= Rank8)
+                return Fence(se1 + (se2 << 8));
+            else
+                return FenceInvalid;
         case -20:
-            return Fence(se1 + (se2 << 8));
+            if (FileB <= GetFile(se1) && GetFile(se1) <= FileI)
+                return Fence(se1 + (se2 << 8));
+            else
+                return FenceInvalid;
         default:
             return Fence::FenceInvalid;
         }
@@ -123,5 +137,15 @@ namespace QuoridorAI
             return Fence(move);
         else
             return Fence::FenceInvalid;
+    }
+
+    SquareEdge ExtractSquareEdgeLower(Move move)
+    {
+        return SquareEdge(move & 0xff);
+    }
+
+    SquareEdge ExtractSquareEdgeUpper(Move move)
+    {
+        return SquareEdge(move >> 8);
     }
 }

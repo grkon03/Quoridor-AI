@@ -22,9 +22,13 @@ enable_testing()
 
 include_directories(../src/includes)
 
-file(GLOB Includes ../src/includes/*.cpp)
+file(GLOB Includes 
+../src/includes/*.cpp
+../src/includes/indexer/*.cpp)
 
-file(GLOB TestTargets *.cpp)
+file(GLOB TestTargets 
+*.cpp 
+indexer/*.cpp)
 
 add_executable(
   QuoridorAITest
