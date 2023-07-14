@@ -28,7 +28,7 @@ namespace QuoridorAI
         if (IsKingMove(move))
             return SquareToIndex(Square(move));
         else if (IsFenceMove(move))
-            return FenceToIndex(Fence(move));
+            return FenceToIndex(Fence(move)) + 81;
         else
             return -1;
     }

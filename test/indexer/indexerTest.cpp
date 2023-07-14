@@ -16,3 +16,27 @@ TEST(IndexerTest, SquareIndexerTest)
         EXPECT_EQ(i, Indexer::SquareToIndex(s));
     }
 }
+
+TEST(IndexerTest, FenceIndexerTest)
+{
+    Fence f;
+    for (int i = 0; i < 128; ++i)
+    {
+        f = Indexer::indexer.IndexedFence[i];
+        ASSERT_NE(f, FenceInvalid);
+        ASSERT_NE(f, 0);
+        EXPECT_EQ(i, Indexer::FenceToIndex(f));
+    }
+}
+
+TEST(IndexerTest, MoveIndexerTest)
+{
+    Move m;
+    for (int i = 0; i < 209; ++i)
+    {
+        m = Indexer::indexer.IndexedMove[i];
+        ASSERT_NE(m, MoveInvalid);
+        ASSERT_NE(m, 0);
+        EXPECT_EQ(i, Indexer::MoveToIndex(m));
+    }
+}
