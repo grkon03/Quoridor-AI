@@ -10,13 +10,36 @@ namespace QuoridorAI
      * @note Indexing Rules: (https://hackmd.io/3Ro1CFVLSeSJtVc-KsqLow#Indexing-Rules).
      *
      */
-    namespace Indexer
+    class Indexer
     {
+    public:
+        // variables
+
+        Square IndexedSquare[81];
+        Fence IndexedFence[128];
+        Move IndexedMove[209];
+
+    public:
+        // constructors
+
+        Indexer();
+
+        // functions
+
+        /// @brief Initialize Indexed(Square/Fence/Move)
+        void Initialize();
+
+        // static functions
+
         /// @brief  Indexer of Square
-        int SquareToIndex(Square);
+        static int SquareToIndex(Square);
         /// @brief  Indexer of Fence
-        int FenceToIndex(Fence);
+        static int FenceToIndex(Fence);
         /// @brief  Indexer of Move
-        int MoveToIndex(Move);
-    }
+        static int MoveToIndex(Move);
+
+        // static variables
+
+        static const Indexer indexer;
+    };
 }

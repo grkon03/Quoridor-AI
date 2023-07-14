@@ -3,12 +3,35 @@
 
 namespace QuoridorAI
 {
-    namespace Indexer
+    int Indexer::SquareToIndex(Square square)
     {
-        int SquareToIndex(Square square)
+        SquareEdge se = ExtractSquareEdgeLower(Move(square));
+        return GetRank(se) * 9 + GetFile(se);
+    }
+
+    void Indexer::Initialize()
+    {
+        int i = 0;
+        int index = 0;
+        Square s;
+
+        while (index < 81)
         {
-            SquareEdge se = ExtractSquareEdgeLower(Move(square));
-            return GetRank(se) * 9 + GetFile(se);
+            s = MakeSquare(SE_A0 + i, SE_A0 + i + 11);
+
+            if (s != SquareInvalid)
+            {
+                IndexedSquare[index] = s;
+                ++index;
+            }
+            ++i;
         }
     }
+
+    Indexer::Indexer()
+    {
+        Initialize();
+    }
+
+    const Indexer Indexer::indexer = Indexer();
 }
