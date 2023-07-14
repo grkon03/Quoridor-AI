@@ -19,4 +19,3 @@
 #include "misc.hpp"
 #include "types.hpp"
 #include "wall.hpp"
-#include "setting.hpp"

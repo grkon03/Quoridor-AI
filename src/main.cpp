@@ -4,5 +4,4 @@ using namespace QuoridorAI;
 
 int main()
 {
-    Setting::Initialize();
 }
