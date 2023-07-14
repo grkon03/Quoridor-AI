@@ -40,6 +40,11 @@ namespace QuoridorAI
 
         // static variables
 
+        /**
+         * @brief Standard indexer
+         *
+         * Indexing rules (written in Japanese): (https://hackmd.io/3Ro1CFVLSeSJtVc-KsqLow#Indexing-Rules).
+         */
         static const Indexer indexer;
     };
 }
