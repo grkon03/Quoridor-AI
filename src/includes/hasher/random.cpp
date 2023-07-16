@@ -4,7 +4,7 @@ namespace QuoridorAI
 {
     namespace Hasher
     {
-        RandomizerBase::RandomizerBase() : size(64){};
-        RandomizerBase::RandomizerBase(int _size) : size(_size){};
+        Randomizer::Randomizer() : size(64){};
+        Randomizer::Randomizer(int _size) : size(_size){};
     }
 }

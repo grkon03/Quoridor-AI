@@ -10,7 +10,7 @@ namespace QuoridorAI
          * @brief Randomizer using Mersenne twister
          *
          */
-        class MTRandomizer : public RandomizerBase
+        class MTRandomizer : public Randomizer
         {
             HashKey old;
 

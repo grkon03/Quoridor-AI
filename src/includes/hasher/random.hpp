@@ -9,7 +9,7 @@ namespace QuoridorAI
          * @brief Abstract class of randomizers for hash
          *
          */
-        class RandomizerBase
+        class Randomizer
         {
         protected:
             /// @brief random number size: generated number should be restricted to {size}-bits numbers
@@ -22,13 +22,13 @@ namespace QuoridorAI
              * @brief Construct a new Randomizer, size is set to 64
              *
              */
-            RandomizerBase();
+            Randomizer();
             /**
              * @brief Construct a new Randomizer
              * @param size size of generated numbers: restricted to {size}-bits numbers
              *
              */
-            RandomizerBase(int size);
+            Randomizer(int size);
 
             // virtual functions
 
