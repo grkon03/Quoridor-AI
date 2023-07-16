@@ -22,13 +22,15 @@ namespace QuoridorAI
             int indexOfKings[ColorLimit];
 
         public:
-            // variables
+            // static variables
 
             /**
              * @brief hash keys used for hash
              *
+             * Why is this static variable? -- keys should be same.
+             *
              */
-            const ZobristKey basicKeys;
+            static const ZobristKey basicKeys;
 
             // costructors
 
@@ -40,13 +42,13 @@ namespace QuoridorAI
              * @param blackKing the place of a black king
              * @param currentKey The hash key begins from initialKey
              */
-            ZobristHash(ZobristKey basicKeys, Square whiteKing, Square blackKing, HashKey currentKey);
+            ZobristHash(Square whiteKing, Square blackKing, HashKey currentKey);
             /**
              * @brief Construct a new Zobrist Hasher
              *
              * @param basicKeys basic hash keys expressing relations between moves and hashkeys
              */
-            ZobristHash(ZobristKey basicKeys);
+            ZobristHash();
 
             // functions
 

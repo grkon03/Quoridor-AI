@@ -17,5 +17,11 @@ namespace QuoridorAI
                 FenceKey[i] = r.next();
             }
         }
+
+        namespace
+        {
+            MTRandomizer __mt(2906);
+        }
+        const ZobristKey ZobristKey::general = ZobristKey(__mt);
     }
 }
