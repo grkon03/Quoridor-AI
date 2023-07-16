@@ -7,7 +7,9 @@ set(CMAKE_CXX_STANDARD 17)
 file(GLOB QAIITargets *.cpp)
 
 add_subdirectory(indexer)
+add_subdirectory(hasher)
 
 add_library(QuoridorAIIncludes ${QAIITargets})
 
 target_link_libraries(QuoridorAIIncludes QuoridorAIIndexerIncludes)
+target_link_libraries(QuoridorAIIncludes QuoridorAIHasherIncludes)

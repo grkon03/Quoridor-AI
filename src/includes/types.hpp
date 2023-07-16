@@ -240,4 +240,10 @@ namespace QuoridorAI
      * @brief extract upper one of SquareEdge objects strcuturing Move.
      */
     SquareEdge ExtractSquareEdgeUpper(Move);
+
+    /**
+     * @brief HashKey type definition
+     *
+     */
+    using HashKey = uint64_t;
 }
