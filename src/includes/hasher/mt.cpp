@@ -4,9 +4,9 @@ namespace QuoridorAI
 {
     namespace Hasher
     {
-        MTRandomizer::MTRandomizer() : RandomizerBase(64), old(2906) {}
-        MTRandomizer::MTRandomizer(HashKey seed) : RandomizerBase(64), old(seed) {}
-        MTRandomizer::MTRandomizer(int _size, HashKey seed) : RandomizerBase(_size), old(seed) {}
+        MTRandomizer::MTRandomizer() : Randomizer(64), old(2906) {}
+        MTRandomizer::MTRandomizer(HashKey seed) : Randomizer(64), old(seed) {}
+        MTRandomizer::MTRandomizer(int _size, HashKey seed) : Randomizer(_size), old(seed) {}
 
         HashKey MTRandomizer::next()
         {
