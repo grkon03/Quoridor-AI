@@ -12,7 +12,7 @@
 #pragma once
 
 #include "indexer/IndexerAllIncludes.hpp"
-#include "hasher/HasherAIInclude.hpp"
+#include "hasher/HasherAllInclude.hpp"
 
 #include "bitboard.hpp"
 #include "bitboardConst.hpp"
