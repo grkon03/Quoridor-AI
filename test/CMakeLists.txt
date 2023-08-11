@@ -24,11 +24,13 @@ include_directories(../src/includes)
 
 file(GLOB Includes 
 ../src/includes/*.cpp
-../src/includes/indexer/*.cpp)
+../src/includes/indexer/*.cpp
+../src/includes/hasher/*.cpp)
 
 file(GLOB TestTargets 
 *.cpp 
-indexer/*.cpp)
+indexer/*.cpp
+hasher/*.cpp)
 
 add_executable(
   QuoridorAITest

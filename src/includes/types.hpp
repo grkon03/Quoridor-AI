@@ -11,6 +11,18 @@ namespace QuoridorAI
         ColorLimit,
     };
 
+    inline Color operator!(Color c)
+    {
+        switch (c)
+        {
+        case White:
+        case Black:
+            return Color(1 - c);
+        default:
+            return c;
+        }
+    }
+
     // expressing wall direction
     enum WallDir : int
     {
@@ -240,4 +252,10 @@ namespace QuoridorAI
      * @brief extract upper one of SquareEdge objects strcuturing Move.
      */
     SquareEdge ExtractSquareEdgeUpper(Move);
+
+    /**
+     * @brief HashKey type definition
+     *
+     */
+    using HashKey = uint64_t;
 }
