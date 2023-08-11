@@ -178,8 +178,14 @@ namespace QuoridorAI
 
     ActivateEnumOperation(SquareEdge);
 
-    File GetFile(SquareEdge);
-    Rank GetRank(SquareEdge);
+    inline File GetFile(SquareEdge se)
+    {
+        return File(se % 10);
+    }
+    inline Rank GetRank(SquareEdge se)
+    {
+        return Rank(se / 10);
+    }
 
     // Square
 
@@ -219,15 +225,41 @@ namespace QuoridorAI
 
     ActivateEnumOperation(Move);
 
-    bool IsKingMove(Move);
-    bool IsFenceMove(Move);
+    inline bool IsKingMove(Move move)
+    {
+        int p = (move >> 8) - (move & 0xff);
+        return (p == 11);
+    }
+    inline bool IsFenceMove(Move move)
+    {
+        int p = (move >> 8) - (move & 0xff);
+        return (p == 2 || p == 20);
+    }
 
     // casting functions
 
-    Move CastToMove(Square);
-    Move CastToMove(Fence);
-    Square CastToSquare(Move);
-    Fence CastToFence(Move);
+    inline Move CastToMove(Square square)
+    {
+        return Move(square);
+    }
+    inline Move CastToMove(Fence fence)
+    {
+        return Move(fence);
+    }
+    inline Square CastToSquare(Move move)
+    {
+        if (IsKingMove(move))
+            return Square(move);
+        else
+            return Square::SquareInvalid;
+    }
+    inline Fence CastToFence(Move move)
+    {
+        if (IsFenceMove(move))
+            return Fence(move);
+        else
+            return Fence::FenceInvalid;
+    }
 
     /**
      * @brief make objects expressed by two SquareEdge objects forcibily, no error will be detected.
@@ -239,7 +271,7 @@ namespace QuoridorAI
      * @return Type
      */
     template <typename Type>
-    Type MakeObjectForce(SquareEdge se1, SquareEdge se2)
+    inline Type MakeObjectForce(SquareEdge se1, SquareEdge se2)
     {
         return Type(se1 + (se2 << 8));
     }
@@ -247,11 +279,18 @@ namespace QuoridorAI
     /**
      * @brief extract lower one of SquareEdge objects structuring Move.
      */
-    SquareEdge ExtractSquareEdgeLower(Move);
+    inline SquareEdge ExtractSquareEdgeLower(Move move)
+    {
+        return SquareEdge(move & 0xff);
+    }
+
     /**
      * @brief extract upper one of SquareEdge objects strcuturing Move.
      */
-    SquareEdge ExtractSquareEdgeUpper(Move);
+    inline SquareEdge ExtractSquareEdgeUpper(Move move)
+    {
+        return SquareEdge(move >> 8);
+    }
 
     /**
      * @brief HashKey type definition
