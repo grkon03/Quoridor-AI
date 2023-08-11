@@ -11,6 +11,18 @@ namespace QuoridorAI
         ColorLimit,
     };
 
+    inline Color operator!(Color c)
+    {
+        switch (c)
+        {
+        case White:
+        case Black:
+            return Color(1 - c);
+        default:
+            return c;
+        }
+    }
+
     // expressing wall direction
     enum WallDir : int
     {

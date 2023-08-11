@@ -21,11 +21,17 @@ namespace QuoridorAI
              */
             int indexOfKings[ColorLimit];
 
+            /**
+             * @brief color of the turn player
+             *
+             */
+            Color turnPlayer;
+
         public:
             // static variables
 
             /**
-             * @brief hash keys used for hash
+             * @brief basic hash keys expressing relations between moves and hashkeys
              *
              * Why is this static variable? -- keys should be same.
              *
@@ -37,16 +43,15 @@ namespace QuoridorAI
             /**
              * @brief Construct a new Zobrist Hasher
              *
-             * @param basicKeys basic hash keys expressing relations between moves and hashkeys
              * @param whiteKing the place of a white king
              * @param blackKing the place of a black king
+             * @param turnPlayer color of the turn player
              * @param currentKey The hash key begins from initialKey
              */
-            ZobristHash(Square whiteKing, Square blackKing, HashKey currentKey);
+            ZobristHash(Square whiteKing, Square blackKing, Color turnPlayer, HashKey currentKey);
             /**
              * @brief Construct a new Zobrist Hasher
              *
-             * @param basicKeys basic hash keys expressing relations between moves and hashkeys
              */
             ZobristHash();
 
@@ -59,11 +64,21 @@ namespace QuoridorAI
              */
             inline HashKey GetCurrentKey() const { return currentKey; };
             /**
-             * @brief Get the Next Key object
+             * @brief Get the Next Key
              *
              * @return next hash key after this move
              */
             HashKey GetNextKey(Move, Color);
+            /**
+             * @brief Get the Next Key
+             *
+             * @return next hash key after this move
+             */
+            HashKey GetNextKey(Move);
+
+            // operators
+
+            inline bool operator==(const ZobristHash &h) const { return (currentKey == h.currentKey); };
         };
     }
 }

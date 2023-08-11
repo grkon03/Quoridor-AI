@@ -18,6 +18,7 @@ namespace QuoridorAI
             HashKey FenceKey[128];
 
             ZobristKey(Randomizer &r);
+            ZobristKey(const ZobristKey &key);
 
             static const ZobristKey general;
         };
