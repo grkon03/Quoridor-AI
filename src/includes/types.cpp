@@ -2,15 +2,6 @@
 
 namespace QuoridorAI
 {
-    File GetFile(SquareEdge se)
-    {
-        return File(se % 10);
-    }
-
-    Rank GetRank(SquareEdge se)
-    {
-        return Rank(se / 10);
-    }
 
     Square MakeSquare(SquareEdge se1, SquareEdge se2)
     {
@@ -99,53 +90,5 @@ namespace QuoridorAI
         default:
             return Move::MoveInvalid;
         }
-    }
-
-    bool IsKingMove(Move move)
-    {
-        int p = (move >> 8) - (move & 0xff);
-        return (p == 11);
-    }
-
-    bool IsFenceMove(Move move)
-    {
-        int p = (move >> 8) - (move & 0xff);
-        return (p == 2 || p == 20);
-    }
-
-    Move CastToMove(Square square)
-    {
-        return Move(square);
-    }
-
-    Move CastToMove(Fence fence)
-    {
-        return Move(fence);
-    }
-
-    Square CastToSquare(Move move)
-    {
-        if (IsKingMove(move))
-            return Square(move);
-        else
-            return Square::SquareInvalid;
-    }
-
-    Fence CastToFence(Move move)
-    {
-        if (IsFenceMove(move))
-            return Fence(move);
-        else
-            return Fence::FenceInvalid;
-    }
-
-    SquareEdge ExtractSquareEdgeLower(Move move)
-    {
-        return SquareEdge(move & 0xff);
-    }
-
-    SquareEdge ExtractSquareEdgeUpper(Move move)
-    {
-        return SquareEdge(move >> 8);
     }
 }
