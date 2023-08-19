@@ -17,6 +17,7 @@ namespace QuoridorAI
         // constructors
 
         WallBBOD();
+        WallBBOD(const Bitboard96 &);
         WallBBOD(const WallBBOD &);
 
         // functions
@@ -45,6 +46,8 @@ namespace QuoridorAI
 
     template <WallDir direction>
     WallBBOD<direction>::WallBBOD() {}
+    template <WallDir direction>
+    WallBBOD<direction>::WallBBOD(const Bitboard96 &bb) : Bitboard96(bb) {}
     template <WallDir direction>
     WallBBOD<direction>::WallBBOD(const WallBBOD &wb) : Bitboard96(wb) {}
 
