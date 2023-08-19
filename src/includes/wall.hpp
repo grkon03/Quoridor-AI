@@ -59,7 +59,7 @@ namespace QuoridorAI
     template <>
     inline bool WallBBOD<Vertical>::IsThereWall(File file, Rank rank) const
     {
-        return (operator&(Constant::oneBitMask96[rank * 9 + file - 1]) != 0);
+        return (operator&(Constant::oneBitMask96[rank * 8 + file - 1]) != 0);
     }
 
     template <WallDir direction>
