@@ -94,4 +94,60 @@ namespace QuoridorAI
     {
         return IsThereWall(GetRank(se), GetFile(se));
     }
+
+    /**
+     * @brief wall bitboard collection
+     *
+     */
+    class WallBBs
+    {
+        // variables
+
+        WallBBOD<Horizontal> wallHBB;
+        WallBBOD<Vertical> wallVBB;
+
+    public:
+        // constructors
+
+        WallBBs();
+        WallBBs(WallBBOD<Horizontal>, WallBBOD<Vertical>);
+        WallBBs(const WallBBs &);
+
+        // functions
+
+        /**
+         * @brief verify whether there is a wall at the section with its edges se1, se2
+         *
+         * @param se1 the first edge of the section
+         * @param se2 the second edge of the section
+         */
+        bool IsThereWall(SquareEdge se1, SquareEdge se2) const;
+
+        /**
+         * @brief verify whether there is a wall at the section its edges specified by file(i), rank(i)
+         *
+         * @param file1 file of the first edge of the section
+         * @param rank1 rank of the first edge of the section
+         * @param file2 file of the second edge of the secion
+         * @param rank2 rank of the second edge of the secion
+         */
+        bool IsThereWall(File file1, Rank rank1, File file2, Rank rank2) const;
+
+        template <WallDir direction>
+        /**
+         * @brief verify whether there is a wall at the section of specified direction
+         *
+         * @param se bottom-left square edge of the section
+         */
+        bool IsThereWall(SquareEdge se) const;
+
+        template <WallDir direction>
+        /**
+         * @brief verify whether there is a wall at the secion of specified direction
+         *
+         * @param file lower one of files of the edges of the secion
+         * @param rank lower one of ranks of the edges of the secion
+         */
+        bool IsThereWall(File file, Rank rank);
+    };
 }
