@@ -11,6 +11,6 @@ namespace QuoridorAI
      */
     namespace Constant
     {
-
+        extern const Bitboard96 oneBitMask96[96];
     }
 }
