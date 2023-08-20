@@ -148,6 +148,52 @@ namespace QuoridorAI
          * @param file lower one of files of the edges of the secion
          * @param rank lower one of ranks of the edges of the secion
          */
-        bool IsThereWall(File file, Rank rank);
+        bool IsThereWall(File file, Rank rank) const;
     };
+
+    inline bool WallBBs::IsThereWall(SquareEdge se1, SquareEdge se2) const
+    {
+        switch (se1 - se2)
+        {
+        case 1:
+            return IsThereWall<Horizontal>(se2);
+        case -1:
+            return IsThereWall<Horizontal>(se1);
+        case 10:
+            return IsThereWall<Vertical>(se2);
+        case -10:
+            return IsThereWall<Vertical>(se1);
+        default:
+            return false;
+        }
+    }
+
+    inline bool WallBBs::IsThereWall(File file1, Rank rank1, File file2, Rank rank2) const
+    {
+        return IsThereWall(MakeSquareEdge(file1, rank1), MakeSquareEdge(file2, rank2));
+    }
+
+    template <>
+    inline bool WallBBs::IsThereWall<Horizontal>(SquareEdge se) const
+    {
+        return wallHBB.IsThereWall(se);
+    }
+
+    template <>
+    inline bool WallBBs::IsThereWall<Vertical>(SquareEdge se) const
+    {
+        return wallVBB.IsThereWall(se);
+    }
+
+    template <>
+    inline bool WallBBs::IsThereWall<Horizontal>(File file, Rank rank) const
+    {
+        return wallHBB.IsThereWall(file, rank);
+    }
+
+    template <>
+    inline bool WallBBs::IsThereWall<Vertical>(File file, Rank rank) const
+    {
+        return wallVBB.IsThereWall(file, rank);
+    }
 }
