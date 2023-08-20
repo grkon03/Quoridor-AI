@@ -42,6 +42,25 @@ namespace QuoridorAI
          * @note for speed, no verification that square edge
          */
         bool IsThereWall(SquareEdge se) const;
+
+        /**
+         * @brief put fence
+         *
+         * @param se left-bottom square edges of the fence
+         */
+        void PutFence(SquareEdge se);
+        /**
+         * @brief put fence
+         *
+         * @param fence the fence
+         */
+        void PutFence(Fence fence);
+        /**
+         * @brief put fence
+         *
+         * @param fenceIndex index of the fence (by Indexer)
+         */
+        void PutFence(int fenceIndex);
     };
 
     template <WallDir direction>
@@ -149,6 +168,29 @@ namespace QuoridorAI
          * @param rank lower one of ranks of the edges of the secion
          */
         bool IsThereWall(File file, Rank rank) const;
+
+        /**
+         * @brief put fence
+         *
+         * @tparam direction the direction
+         * @param se left-bottom square edge of the fence
+         */
+        template <WallDir direction>
+        void PutFence(SquareEdge se);
+
+        /**
+         * @brief put fence
+         *
+         * @param fence the fence
+         */
+        void PutFence(Fence fence);
+
+        /**
+         * @brief put fence
+         *
+         * @param fenceIndex index of the fence
+         */
+        void PutFence(int fenceIndex);
     };
 
     inline bool WallBBs::IsThereWall(SquareEdge se1, SquareEdge se2) const
