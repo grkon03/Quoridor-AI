@@ -33,7 +33,7 @@ TEST(WallBBODTest, WallBBODHorizontalIsThereWallTest)
     EXPECT_FALSE(hw.IsThereWall(FileH, Rank7));
 }
 
-TEST(WallBBODTest, WalBBODVerticalIsThereWallTest)
+TEST(WallBBODTest, WallBBODVerticalIsThereWallTest)
 {
     WallBBOD<Vertical> vw;
 
