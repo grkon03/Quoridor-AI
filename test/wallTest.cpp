@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../src/includes/wall.hpp"
+#include "../src/includes/indexer/IndexerAllIncludes.hpp"
 
 using namespace QuoridorAI;
 
@@ -61,4 +62,64 @@ TEST(WallBBODTest, WallBBODVerticalIsThereWallTest)
     EXPECT_FALSE(vw.IsThereWall(FileE, Rank3));
     EXPECT_FALSE(vw.IsThereWall(FileF, Rank6));
     EXPECT_FALSE(vw.IsThereWall(FileH, Rank5));
+}
+
+TEST(WallBBsTest, WallBBsPutFenceByFenceTest)
+{
+    WallBBs wbs;
+
+    wbs.PutFence(MakeFence(SE_B3, SE_D3));
+    wbs.PutFence(MakeFence(SE_E5, SE_E7));
+
+    // existing
+
+    EXPECT_TRUE(wbs.IsThereWall(SE_B3, SE_C3));
+    EXPECT_TRUE(wbs.IsThereWall(SE_C3, SE_D3));
+    EXPECT_TRUE(wbs.IsThereWall(SE_E5, SE_E6));
+    EXPECT_TRUE(wbs.IsThereWall(SE_E6, SE_E7));
+
+    // no existing
+
+    EXPECT_FALSE(wbs.IsThereWall(SE_C5, SE_C6));
+    EXPECT_FALSE(wbs.IsThereWall(SE_E3, SE_E4));
+}
+
+TEST(WallBBsTest, WallBBsPutFenceByDirSquareEdgeTest)
+{
+    WallBBs wbs;
+
+    wbs.PutFence<Horizontal>(SE_A1);
+    wbs.PutFence<Vertical>(SE_H7);
+
+    // existing
+
+    EXPECT_TRUE(wbs.IsThereWall(SE_A1, SE_B1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B1, SE_C1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_H7, SE_H8));
+    EXPECT_TRUE(wbs.IsThereWall(SE_H8, SE_H9));
+
+    // no existing
+
+    EXPECT_FALSE(wbs.IsThereWall(SE_C1, SE_C2));
+    EXPECT_FALSE(wbs.IsThereWall(SE_H6, SE_H7));
+}
+
+TEST(WallBBsTest, WallBBsPutFenceByIndexTest)
+{
+    WallBBs wbs;
+
+    wbs.PutFence(Indexer::FenceToIndex(MakeFence(SE_H8, SE_J8)));
+    wbs.PutFence(Indexer::FenceToIndex(MakeFence(SE_D0, SE_D2)));
+
+    // existing
+
+    EXPECT_TRUE(wbs.IsThereWall(SE_H8, SE_I8));
+    EXPECT_TRUE(wbs.IsThereWall(SE_H8, SE_I8));
+    EXPECT_TRUE(wbs.IsThereWall(SE_D0, SE_D1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_D1, SE_D2));
+
+    // no existing
+
+    EXPECT_FALSE(wbs.IsThereWall(SE_C1, SE_C2));
+    EXPECT_FALSE(wbs.IsThereWall(SE_D6, SE_D7));
 }
