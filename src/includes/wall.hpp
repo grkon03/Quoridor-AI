@@ -127,7 +127,7 @@ namespace QuoridorAI
         // constructors
 
         WallBBs();
-        WallBBs(WallBBOD<Horizontal>, WallBBOD<Vertical>);
+        WallBBs(WallBBOD<Vertical>, WallBBOD<Horizontal>);
         WallBBs(const WallBBs &);
 
         // functions
