@@ -1,4 +1,5 @@
 #include "bitboardConst.hpp"
+#include "indexer/IndexerAllIncludes.hpp"
 
 namespace QuoridorAI::Constant
 {
@@ -104,5 +105,210 @@ namespace QuoridorAI::Constant
         _1 << 93,
         _1 << 94,
         _1 << 95,
+    };
+
+    const Bitboard96 fenceMaskByIndex[NumberOfFence] = {
+        // vertical
+
+        oneBitMask96[0] | oneBitMask96[8],
+        oneBitMask96[1] | oneBitMask96[9],
+        oneBitMask96[2] | oneBitMask96[10],
+        oneBitMask96[3] | oneBitMask96[11],
+        oneBitMask96[4] | oneBitMask96[12],
+        oneBitMask96[5] | oneBitMask96[13],
+        oneBitMask96[6] | oneBitMask96[14],
+        oneBitMask96[7] | oneBitMask96[15],
+        oneBitMask96[8] | oneBitMask96[16],
+        oneBitMask96[9] | oneBitMask96[17],
+        oneBitMask96[10] | oneBitMask96[18],
+        oneBitMask96[11] | oneBitMask96[19],
+        oneBitMask96[12] | oneBitMask96[20],
+        oneBitMask96[13] | oneBitMask96[21],
+        oneBitMask96[14] | oneBitMask96[22],
+        oneBitMask96[15] | oneBitMask96[23],
+        oneBitMask96[16] | oneBitMask96[24],
+        oneBitMask96[17] | oneBitMask96[25],
+        oneBitMask96[18] | oneBitMask96[26],
+        oneBitMask96[19] | oneBitMask96[27],
+        oneBitMask96[20] | oneBitMask96[28],
+        oneBitMask96[21] | oneBitMask96[29],
+        oneBitMask96[22] | oneBitMask96[30],
+        oneBitMask96[23] | oneBitMask96[31],
+        oneBitMask96[24] | oneBitMask96[32],
+        oneBitMask96[25] | oneBitMask96[33],
+        oneBitMask96[26] | oneBitMask96[34],
+        oneBitMask96[27] | oneBitMask96[35],
+        oneBitMask96[28] | oneBitMask96[36],
+        oneBitMask96[29] | oneBitMask96[37],
+        oneBitMask96[30] | oneBitMask96[38],
+        oneBitMask96[31] | oneBitMask96[39],
+        oneBitMask96[32] | oneBitMask96[40],
+        oneBitMask96[33] | oneBitMask96[41],
+        oneBitMask96[34] | oneBitMask96[42],
+        oneBitMask96[35] | oneBitMask96[43],
+        oneBitMask96[36] | oneBitMask96[44],
+        oneBitMask96[37] | oneBitMask96[45],
+        oneBitMask96[38] | oneBitMask96[46],
+        oneBitMask96[39] | oneBitMask96[47],
+        oneBitMask96[40] | oneBitMask96[48],
+        oneBitMask96[41] | oneBitMask96[49],
+        oneBitMask96[42] | oneBitMask96[40],
+        oneBitMask96[43] | oneBitMask96[51],
+        oneBitMask96[44] | oneBitMask96[52],
+        oneBitMask96[45] | oneBitMask96[53],
+        oneBitMask96[46] | oneBitMask96[54],
+        oneBitMask96[47] | oneBitMask96[55],
+        oneBitMask96[48] | oneBitMask96[56],
+        oneBitMask96[49] | oneBitMask96[57],
+        oneBitMask96[50] | oneBitMask96[58],
+        oneBitMask96[51] | oneBitMask96[59],
+        oneBitMask96[52] | oneBitMask96[60],
+        oneBitMask96[53] | oneBitMask96[61],
+        oneBitMask96[54] | oneBitMask96[62],
+        oneBitMask96[55] | oneBitMask96[63],
+        oneBitMask96[56] | oneBitMask96[64],
+        oneBitMask96[57] | oneBitMask96[65],
+        oneBitMask96[58] | oneBitMask96[66],
+        oneBitMask96[59] | oneBitMask96[67],
+        oneBitMask96[60] | oneBitMask96[68],
+        oneBitMask96[61] | oneBitMask96[69],
+        oneBitMask96[62] | oneBitMask96[70],
+        oneBitMask96[63] | oneBitMask96[71],
+
+        // horizontal
+
+        oneBitMask96[0] | oneBitMask96[1],
+        oneBitMask96[1] | oneBitMask96[2],
+        oneBitMask96[2] | oneBitMask96[3],
+        oneBitMask96[3] | oneBitMask96[4],
+        oneBitMask96[4] | oneBitMask96[5],
+        oneBitMask96[5] | oneBitMask96[6],
+        oneBitMask96[6] | oneBitMask96[7],
+        oneBitMask96[7] | oneBitMask96[8],
+        oneBitMask96[9] | oneBitMask96[10],
+        oneBitMask96[10] | oneBitMask96[11],
+        oneBitMask96[11] | oneBitMask96[12],
+        oneBitMask96[12] | oneBitMask96[13],
+        oneBitMask96[13] | oneBitMask96[14],
+        oneBitMask96[14] | oneBitMask96[15],
+        oneBitMask96[15] | oneBitMask96[16],
+        oneBitMask96[16] | oneBitMask96[17],
+        oneBitMask96[18] | oneBitMask96[19],
+        oneBitMask96[19] | oneBitMask96[20],
+        oneBitMask96[20] | oneBitMask96[21],
+        oneBitMask96[21] | oneBitMask96[22],
+        oneBitMask96[22] | oneBitMask96[23],
+        oneBitMask96[23] | oneBitMask96[24],
+        oneBitMask96[24] | oneBitMask96[25],
+        oneBitMask96[25] | oneBitMask96[26],
+        oneBitMask96[27] | oneBitMask96[28],
+        oneBitMask96[28] | oneBitMask96[29],
+        oneBitMask96[29] | oneBitMask96[30],
+        oneBitMask96[30] | oneBitMask96[31],
+        oneBitMask96[31] | oneBitMask96[32],
+        oneBitMask96[32] | oneBitMask96[33],
+        oneBitMask96[33] | oneBitMask96[34],
+        oneBitMask96[34] | oneBitMask96[35],
+        oneBitMask96[36] | oneBitMask96[37],
+        oneBitMask96[37] | oneBitMask96[38],
+        oneBitMask96[38] | oneBitMask96[39],
+        oneBitMask96[39] | oneBitMask96[40],
+        oneBitMask96[40] | oneBitMask96[41],
+        oneBitMask96[41] | oneBitMask96[42],
+        oneBitMask96[42] | oneBitMask96[43],
+        oneBitMask96[43] | oneBitMask96[44],
+        oneBitMask96[45] | oneBitMask96[46],
+        oneBitMask96[46] | oneBitMask96[47],
+        oneBitMask96[47] | oneBitMask96[48],
+        oneBitMask96[48] | oneBitMask96[49],
+        oneBitMask96[49] | oneBitMask96[50],
+        oneBitMask96[50] | oneBitMask96[51],
+        oneBitMask96[51] | oneBitMask96[52],
+        oneBitMask96[52] | oneBitMask96[53],
+        oneBitMask96[54] | oneBitMask96[55],
+        oneBitMask96[55] | oneBitMask96[56],
+        oneBitMask96[56] | oneBitMask96[57],
+        oneBitMask96[57] | oneBitMask96[58],
+        oneBitMask96[58] | oneBitMask96[59],
+        oneBitMask96[59] | oneBitMask96[60],
+        oneBitMask96[60] | oneBitMask96[61],
+        oneBitMask96[61] | oneBitMask96[62],
+        oneBitMask96[63] | oneBitMask96[64],
+        oneBitMask96[64] | oneBitMask96[65],
+        oneBitMask96[65] | oneBitMask96[66],
+        oneBitMask96[66] | oneBitMask96[67],
+        oneBitMask96[67] | oneBitMask96[68],
+        oneBitMask96[68] | oneBitMask96[69],
+        oneBitMask96[69] | oneBitMask96[70],
+        oneBitMask96[70] | oneBitMask96[71],
+    };
+
+    namespace
+    {
+        Map<Fence, Bitboard96> __fenceMaskByFence()
+        {
+            Map<Fence, Bitboard96> ret;
+
+            SquareEdge se;
+            Fence fence;
+
+            // vertical
+            for (se = SE_B0; se <= SE_I7; ++se)
+            {
+                fence = MakeFence(se, se + 20);
+                if (fence != FenceInvalid)
+                    ret[fence] = fenceMaskByIndex[Indexer::FenceToIndex(fence)];
+            }
+
+            // horizontal
+            for (se = SE_A1; se <= SE_H8; ++se)
+            {
+                fence = MakeFence(se, se + 2);
+                if (fence != FenceInvalid)
+                {
+                    ret[fence] = fenceMaskByIndex[Indexer::FenceToIndex(fence)];
+                }
+            }
+
+            return ret;
+        }
+
+        Map<SquareEdge, Bitboard96> __fenceMaskBySquareEdge__V()
+        {
+            Map<SquareEdge, Bitboard96> ret;
+            SquareEdge se;
+            Fence fence;
+
+            for (se = SE_B0; se <= SE_I7; ++se)
+            {
+                fence = MakeFence(se, se + 20);
+                if (fence != FenceInvalid)
+                    ret[se] = fenceMaskByIndex[Indexer::FenceToIndex(fence)];
+            }
+
+            return ret;
+        }
+
+        Map<SquareEdge, Bitboard96> __fenceMaskBySquareEdge__H()
+        {
+            Map<SquareEdge, Bitboard96> ret;
+            SquareEdge se;
+            Fence fence;
+
+            for (se = SE_A1; se <= SE_H8; ++se)
+            {
+                fence = MakeFence(se, se + 2);
+                if (fence != FenceInvalid)
+                    ret[se] = fenceMaskByIndex[Indexer::FenceToIndex(fence)];
+            }
+
+            return ret;
+        }
+    }
+
+    const Map<Fence, Bitboard96> fenceMaskByFence = __fenceMaskByFence();
+    const Map<SquareEdge, Bitboard96> fenceMaskBySquareEdge[WallDirLimit] = {
+        __fenceMaskBySquareEdge__V(),
+        __fenceMaskBySquareEdge__H(),
     };
 }
