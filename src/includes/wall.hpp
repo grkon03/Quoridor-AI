@@ -29,7 +29,7 @@ namespace QuoridorAI
          * @param rank lower rank of square edges of the section
          *
          * @note should Bottom-Left Square edge
-         * @note for speed, no verification that rank or file is out of range
+         * @note for speed, no verification whether rank or file is out of range
          */
         bool IsThereWall(File file, Rank rank) const;
 
@@ -39,7 +39,7 @@ namespace QuoridorAI
          * @param se bottom-left one of square edges of the section
          *
          * @note should Bottom-Left Square edge
-         * @note for speed, no verification that square edge
+         * @note for speed, no verification whether square edge is out of range
          */
         bool IsThereWall(SquareEdge se) const;
 
@@ -47,18 +47,24 @@ namespace QuoridorAI
          * @brief put fence
          *
          * @param se left-bottom square edges of the fence
+         *
+         * @note for speed, no varification whether the square edge is out of range
          */
         void PutFence(SquareEdge se);
         /**
          * @brief put fence
          *
          * @param fence the fence
+         *
+         * @note for speed, no varification whether the fence is out of range
          */
         void PutFence(Fence fence);
         /**
          * @brief put fence
          *
          * @param fenceIndex index of the fence (by Indexer)
+         *
+         * @note for speed, no varification whether the index is out of range
          */
         void PutFence(int fenceIndex);
     };
@@ -71,47 +77,39 @@ namespace QuoridorAI
     WallBBOD<direction>::WallBBOD(const WallBBOD &wb) : Bitboard96(wb) {}
 
     template <>
-    /**
-     * @brief verify whether there is wall at one section of walls
-     *
-     * @param file lower file of square edges of the section
-     * @param rank rank of the section of walls
-     *
-     * @note should Bottom-Left Square edge
-     * @note for speed, no verification that rank or file is out of range
-     */
     inline bool WallBBOD<Horizontal>::IsThereWall(File file, Rank rank) const
     {
         return (operator&(Constant::oneBitMask96[(rank - 1) * 9 + file]) != 0);
     }
 
     template <>
-    /**
-     * @brief verify whether there is wall at one section of walls
-     *
-     * @param file file of the section of walls
-     * @param rank lower rank of square edges of the section
-     *
-     * @note should Bottom-Left Square edge
-     * @note for speed, no verification that rank or file is out of range
-     */
     inline bool WallBBOD<Vertical>::IsThereWall(File file, Rank rank) const
     {
         return (operator&(Constant::oneBitMask96[rank * 8 + file - 1]) != 0);
     }
 
     template <WallDir direction>
-    /**
-     * @brief verify whether there is wall at one section of walls
-     *
-     * @param se bottom-left one of square edges of the section
-     *
-     * @note should Bottom-Left Square edge
-     * @note for speed, no verification that square edge
-     */
     inline bool WallBBOD<direction>::IsThereWall(SquareEdge se) const
     {
         return IsThereWall(GetFile(se), GetRank(se));
+    }
+
+    template <WallDir direction>
+    inline void WallBBOD<direction>::PutFence(SquareEdge se)
+    {
+        operator|=(Constant::fenceMaskBySquareEdge[se]);
+    }
+
+    template <WallDir direction>
+    inline void WallBBOD<direction>::PutFence(Fence fence)
+    {
+        operator|=(Constant::fenceMaskByFence[fence]);
+    }
+
+    template <WallDir direction>
+    inline void WallBBOD<direction>::PutFence(int fenceIndex)
+    {
+        operator|=(Constant::fenceMaskByIndex[fenceIndex]);
     }
 
     /**
@@ -237,5 +235,40 @@ namespace QuoridorAI
     inline bool WallBBs::IsThereWall<Vertical>(File file, Rank rank) const
     {
         return wallVBB.IsThereWall(file, rank);
+    }
+
+    template <>
+    inline void WallBBs::PutFence<Vertical>(SquareEdge se)
+    {
+        wallVBB.PutFence(se);
+    }
+
+    template <>
+    inline void WallBBs::PutFence<Horizontal>(SquareEdge se)
+    {
+        wallHBB.PutFence(se);
+    }
+
+    inline void WallBBs::PutFence(Fence fence)
+    {
+        switch (GetWallDir(fence))
+        {
+        case Vertical:
+            wallVBB.PutFence(fence);
+            break;
+        case Horizontal:
+            wallHBB.PutFence(fence);
+            break;
+        }
+    }
+
+    inline void WallBBs::PutFence(int fenceIndex)
+    {
+        if (fenceIndex < NumberOfFence / 2)
+            // vertical
+            wallVBB.PutFence(fenceIndex);
+        else if (fenceIndex < NumberOfFence)
+            // horizontal
+            wallHBB.PutFence(fenceIndex);
     }
 }
