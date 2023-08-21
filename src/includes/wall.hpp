@@ -111,7 +111,7 @@ namespace QuoridorAI
      */
     inline bool WallBBOD<direction>::IsThereWall(SquareEdge se) const
     {
-        return IsThereWall(GetRank(se), GetFile(se));
+        return IsThereWall(GetFile(se), GetRank(se));
     }
 
     /**
@@ -193,9 +193,21 @@ namespace QuoridorAI
         void PutFence(int fenceIndex);
     };
 
+    template <>
+    inline bool WallBBs::IsThereWall<Horizontal>(SquareEdge se) const
+    {
+        return wallHBB.IsThereWall(se);
+    }
+
+    template <>
+    inline bool WallBBs::IsThereWall<Vertical>(SquareEdge se) const
+    {
+        return wallVBB.IsThereWall(se);
+    }
+
     inline bool WallBBs::IsThereWall(SquareEdge se1, SquareEdge se2) const
     {
-        switch (se1 - se2)
+        switch (int(se1 - se2))
         {
         case 1:
             return IsThereWall<Horizontal>(se2);
@@ -213,18 +225,6 @@ namespace QuoridorAI
     inline bool WallBBs::IsThereWall(File file1, Rank rank1, File file2, Rank rank2) const
     {
         return IsThereWall(MakeSquareEdge(file1, rank1), MakeSquareEdge(file2, rank2));
-    }
-
-    template <>
-    inline bool WallBBs::IsThereWall<Horizontal>(SquareEdge se) const
-    {
-        return wallHBB.IsThereWall(se);
-    }
-
-    template <>
-    inline bool WallBBs::IsThereWall<Vertical>(SquareEdge se) const
-    {
-        return wallVBB.IsThereWall(se);
     }
 
     template <>
