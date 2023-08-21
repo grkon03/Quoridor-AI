@@ -97,13 +97,13 @@ namespace QuoridorAI
     template <WallDir direction>
     inline void WallBBOD<direction>::PutFence(SquareEdge se)
     {
-        operator|=(Constant::fenceMaskBySquareEdge[se]);
+        operator|=(Constant::fenceMaskBySquareEdge[direction].at(se));
     }
 
     template <WallDir direction>
     inline void WallBBOD<direction>::PutFence(Fence fence)
     {
-        operator|=(Constant::fenceMaskByFence[fence]);
+        operator|=(Constant::fenceMaskByFence.at(fence));
     }
 
     template <WallDir direction>
@@ -258,6 +258,8 @@ namespace QuoridorAI
             break;
         case Horizontal:
             wallHBB.PutFence(fence);
+            break;
+        default:
             break;
         }
     }
