@@ -123,3 +123,39 @@ TEST(WallBBsTest, WallBBsPutFenceByIndexTest)
     EXPECT_FALSE(wbs.IsThereWall(SE_C1, SE_C2));
     EXPECT_FALSE(wbs.IsThereWall(SE_D6, SE_D7));
 }
+
+TEST(WallBBsTest, WallBBsIsThereWallVarietiesTest)
+{
+    WallBBs wbs;
+
+    wbs.PutFence(MakeFence(SE_H6, SE_H8));
+    wbs.PutFence(MakeFence(SE_C1, SE_E1));
+
+    // WallDir and SquareEdge
+
+    // existing
+
+    EXPECT_TRUE(wbs.IsThereWall<Vertical>(SE_H6));
+    EXPECT_TRUE(wbs.IsThereWall<Vertical>(SE_H7));
+    EXPECT_TRUE(wbs.IsThereWall<Horizontal>(SE_C1));
+    EXPECT_TRUE(wbs.IsThereWall<Horizontal>(SE_D1));
+
+    // no existing
+
+    EXPECT_FALSE(wbs.IsThereWall<Vertical>(SE_H5));
+    EXPECT_FALSE(wbs.IsThereWall<Horizontal>(SE_E1));
+
+    // WallDir, File and Rank
+
+    // existing
+
+    EXPECT_TRUE(wbs.IsThereWall<Vertical>(FileH, Rank6));
+    EXPECT_TRUE(wbs.IsThereWall<Vertical>(FileH, Rank7));
+    EXPECT_TRUE(wbs.IsThereWall<Horizontal>(FileC, Rank1));
+    EXPECT_TRUE(wbs.IsThereWall<Horizontal>(FileD, Rank1));
+
+    // no existing
+
+    EXPECT_FALSE(wbs.IsThereWall<Vertical>(FileH, Rank5));
+    EXPECT_FALSE(wbs.IsThereWall<Horizontal>(FileE, Rank1));
+}
