@@ -45,10 +45,10 @@ namespace QuoridorAI
          *
          * @return WallBBs
          */
-        WallBBs getWallBBs() const;
+        WallBBs GetWallBBs() const;
 
         template <WallDir direction>
-        WallBBOD<direction> getWallBBOD() const;
+        WallBBOD<direction> GetWallBBOD() const;
 
         /**
          * @brief put fence
