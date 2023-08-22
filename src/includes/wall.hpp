@@ -226,6 +226,29 @@ namespace QuoridorAI
          * @param fenceIndex index of the fence
          */
         void PutFence(int fenceIndex);
+
+        /**
+         * @brief put fence with overlap verification
+         *
+         * @tparam direction the direction
+         * @param se left-bottom square edge of the fence
+         */
+        template <WallDir direction>
+        void PutFenceWithOverlapVerification(SquareEdge se);
+
+        /**
+         * @brief put fence with overlap verification
+         *
+         * @param fence the fence
+         */
+        void PutFenceWithOverlapVerification(Fence fence);
+
+        /**
+         * @brief put fence with overlap verification
+         *
+         * @param fenceIndex index of the fence
+         */
+        void PutFenceWithOverlapVerification(int fenceIndex);
     };
 
     inline bool WallBBs::IsOverlap(Fence fence) const
@@ -346,5 +369,66 @@ namespace QuoridorAI
         else if (fenceIndex < NumberOfFence)
             // horizontal
             wallHBB.PutFence(fenceIndex);
+    }
+
+    template <>
+    inline void WallBBs::PutFenceWithOverlapVerification<Vertical>(SquareEdge se)
+    {
+        if (IsOverlap<Vertical>(se))
+            return;
+
+        PutFence<Vertical>(se);
+    }
+
+    template <>
+    inline void WallBBs::PutFenceWithOverlapVerification<Horizontal>(SquareEdge se)
+    {
+        if (IsOverlap<Horizontal>(se))
+            return;
+
+        PutFence<Horizontal>(se);
+    }
+
+    inline void WallBBs::PutFenceWithOverlapVerification(Fence fence)
+    {
+        switch (GetWallDir(fence))
+        {
+        case Vertical:
+            if ((wallVBB & Constant::fenceMaskByFence.at(fence)) != 0)
+                return;
+
+            wallVBB.PutFence(fence);
+            break;
+        case Horizontal:
+            if ((wallHBB & Constant::fenceMaskByFence.at(fence)) != 0)
+                return;
+
+            wallHBB.PutFence(fence);
+            break;
+        default:
+            return;
+        }
+    }
+
+    inline void WallBBs::PutFenceWithOverlapVerification(int fenceIndex)
+    {
+        if (fenceIndex < NumberOfFence / 2)
+        {
+            // vertical
+
+            if ((wallVBB & Constant::fenceMaskByIndex[fenceIndex]) != 0)
+                return;
+
+            wallVBB.PutFence(fenceIndex);
+        }
+        else if (fenceIndex < NumberOfFence)
+        {
+            // horizontal
+
+            if ((wallHBB & Constant::fenceMaskByIndex[fenceIndex]) != 0)
+                return;
+
+            wallHBB.PutFence(fenceIndex);
+        }
     }
 }
