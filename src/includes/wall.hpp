@@ -133,6 +133,43 @@ namespace QuoridorAI
         // functions
 
         /**
+         * @brief Get the WallHBB
+         *
+         * @return WallHBB
+         */
+        WallBBOD<Horizontal> GetWallHBB() const;
+
+        /**
+         * @brief Get the WallVBB
+         *
+         * @return WallVBB
+         */
+        WallBBOD<Vertical> GetWallVBB() const;
+
+        /**
+         * @brief verify whether the fence overlaps with walls
+         *
+         * @param fence the fence
+         */
+        bool IsOverlap(Fence fence) const;
+
+        /**
+         * @brief verify whether the fence overlap with walls
+         *
+         * @tparam direction direction of the fence
+         * @param se bottom-left square edge of the fecne
+         */
+        template <WallDir direction>
+        bool IsOverlap(SquareEdge se) const;
+
+        /**
+         * @brief verify whether the fence overlap with walls
+         *
+         * @param fenceIndex index of the fence
+         */
+        bool IsOverlap(int fenceIndex) const;
+
+        /**
          * @brief verify whether there is a wall at the section with its edges se1, se2
          *
          * @param se1 the first edge of the section
@@ -190,6 +227,41 @@ namespace QuoridorAI
          */
         void PutFence(int fenceIndex);
     };
+
+    inline bool WallBBs::IsOverlap(Fence fence) const
+    {
+        switch (GetWallDir(fence))
+        {
+        case Vertical:
+            return (wallVBB & Constant::fenceMaskByFence.at(fence)) != 0;
+        case Horizontal:
+            return (wallHBB & Constant::fenceMaskByFence.at(fence)) != 0;
+        default:
+            return false;
+        }
+    }
+
+    template <>
+    inline bool WallBBs::IsOverlap<Vertical>(SquareEdge se) const
+    {
+        return (wallVBB & Constant::fenceMaskBySquareEdge[Vertical].at(se)) != 0;
+    }
+
+    template <>
+    inline bool WallBBs::IsOverlap<Horizontal>(SquareEdge se) const
+    {
+        return (wallHBB & Constant::fenceMaskBySquareEdge[Horizontal].at(se)) != 0;
+    }
+
+    inline bool WallBBs::IsOverlap(int fenceIndex) const
+    {
+        if (fenceIndex < NumberOfSquare / 2)
+            // veritcal
+            return (wallVBB & Constant::fenceMaskByIndex[fenceIndex]) != 0;
+        else if (fenceIndex < NumberOfSquare)
+            // horizontal
+            return (wallHBB & Constant::fenceMaskByIndex[fenceIndex] != 0);
+    }
 
     template <>
     inline bool WallBBs::IsThereWall<Horizontal>(SquareEdge se) const
