@@ -260,7 +260,9 @@ namespace QuoridorAI
             return (wallVBB & Constant::fenceMaskByIndex[fenceIndex]) != 0;
         else if (fenceIndex < NumberOfSquare)
             // horizontal
-            return (wallHBB & Constant::fenceMaskByIndex[fenceIndex] != 0);
+            return (wallHBB & Constant::fenceMaskByIndex[fenceIndex]) != 0;
+        else
+            return false;
     }
 
     template <>
