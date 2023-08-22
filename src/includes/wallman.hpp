@@ -30,11 +30,6 @@ namespace QuoridorAI
         // constructors
 
         WallMan();
-        /**
-         * @note not recommended
-         *
-         */
-        WallMan(WallBBs);
         WallMan(WallBBs, Bitboard96);
         WallMan(const WallMan &);
 
@@ -72,4 +67,16 @@ namespace QuoridorAI
          */
         void PutFence(int fenceIndex);
     };
+
+    template <>
+    WallBBOD<Vertical> WallMan::GetWallBBOD() const
+    {
+        return wallBBs.GetWallVBB();
+    }
+
+    template <>
+    WallBBOD<Horizontal> WallMan::GetWallBBOD() const
+    {
+        return wallBBs.GetWallHBB();
+    }
 }
