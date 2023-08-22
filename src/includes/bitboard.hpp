@@ -5,6 +5,8 @@
 
 namespace QuoridorAI
 {
+    using Bitboard64 = uint64_t;
+
     namespace misc
     {
         /**
