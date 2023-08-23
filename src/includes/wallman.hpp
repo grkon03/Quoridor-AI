@@ -72,8 +72,9 @@ namespace QuoridorAI
         /**
          * @brief put fence
          *
+         * @param the fence
          */
-        void PutFence(Fence);
+        void PutFence(Fence fence);
 
         /**
          * @brief put fence
