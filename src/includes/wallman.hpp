@@ -139,8 +139,7 @@ namespace QuoridorAI
     inline void WallMan::PutFence(Fence fence)
     {
         Bitboard64 centerBB = FenceToAcrossBB(fence);
-        std::cout << acrossBB << std::endl;
-        std::cout << ExtractSquareEdgeLower((Move)fence) << std::endl;
+        std::cout << acrossBB << "," << ExtractSquareEdgeLower((Move)fence) << "," << centerBB << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
             acrossBB |= centerBB;
@@ -152,8 +151,7 @@ namespace QuoridorAI
     inline void WallMan::PutFence(SquareEdge se)
     {
         Bitboard64 centerBB = FenceToAcrossBB<direction>(se);
-        std::cout << acrossBB << std::endl;
-        std::cout << se << std::endl;
+        std::cout << acrossBB << "," << se << "," << centerBB << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
             acrossBB |= centerBB;
@@ -164,8 +162,8 @@ namespace QuoridorAI
     inline void WallMan::PutFence(int fenceIndex)
     {
         Bitboard64 centerBB = FenceToAcrossBB(fenceIndex);
-        std::cout << acrossBB << std::endl;
-        std::cout << ExtractSquareEdgeLower((Move)(Indexer::indexer.IndexedFence[fenceIndex])) << std::endl;
+        std::cout << acrossBB << ","
+                  << ExtractSquareEdgeLower((Move)(Indexer::indexer.IndexedFence[fenceIndex])) << "," << centerBB << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
             acrossBB |= centerBB;
