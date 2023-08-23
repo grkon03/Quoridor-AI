@@ -122,13 +122,13 @@ namespace QuoridorAI
     };
 
     template <>
-    WallBBOD<Vertical> WallMan::GetWallBBOD() const
+    inline WallBBOD<Vertical> WallMan::GetWallBBOD<Vertical>() const
     {
         return wallBBs.GetWallVBB();
     }
 
     template <>
-    WallBBOD<Horizontal> WallMan::GetWallBBOD() const
+    inline WallBBOD<Horizontal> WallMan::GetWallBBOD<Horizontal>() const
     {
         return wallBBs.GetWallHBB();
     }
