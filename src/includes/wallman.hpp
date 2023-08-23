@@ -163,7 +163,7 @@ namespace QuoridorAI
         Bitboard64 centerBB = FenceToAcrossBB(fenceIndex);
         if ((acrossBB & centerBB) == 0)
         {
-            std::cout << ExtractSquareEdgeLower((Move)Indexer::indexer.IndexedFence[fenceIndex]) << std::endl;
+            std::cout << ExtractSquareEdgeLower((Move)(Indexer::indexer.IndexedFence[fenceIndex])) << std::endl;
             acrossBB |= centerBB;
             wallBBs.PutFenceWithOverlapVerification(fenceIndex);
         }
