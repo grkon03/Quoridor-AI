@@ -140,9 +140,9 @@ namespace QuoridorAI
     {
         Bitboard64 centerBB = FenceToAcrossBB(fence);
         std::cout << acrossBB << std::endl;
+        std::cout << ExtractSquareEdgeLower((Move)fence) << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
-            std::cout << ExtractSquareEdgeLower((Move)fence) << std::endl;
             acrossBB |= centerBB;
             wallBBs.PutFenceWithOverlapVerification(fence);
         }
@@ -153,9 +153,9 @@ namespace QuoridorAI
     {
         Bitboard64 centerBB = FenceToAcrossBB<direction>(se);
         std::cout << acrossBB << std::endl;
+        std::cout << se << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
-            std::cout << se << std::endl;
             acrossBB |= centerBB;
             wallBBs.PutFenceWithOverlapVerification<direction>(se);
         }
@@ -165,9 +165,9 @@ namespace QuoridorAI
     {
         Bitboard64 centerBB = FenceToAcrossBB(fenceIndex);
         std::cout << acrossBB << std::endl;
+        std::cout << ExtractSquareEdgeLower((Move)(Indexer::indexer.IndexedFence[fenceIndex])) << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
-            std::cout << ExtractSquareEdgeLower((Move)(Indexer::indexer.IndexedFence[fenceIndex])) << std::endl;
             acrossBB |= centerBB;
             wallBBs.PutFenceWithOverlapVerification(fenceIndex);
         }
