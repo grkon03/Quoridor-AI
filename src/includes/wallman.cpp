@@ -3,7 +3,7 @@
 namespace QuoridorAI
 {
     WallMan::WallMan()
-        : wallBBs(), acrossBB(0) {}
+        : wallBBs(), acrossBB(0ULL) {}
     WallMan::WallMan(WallBBs wallBBs, Bitboard64 acrossBB)
         : wallBBs(wallBBs), acrossBB(acrossBB) {}
     WallMan::WallMan(const WallMan &wm)
