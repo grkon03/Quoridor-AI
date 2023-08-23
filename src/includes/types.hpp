@@ -186,6 +186,10 @@ namespace QuoridorAI
     {
         return Rank(se / 10);
     }
+    inline SquareEdge MakeSquareEdge(File file, Rank rank)
+    {
+        return SquareEdge(rank * 10 + file);
+    }
 
     // Square
 

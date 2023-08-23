@@ -20,3 +20,4 @@
 #include "misc.hpp"
 #include "types.hpp"
 #include "wall.hpp"
+#include "wallman.hpp"
