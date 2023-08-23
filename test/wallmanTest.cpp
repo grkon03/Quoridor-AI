@@ -45,6 +45,26 @@ TEST(WallManTest, WallManPutFenceByFenceTest)
     EXPECT_FALSE(wallBBs.IsThereWall(SE_I7, SE_J7));
     EXPECT_FALSE(wallBBs.IsThereWall(SE_B1, SE_C1));
     EXPECT_FALSE(wallBBs.IsThereWall(SE_C1, SE_D1));
+
+    // no intersect test after overlap
+
+    wallman.PutFence(MakeFence(SE_B3, SE_D3));
+    wallman.PutFence(MakeFence(SE_I7, SE_I9));
+
+    wallBBs = wallman.GetWallBBs();
+
+    EXPECT_FALSE(wallBBs.IsThereWall(SE_C3, SE_D3));
+    EXPECT_FALSE(wallBBs.IsThereWall(SE_I8, SE_I9));
+
+    wallman.PutFence(MakeFence(SE_C2, SE_C4));
+    wallman.PutFence(MakeFence(SE_H8, SE_J8));
+
+    wallBBs = wallman.GetWallBBs();
+
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_C2, SE_C3));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_C3, SE_C4));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_H8, SE_I8));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_I8, SE_J8));
 }
 
 TEST(WallManTest, WallManPutFenceByIndexTest)
@@ -87,6 +107,26 @@ TEST(WallManTest, WallManPutFenceByIndexTest)
     EXPECT_FALSE(wallBBs.IsThereWall(SE_I7, SE_J7));
     EXPECT_FALSE(wallBBs.IsThereWall(SE_B1, SE_C1));
     EXPECT_FALSE(wallBBs.IsThereWall(SE_C1, SE_D1));
+
+    // no intersect test after overlap
+
+    wallman.PutFence(Indexer::FenceToIndex(MakeFence(SE_B3, SE_D3)));
+    wallman.PutFence(Indexer::FenceToIndex(MakeFence(SE_I7, SE_I9)));
+
+    wallBBs = wallman.GetWallBBs();
+
+    EXPECT_FALSE(wallBBs.IsThereWall(SE_C3, SE_D3));
+    EXPECT_FALSE(wallBBs.IsThereWall(SE_I8, SE_I9));
+
+    wallman.PutFence(Indexer::FenceToIndex(MakeFence(SE_C2, SE_C4)));
+    wallman.PutFence(Indexer::FenceToIndex(MakeFence(SE_H8, SE_J8)));
+
+    wallBBs = wallman.GetWallBBs();
+
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_C2, SE_C3));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_C3, SE_C4));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_H8, SE_I8));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_I8, SE_J8));
 }
 
 TEST(WallManTest, WallManPutFenceByDirSquareEdgeTest)
@@ -129,4 +169,24 @@ TEST(WallManTest, WallManPutFenceByDirSquareEdgeTest)
     EXPECT_FALSE(wallBBs.IsThereWall(SE_I7, SE_J7));
     EXPECT_FALSE(wallBBs.IsThereWall(SE_B1, SE_C1));
     EXPECT_FALSE(wallBBs.IsThereWall(SE_C1, SE_D1));
+
+    // no intersect test after overlap
+
+    wallman.PutFence<Horizontal>(SE_B3);
+    wallman.PutFence<Vertical>(SE_I7);
+
+    wallBBs = wallman.GetWallBBs();
+
+    EXPECT_FALSE(wallBBs.IsThereWall(SE_C3, SE_D3));
+    EXPECT_FALSE(wallBBs.IsThereWall(SE_I8, SE_I9));
+
+    wallman.PutFence<Vertical>(SE_C2);
+    wallman.PutFence<Horizontal>(SE_H8);
+
+    wallBBs = wallman.GetWallBBs();
+
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_C2, SE_C3));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_C3, SE_C4));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_H8, SE_I8));
+    EXPECT_TRUE(wallBBs.IsThereWall(SE_I8, SE_J8));
 }
