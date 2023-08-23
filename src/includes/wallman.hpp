@@ -189,11 +189,6 @@ namespace QuoridorAI
         return (acrossBB & FenceToAcrossBB(fenceIndex)) != 0;
     }
 
-    inline Bitboard64 WallMan::FenceToAcrossBB(Fence fence)
-    {
-        return misc::oneBitMask64[(ExtractSquareEdgeLower((Move)fence) + ExtractSquareEdgeUpper((Move)fence)) / 2];
-    }
-
     template <>
     inline Bitboard64 WallMan::FenceToAcrossBB<Vertical>(SquareEdge se)
     {
@@ -204,6 +199,19 @@ namespace QuoridorAI
     inline Bitboard64 WallMan::FenceToAcrossBB<Horizontal>(SquareEdge se)
     {
         return misc::oneBitMask64[se - 10];
+    }
+
+    inline Bitboard64 WallMan::FenceToAcrossBB(Fence fence)
+    {
+        switch (GetWallDir(fence))
+        {
+        case Vertical:
+            return FenceToAcrossBB<Vertical>(ExtractSquareEdgeLower((Move)fence));
+        case Horizontal:
+            return FenceToAcrossBB<Horizontal>(ExtractSquareEdgeLower((Move)fence));
+        default:
+            return 0ULL;
+        }
     }
 
     inline Bitboard64 WallMan::FenceToAcrossBB(int fenceIndex)
