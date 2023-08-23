@@ -25,7 +25,8 @@ include_directories(../src/includes)
 file(GLOB Includes 
 ../src/includes/*.cpp
 ../src/includes/indexer/*.cpp
-../src/includes/hasher/*.cpp)
+../src/includes/hasher/*.cpp
+../src/includes/dijkstra/*.cpp)
 
 file(GLOB TestTargets 
 *.cpp 
