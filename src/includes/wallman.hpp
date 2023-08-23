@@ -74,24 +74,30 @@ namespace QuoridorAI
          * @brief put fence
          *
          * @param the fence
+         *
+         * @return whether succeed or not (whether the fence doesn't overlaps with walls and doesn't intersect wit walls)
          */
-        void PutFence(Fence fence);
+        bool PutFence(Fence fence);
 
         /**
          * @brief put fence
          *
          * @tparam direction the fence direction
          * @param se left-bottom square edge of the fence
+         *
+         * @return whether succeed or not (whether the fence doesn't overlaps with walls and doesn't intersect wit walls)
          */
         template <WallDir direction>
-        void PutFence(SquareEdge se);
+        bool PutFence(SquareEdge se);
 
         /**
          * @brief put fence
          *
          * @param fenceIndex index of the fence
+         *
+         * @return whether succeed or not (whether the fence doesn't overlaps with walls and doesn't intersect wit walls)
          */
-        void PutFence(int fenceIndex);
+        bool PutFence(int fenceIndex);
 
         // static functions
 
@@ -134,35 +140,50 @@ namespace QuoridorAI
         return wallBBs.GetWallHBB();
     }
 
-    inline void WallMan::PutFence(Fence fence)
+    inline bool WallMan::PutFence(Fence fence)
     {
         Bitboard64 centerBB = FenceToAcrossBB(fence);
         if ((acrossBB & centerBB) == 0)
         {
+            if (!wallBBs.PutFenceWithOverlapVerification(fence))
+                return false;
+
             acrossBB |= centerBB;
-            wallBBs.PutFenceWithOverlapVerification(fence);
+            return true;
         }
+
+        return false;
     }
 
     template <WallDir direction>
-    inline void WallMan::PutFence(SquareEdge se)
+    inline bool WallMan::PutFence(SquareEdge se)
     {
         Bitboard64 centerBB = FenceToAcrossBB<direction>(se);
         if ((acrossBB & centerBB) == 0)
         {
+            if (!wallBBs.PutFenceWithOverlapVerification<direction>(se))
+                return false;
+
             acrossBB |= centerBB;
-            wallBBs.PutFenceWithOverlapVerification<direction>(se);
+            return true;
         }
+
+        return false;
     }
 
-    inline void WallMan::PutFence(int fenceIndex)
+    inline bool WallMan::PutFence(int fenceIndex)
     {
         Bitboard64 centerBB = FenceToAcrossBB(fenceIndex);
         if ((acrossBB & centerBB) == 0)
         {
+            if (!wallBBs.PutFenceWithOverlapVerification(fenceIndex))
+                return false;
+
             acrossBB |= centerBB;
-            wallBBs.PutFenceWithOverlapVerification(fenceIndex);
+            return true;
         }
+
+        return false;
     }
 
     inline bool WallMan::IsIntersect(Fence fence) const
