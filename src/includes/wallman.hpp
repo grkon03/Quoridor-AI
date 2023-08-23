@@ -4,8 +4,6 @@
 #include "wall.hpp"
 #include "indexer/IndexerAllIncludes.hpp"
 
-#include <iostream>
-
 namespace QuoridorAI
 {
     /**
@@ -139,7 +137,6 @@ namespace QuoridorAI
     inline void WallMan::PutFence(Fence fence)
     {
         Bitboard64 centerBB = FenceToAcrossBB(fence);
-        std::cout << acrossBB << "," << ExtractSquareEdgeLower((Move)fence) << "," << centerBB << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
             acrossBB |= centerBB;
@@ -151,7 +148,6 @@ namespace QuoridorAI
     inline void WallMan::PutFence(SquareEdge se)
     {
         Bitboard64 centerBB = FenceToAcrossBB<direction>(se);
-        std::cout << acrossBB << "," << se << "," << centerBB << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
             acrossBB |= centerBB;
@@ -162,8 +158,6 @@ namespace QuoridorAI
     inline void WallMan::PutFence(int fenceIndex)
     {
         Bitboard64 centerBB = FenceToAcrossBB(fenceIndex);
-        std::cout << acrossBB << ","
-                  << ExtractSquareEdgeLower((Move)(Indexer::indexer.IndexedFence[fenceIndex])) << "," << centerBB << std::endl;
         if ((acrossBB & centerBB) == 0)
         {
             acrossBB |= centerBB;
