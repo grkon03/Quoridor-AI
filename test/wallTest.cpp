@@ -159,3 +159,76 @@ TEST(WallBBsTest, WallBBsIsThereWallVarietiesTest)
     EXPECT_FALSE(wbs.IsThereWall<Vertical>(FileH, Rank5));
     EXPECT_FALSE(wbs.IsThereWall<Horizontal>(FileE, Rank1));
 }
+
+// includeing tests of IsOverlap functions
+TEST(WallBBsTest, WallBBsPutFenceWithOverlapVerificationTest)
+{
+    WallBBs wbs;
+
+    // make base
+
+    // able to put
+
+    wbs.PutFenceWithOverlapVerification(MakeFence(SE_B3, SE_B5));
+    wbs.PutFenceWithOverlapVerification(MakeFence(SE_H1, SE_J1));
+
+    // unable to put
+
+    // verify
+
+    EXPECT_FALSE(wbs.IsThereWall(SE_B2, SE_B3));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B3, SE_B4));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B4, SE_B5));
+    EXPECT_FALSE(wbs.IsThereWall(SE_B5, SE_B6));
+    EXPECT_FALSE(wbs.IsThereWall(SE_G1, SE_H1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_H1, SE_I1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_I1, SE_J1));
+
+    // try
+
+    wbs.PutFenceWithOverlapVerification(MakeFence(SE_B2, SE_B4));
+    wbs.PutFenceWithOverlapVerification(MakeFence(SE_B4, SE_B6));
+    wbs.PutFenceWithOverlapVerification(MakeFence(SE_G1, SE_I1));
+
+    // verify
+
+    EXPECT_FALSE(wbs.IsThereWall(SE_B2, SE_B3));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B3, SE_B4));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B4, SE_B5));
+    EXPECT_FALSE(wbs.IsThereWall(SE_B5, SE_B6));
+    EXPECT_FALSE(wbs.IsThereWall(SE_G1, SE_H1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_H1, SE_I1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_I1, SE_J1));
+
+    // try
+
+    wbs.PutFenceWithOverlapVerification(Indexer::FenceToIndex(MakeFence(SE_B2, SE_B4)));
+    wbs.PutFenceWithOverlapVerification(Indexer::FenceToIndex(MakeFence(SE_B4, SE_B6)));
+    wbs.PutFenceWithOverlapVerification(Indexer::FenceToIndex(MakeFence(SE_G1, SE_I1)));
+
+    // verify
+
+    EXPECT_FALSE(wbs.IsThereWall(SE_B2, SE_B3));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B3, SE_B4));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B4, SE_B5));
+    EXPECT_FALSE(wbs.IsThereWall(SE_B5, SE_B6));
+    EXPECT_FALSE(wbs.IsThereWall(SE_G1, SE_H1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_H1, SE_I1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_I1, SE_J1));
+
+    // try
+
+    wbs.PutFenceWithOverlapVerification<Vertical>(SE_B2);
+    wbs.PutFenceWithOverlapVerification<Vertical>(SE_B4);
+    wbs.PutFenceWithOverlapVerification<Horizontal>(SE_G1);
+
+    // verify
+
+    EXPECT_FALSE(wbs.IsThereWall(SE_B2, SE_B3));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B3, SE_B4));
+    EXPECT_TRUE(wbs.IsThereWall(SE_B4, SE_B5));
+    EXPECT_FALSE(wbs.IsThereWall(SE_B5, SE_B6));
+    EXPECT_FALSE(wbs.IsThereWall(SE_G1, SE_H1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_H1, SE_I1));
+    EXPECT_TRUE(wbs.IsThereWall(SE_I1, SE_J1));
+}
