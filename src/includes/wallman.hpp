@@ -3,6 +3,8 @@
 #include "misc.hpp"
 #include "wall.hpp"
 
+#include <iostream>
+
 namespace QuoridorAI
 {
     /**
@@ -138,6 +140,7 @@ namespace QuoridorAI
         Bitboard64 centerBB = FenceToAcrossBB(fence);
         if ((acrossBB & centerBB) == 0)
         {
+            std::cout << ExtractSquareEdgeLower((Move)fence) << std::endl;
             acrossBB |= centerBB;
             wallBBs.PutFenceWithOverlapVerification(fence);
         }
@@ -149,6 +152,7 @@ namespace QuoridorAI
         Bitboard64 centerBB = FenceToAcrossBB<direction>(se);
         if ((acrossBB & centerBB) == 0)
         {
+            std::cout << se << std::endl;
             acrossBB |= centerBB;
             wallBBs.PutFenceWithOverlapVerification<direction>(se);
         }
@@ -159,6 +163,7 @@ namespace QuoridorAI
         Bitboard64 centerBB = FenceToAcrossBB(fenceIndex);
         if ((acrossBB & centerBB) == 0)
         {
+            std::cout << ExtractSquareEdgeLower((Move)Indexer::indexer.IndexedFence[fenceIndex]) << std::endl;
             acrossBB |= centerBB;
             wallBBs.PutFenceWithOverlapVerification(fenceIndex);
         }
