@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../wallman.hpp"
+#include "misc.hpp"
 
 namespace QuoridorAI
 {
