@@ -39,7 +39,7 @@ namespace QuoridorAI
          *
          * @param receiver received distances
          */
-        void GetDistances(Distance &&receiver);
+        void GetDistances(Distance &&receiver) const;
 
         /**
          * @brief Get the distance
@@ -47,7 +47,7 @@ namespace QuoridorAI
          * @param square the square
          * @param color color of the king
          */
-        Distance GetDistance(Square square, Color color);
+        Distance GetDistance(Square square, Color color) const;
 
         /**
          * @brief Get the distance
@@ -55,7 +55,7 @@ namespace QuoridorAI
          * @param squareIndex index of the square
          * @param color color of the king
          */
-        Distance GetDistance(int squareIndex, Color color);
+        Distance GetDistance(int squareIndex, Color color) const;
 
         /**
          * @brief verify whether a king of the color can reach to his goal from the specified square
@@ -63,7 +63,7 @@ namespace QuoridorAI
          * @param square the square
          * @param color color of the king
          */
-        bool IsThereReachableToGoal(Square square, Color color);
+        bool IsThereReachableToGoal(Square square, Color color) const;
 
         /**
          * @brief verify whether a king of the color can reach to his goal from the specified square
@@ -71,7 +71,7 @@ namespace QuoridorAI
          * @param se left-bottom square edge of the square
          * @param color color of the king
          */
-        bool IsThereReachableToGoal(SquareEdge se, Color color);
+        bool IsThereReachableToGoal(SquareEdge se, Color color) const;
 
         /**
          * @brief verify whether a king of the color can reach to his goal from the specified square
@@ -79,7 +79,7 @@ namespace QuoridorAI
          * @param squareIndex index of the square by Indexer
          * @param color color of the king
          */
-        bool IsThereReachableToGoal(int squareIndex, Color color);
+        bool IsThereReachableToGoal(int squareIndex, Color color) const;
 
         /**
          * @brief put fence
