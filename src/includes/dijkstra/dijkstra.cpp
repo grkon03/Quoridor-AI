@@ -22,6 +22,40 @@ namespace QuoridorAI
     }
     Dijkstra::Dijkstra(const WallMan &wm) : Dijkstra(wm.GetWallBBs()) {}
 
+    void Dijkstra::GetDistances(Distance **receiver) const
+    {
+        for (int i = 0; i < NumberOfSquare; ++i)
+        {
+            receiver[White][i] = distances[White][i];
+            receiver[Black][i] = distances[Black][i];
+        }
+    }
+
+    Distance Dijkstra::GetDistance(Square square, Color color) const
+    {
+        return distances[color][Indexer::SquareToIndex(square)];
+    }
+
+    Distance Dijkstra::GetDistance(int squareIndex, Color color) const
+    {
+        return distances[color][squareIndex];
+    }
+
+    bool Dijkstra::IsThereReachableToGoal(Square square, Color color) const
+    {
+        return (distances[color][Indexer::SquareToIndex(square)] != Unreachable);
+    }
+
+    bool Dijkstra::IsThereReachableToGoal(int squareIndex, Color color) const
+    {
+        return (distances[color][squareIndex] != Unreachable);
+    }
+
+    bool Dijkstra::IsThereReachableToGoal(SquareEdge se, Color color) const
+    {
+        return (distances[color][GetRank(se) * 9 + GetFile(se)]);
+    }
+
     void Dijkstra::DijkstraRecursive(const Color color)
     {
         int candidates[41];
