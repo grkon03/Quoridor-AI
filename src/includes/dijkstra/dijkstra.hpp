@@ -1,11 +1,13 @@
 #pragma once
 
-#include "../wallman.hpp"
+#include "../wall.hpp"
 #include "misc.hpp"
 
 namespace QuoridorAI
 {
     using Distance = signed char;
+
+    class WallMan;
 
     class Dijkstra
     {
@@ -71,6 +73,29 @@ namespace QuoridorAI
          * @param color color of the king
          */
         bool IsThereReachableToGoal(int squareIndex, Color color);
+
+        /**
+         * @brief put fence
+         *
+         * @tparam direction direction of the fence
+         * @param se left-bottom square edge of the fence
+         */
+        template <WallDir direction>
+        void PutFence(SquareEdge se);
+
+        /**
+         * @brief put fence
+         *
+         * @param fence the fence
+         */
+        void PutFence(Fence fence);
+
+        /**
+         * @brief put fence
+         *
+         * @param fenceIndex index of the fence
+         */
+        void PutFence(int fenceIndex);
 
     private:
         /**

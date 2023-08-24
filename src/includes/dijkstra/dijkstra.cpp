@@ -1,4 +1,5 @@
 #include "dijkstra.hpp"
+#include "../wallman.hpp"
 
 namespace QuoridorAI
 {
