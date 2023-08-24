@@ -14,6 +14,12 @@ namespace QuoridorAI
         // variables
 
         WallBBs wallBBs;
+        /**
+         * @brief distances which a king of the color should walk from the square to his goal
+         * @note a positive number expresses a proper distance
+         * @note -1 expresses no way to goal from the square for the king of the color
+         *
+         */
         Distance distances[ColorLimit][NumberOfSquare];
 
     public:
