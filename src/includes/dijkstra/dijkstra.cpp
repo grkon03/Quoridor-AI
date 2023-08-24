@@ -22,7 +22,7 @@ namespace QuoridorAI
     }
     Dijkstra::Dijkstra(const WallMan &wm) : Dijkstra(wm.GetWallBBs()) {}
 
-    void Dijkstra::GetDistances(Distance **receiver) const
+    void Dijkstra::GetDistances(Distance receiver[ColorLimit][NumberOfSquare]) const
     {
         for (int i = 0; i < NumberOfSquare; ++i)
         {
@@ -106,8 +106,8 @@ namespace QuoridorAI
         SquareEdge lbse = ExtractSquareEdgeLower((Move)Indexer::indexer.IndexedSquare[squareIndex]);
 
         // top
-        // if squareIndex is 71 or more, the square has no top square
-        if (squareIndex < 71)
+        // if squareIndex is 72 or more, the square has no top square
+        if (squareIndex < 72)
             if ((distances[color][squareIndex + 9] != Unreachable) &&
                 !wallBBs.IsThereWall<Horizontal>((SquareEdge)(lbse + 10)))
                 minDistance = std::min(minDistance, distances[color][squareIndex + 9]);

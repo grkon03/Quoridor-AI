@@ -39,7 +39,7 @@ namespace QuoridorAI
          *
          * @param receiver received distances
          */
-        void GetDistances(Distance **receiver) const;
+        void GetDistances(Distance receiver[ColorLimit][NumberOfSquare]) const;
 
         /**
          * @brief Get the distance
