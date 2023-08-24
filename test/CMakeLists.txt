@@ -31,7 +31,8 @@ file(GLOB Includes
 file(GLOB TestTargets 
 *.cpp 
 indexer/*.cpp
-hasher/*.cpp)
+hasher/*.cpp
+dijkstra/*.cpp)
 
 add_executable(
   QuoridorAITest
