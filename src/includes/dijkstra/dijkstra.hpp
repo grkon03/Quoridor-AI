@@ -6,6 +6,7 @@
 namespace QuoridorAI
 {
     using Distance = signed char;
+    constexpr Distance Unreachable = -1;
 
     class WallMan;
 
@@ -109,6 +110,15 @@ namespace QuoridorAI
          *
          * @param color color of the king
          */
-        void DijkstraRecursive(Color color);
+        void DijkstraRecursive(const Color color);
+
+        /**
+         * @brief calculate temporary distance of the square: 1 + minimum distance from 4 squares s.t. top, bottom, left, right.
+         *
+         * @param squareIndex index of the square
+         * @param color color
+         * @return Distance
+         */
+        Distance CalcTemporaryDistance(Color color, int squareIndex);
     };
 }
