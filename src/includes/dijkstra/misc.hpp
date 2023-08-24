@@ -6,6 +6,6 @@ namespace QuoridorAI
 {
     namespace misc
     {
-        extern const signed short initDistance[ColorLimit][NumberOfSquare];
+        extern const signed char initDistance[ColorLimit][NumberOfSquare];
     }
 }
