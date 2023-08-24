@@ -17,8 +17,8 @@ namespace QuoridorAI
             distances[Black][i] = misc::initDistance[Black][i];
         }
 
-        DijkstraRecursive(White);
-        DijkstraRecursive(Black);
+        DijkstraRecursive(White, 1);
+        DijkstraRecursive(Black, 1);
     }
     Dijkstra::Dijkstra(const WallMan &wm) : Dijkstra(wm.GetWallBBs()) {}
 
@@ -56,51 +56,46 @@ namespace QuoridorAI
         return (distances[color][GetRank(se) * 9 + GetFile(se)]);
     }
 
-    void Dijkstra::DijkstraRecursive(const Color color)
+    void Dijkstra::DijkstraRecursive(const Color color, const Distance phase)
     {
-        int candidates[41];
-        int numOfCandidates = 0;
-        Distance distance;
-        Distance minDistance = 81;
-        bool notInCandidates;
+        bool continueProcess = false;
+        int searchStart, searchLimit;
 
-        for (int squareIndex = 0; squareIndex < NumberOfSquare; ++squareIndex)
+        switch (color)
+        {
+        case White:
+            // if phase is small, no need to search bottom squares
+            searchStart = std::max(0, (8 - (int)phase) * 9);
+            // limit is the square I7-J8
+            searchLimit = 72;
+            break;
+        case Black:
+            // start from A1-B2
+            searchStart = 9;
+            // if phase is small, no need to search top squares
+            searchLimit = std::min((int)NumberOfSquare, ((int)phase + 1) * 9);
+            break;
+        default:
+            return;
+        }
+
+        for (int squareIndex = searchStart; squareIndex < searchLimit; ++squareIndex)
         {
             // not searched verification
             if (distances[color][squareIndex] != Unreachable)
                 continue;
 
-            distance = CalcTemporaryDistance(color, squareIndex);
-
-            if (distance == Unreachable)
+            if (phase == CalcTemporaryDistance(color, squareIndex))
             {
-                // no process if still unreachable
-                continue;
-            }
-            else if (distance == minDistance)
-            {
-                // add this square to candidates if same distance as minDistance
-                candidates[numOfCandidates] = squareIndex;
-                ++numOfCandidates;
-            }
-            else if (distance < minDistance)
-            {
-                // update candidates if fewer distance than minDistance
-                candidates[0] = squareIndex;
-                numOfCandidates = 1;
+                // decide distances if distance is same as phase
+                distances[color][squareIndex] = phase;
+                continueProcess = true;
             }
         }
 
-        // end recursive if no candidates
-        if (numOfCandidates == 0)
-            return;
-
-        for (int i = 0; i < numOfCandidates; ++i)
-        {
-            distances[color][candidates[i]] = minDistance;
-        }
-
-        DijkstraRecursive(color);
+        // if there are updated squares, continue searching
+        if (continueProcess)
+            DijkstraRecursive(color, phase + 1);
     }
 
     Distance Dijkstra::CalcTemporaryDistance(Color color, int squareIndex)
@@ -138,9 +133,6 @@ namespace QuoridorAI
                 !wallBBs.IsThereWall<Vertical>((SquareEdge)(lbse + 1)))
                 minDistance = std::min(minDistance, distances[color][squareIndex + 1]);
 
-        if (minDistance == 81)
-            return Unreachable;
-        else
-            return minDistance;
+        return minDistance + 1;
     }
 }

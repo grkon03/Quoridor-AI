@@ -109,8 +109,9 @@ namespace QuoridorAI
          * @brief main process of dijkstra with recursive function
          *
          * @param color color of the king
+         * @param phase distance now searching
          */
-        void DijkstraRecursive(const Color color);
+        void DijkstraRecursive(const Color color, const Distance phase);
 
         /**
          * @brief calculate temporary distance of the square: 1 + minimum distance from 4 squares s.t. top, bottom, left, right.
