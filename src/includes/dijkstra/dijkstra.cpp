@@ -28,6 +28,14 @@ namespace QuoridorAI
         DijkstraRecursive(Black, 1);
     }
     Dijkstra::Dijkstra(const WallMan &wm) : Dijkstra(wm.GetWallBBs()) {}
+    Dijkstra::Dijkstra(const Dijkstra &dijkstra) : wallBBs(dijkstra.wallBBs)
+    {
+        for (int i = 0; i < NumberOfSquare; ++i)
+        {
+            distances[White][i] = dijkstra.distances[White][i];
+            distances[Black][i] = dijkstra.distances[Black][i];
+        }
+    }
 
     void Dijkstra::GetDistances(Distance receiver[ColorLimit][NumberOfSquare]) const
     {
@@ -82,7 +90,7 @@ namespace QuoridorAI
     {
         wallBBs.PutFence(fenceIndex);
 
-        int lbSquareIndex = (fenceIndex >> 3) * 10 + (fenceIndex & 0b111);
+        int lbSquareIndex = ((fenceIndex >> 3) & 0b111) * 9 + (fenceIndex & 0b111);
 
         UpdateDistancesByPutFence(White, lbSquareIndex);
         UpdateDistancesByPutFence(Black, lbSquareIndex);
