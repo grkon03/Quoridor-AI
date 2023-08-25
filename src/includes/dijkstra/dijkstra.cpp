@@ -6,7 +6,14 @@
 
 namespace QuoridorAI
 {
-    Dijkstra::Dijkstra() {}
+    Dijkstra::Dijkstra()
+    {
+        for (int i = 0; i < NumberOfSquare; ++i)
+        {
+            distances[White][i] = misc::startPositionDistance[White][i];
+            distances[Black][i] = misc::startPositionDistance[Black][i];
+        }
+    }
     Dijkstra::Dijkstra(const WallBBOD<Vertical> &wallVBB, const WallBBOD<Horizontal> &wallHBB)
         : Dijkstra(WallBBs(wallVBB, wallHBB)) {}
     Dijkstra::Dijkstra(const WallBBs &wallBBs) : wallBBs(wallBBs)

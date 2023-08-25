@@ -75,3 +75,7 @@ TEST(DijkstraTest, DijkstraMainAlgorithmTest)
         EXPECT_EQ(answer[Black][i], correctAnswer2[Black][i]);
     }
 }
+
+TEST(DijkstraTest, DijkstraPutFenceTest)
+{
+}
