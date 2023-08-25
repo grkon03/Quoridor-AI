@@ -1,6 +1,6 @@
 #include "../../src/includes/dijkstra/DijkstraAllIncludes.hpp"
 
-namespace QuoridorAI::DijkstraTest
+namespace QuoridorAI::DijkstraTester
 {
 
     extern constexpr Distance correctAnswer1[ColorLimit][NumberOfSquare] =

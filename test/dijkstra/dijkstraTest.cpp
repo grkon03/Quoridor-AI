@@ -6,13 +6,13 @@
 
 using namespace QuoridorAI;
 
-namespace QuoridorAI::DijkstraTest
+namespace QuoridorAI::DijkstraTester
 {
     extern const Distance correctAnswer1[ColorLimit][NumberOfSquare];
     extern const Distance correctAnswer2[ColorLimit][NumberOfSquare];
 }
 
-using namespace QuoridorAI::DijkstraTest;
+using namespace QuoridorAI::DijkstraTester;
 
 TEST(DijkstraTest, DijkstraMainAlgorithmTest)
 {
