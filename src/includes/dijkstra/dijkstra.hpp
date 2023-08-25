@@ -131,5 +131,35 @@ namespace QuoridorAI
          * @param squaresToUpdate squares to update
          */
         void ReverseDijkstraRecursive(const Color color, const int squarseIndex, int *numOfSquaresToUpdate, int squaresToUpdate[81]);
+
+        /**
+         * @brief update distances after putting fence
+         *
+         * @param color color of the king
+         * @param lbSquareIndex index of left-bottom square index to update
+         */
+        void UpdateDistancesByPutFence(const Color color, const int lbSquareIndex);
     };
+
+    template <>
+    inline void Dijkstra::PutFence<Vertical>(SquareEdge se)
+    {
+        wallBBs.PutFence<Vertical>(se);
+
+        int lbSquareIndex = GetRank(se) * 9 + GetFile(se) - 1;
+
+        UpdateDistancesByPutFence(White, lbSquareIndex);
+        UpdateDistancesByPutFence(Black, lbSquareIndex);
+    }
+
+    template <>
+    inline void Dijkstra::PutFence<Horizontal>(SquareEdge se)
+    {
+        wallBBs.PutFence<Horizontal>(se);
+
+        int lbSquareIndex = (GetRank(se) - 1) * 9 + GetFile(se);
+
+        UpdateDistancesByPutFence(White, lbSquareIndex);
+        UpdateDistancesByPutFence(Black, lbSquareIndex);
+    }
 }
