@@ -174,7 +174,18 @@ namespace QuoridorAI
         int *numOfSquaresToUpdate,
         int squaresToUpdate[81])
     {
+        // if already searched in reverse dijkstra
+        if (distances[color][squareIndex] == Unreachable)
+            return;
+
+        // if goal square
+        if (color == White && squareIndex >= 72)
+            return;
+        else if (color == Black && squareIndex < 9)
+            return;
+
         bool top, bottom, left, right;
+        top = bottom = left = right = false;
         Distance minDistance = Unreachable;
 
         // calculate temporary distance
@@ -218,10 +229,14 @@ namespace QuoridorAI
         if (right)
             minDistance = std::min(minDistance, distances[color][squareIndex + 1]);
 
+        // minDistance + 1 is a temporary distance
+
         // updating process
 
         if (distances[color][squareIndex] == minDistance + 1)
             return;
+
+        distances[color][squareIndex] = Unreachable;
 
         squaresToUpdate[*numOfSquaresToUpdate] = squareIndex;
         ++(*numOfSquaresToUpdate);
@@ -256,6 +271,6 @@ namespace QuoridorAI
             minDistance = std::min(minDistance, CalcTemporaryDistance(color, squaresToUpdate[i]));
         }
 
-        DijkstraRecursive(color, minDistance + 1);
+        DijkstraRecursive(color, minDistance);
     }
 }

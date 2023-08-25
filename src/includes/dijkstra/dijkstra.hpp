@@ -3,6 +3,8 @@
 #include "../wall.hpp"
 #include "misc.hpp"
 
+#include <iostream>
+
 namespace QuoridorAI
 {
     using Distance = signed char;
