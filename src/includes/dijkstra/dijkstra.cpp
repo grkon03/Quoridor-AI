@@ -132,7 +132,7 @@ namespace QuoridorAI
 
     Distance Dijkstra::CalcTemporaryDistance(Color color, int squareIndex)
     {
-        Distance minDistance = 81;
+        Distance minDistance = Unreachable;
 
         // left-bottom square edge of the square
         SquareEdge lbse = ExtractSquareEdgeLower((Move)Indexer::indexer.IndexedSquare[squareIndex]);
