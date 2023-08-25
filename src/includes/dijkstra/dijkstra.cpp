@@ -69,8 +69,10 @@ namespace QuoridorAI
         {
         case Vertical:
             PutFence<Vertical>(ExtractSquareEdgeLower((Move)fence));
+            break;
         case Horizontal:
             PutFence<Horizontal>(ExtractSquareEdgeLower((Move)fence));
+            break;
         default:
             return;
         }

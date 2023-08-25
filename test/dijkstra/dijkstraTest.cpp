@@ -2,8 +2,6 @@
 
 #include "../../src/includes/dijkstra/DijkstraAllIncludes.hpp"
 
-#include <iostream>
-
 using namespace QuoridorAI;
 
 namespace QuoridorAI::DijkstraTester
@@ -78,4 +76,21 @@ TEST(DijkstraTest, DijkstraMainAlgorithmTest)
 
 TEST(DijkstraTest, DijkstraPutFenceTest)
 {
+    Dijkstra dijkstra;
+    Distance answer[ColorLimit][NumberOfSquare];
+
+    dijkstra.PutFence(MakeFence(SE_F7, SE_H7));
+    dijkstra.PutFence(MakeFence(SE_D4, SE_D6));
+    dijkstra.PutFence(MakeFence(SE_H6, SE_J6));
+    dijkstra.PutFence(MakeFence(SE_D4, SE_F4));
+    dijkstra.PutFence(MakeFence(SE_I4, SE_I6));
+    dijkstra.PutFence(MakeFence(SE_F2, SE_F4));
+
+    dijkstra.GetDistances(answer);
+
+    for (int i = 0; i < NumberOfSquare; ++i)
+    {
+        EXPECT_EQ(answer[White][i], correctAnswer1[White][i]);
+        EXPECT_EQ(answer[Black][i], correctAnswer1[Black][i]);
+    }
 }
