@@ -6,7 +6,7 @@
 namespace QuoridorAI
 {
     using Distance = signed char;
-    constexpr Distance Unreachable = -1;
+    constexpr Distance Unreachable = 81;
 
     class WallMan;
 
@@ -17,8 +17,8 @@ namespace QuoridorAI
         WallBBs wallBBs;
         /**
          * @brief distances which a king of the color should walk from the square to his goal
-         * @note a positive number expresses a proper distance
-         * @note -1 expresses no way to goal from the square for the king of the color
+         * @note a positive number < 81 expresses a proper distance
+         * @note Unreachable = 81 expresses no way to goal from the square for the king of the color
          *
          */
         Distance distances[ColorLimit][NumberOfSquare];
@@ -121,5 +121,15 @@ namespace QuoridorAI
          * @return Distance
          */
         Distance CalcTemporaryDistance(Color color, int squareIndex);
+
+        /**
+         * @brief To calculate squares which should be updated when fence is put, and set distances these squares to Unreachable
+         *
+         * @param color color of the king
+         * @param squarseIndex index of the square
+         * @param numOfSquaresToUpdate the number of squares to update
+         * @param squaresToUpdate squares to update
+         */
+        void ReverseDijkstraRecursive(const Color color, const int squarseIndex, int *numOfSquaresToUpdate, int squaresToUpdate[81]);
     };
 }
