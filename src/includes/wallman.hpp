@@ -3,6 +3,7 @@
 #include "misc.hpp"
 #include "wall.hpp"
 #include "indexer/IndexerAllIncludes.hpp"
+#include "dijkstra/DijkstraAllIncludes.hpp"
 
 namespace QuoridorAI
 {
@@ -27,6 +28,12 @@ namespace QuoridorAI
          *
          */
         Bitboard64 acrossBB;
+
+        /**
+         * @brief dijkstra algorithm
+         *
+         */
+        Dijkstra dijkstra;
 
     public:
         // constructors
@@ -99,6 +106,61 @@ namespace QuoridorAI
          */
         bool PutFence(int fenceIndex);
 
+        /**
+         * @brief verify whether a king of the color can reach to his goal from the specified square
+         *
+         * @param color color of the king
+         * @param square the square
+         */
+        bool IsThereReachableToGoal(Square square, Color color) const;
+
+        /**
+         * @brief verify whether a king of the color can reach to his goal from the specified square
+         *
+         * @param color color of the king
+         * @param squareIndex index of the square
+         */
+        bool IsThereReachableToGoal(int squareIndex, Color color) const;
+
+        /**
+         * @brief verify whether a king of the color can reach to his goal from the specified square
+         *
+         * @param color color of the king
+         * @param se left-bottom square edge of the square
+         */
+        bool IsThereReachableToGoal(SquareEdge se, Color color) const;
+
+        /**
+         * @brief Get the distances
+         *
+         * @param receiver variable to receive distances
+         */
+        void GetDistances(Distance receiver[ColorLimit][NumberOfSquare]) const;
+
+        /**
+         * @brief Get the distance
+         *
+         * @param square the square
+         * @param color color of the king
+         */
+        Distance GetDistance(Square square, Color color) const;
+
+        /**
+         * @brief Get the distance
+         *
+         * @param squareIndex index of the square
+         * @param color color of the king
+         */
+        Distance GetDistance(int squareIndex, Color color) const;
+
+        /**
+         * @brief Get the distance
+         *
+         * @param square left-bottom square edge of the square
+         * @param color color of the king
+         */
+        Distance GetDistance(SquareEdge se, Color color) const;
+
         // static functions
 
         /**
@@ -149,6 +211,7 @@ namespace QuoridorAI
                 return false;
 
             acrossBB |= centerBB;
+            dijkstra.PutFence(fence);
             return true;
         }
 
@@ -165,6 +228,7 @@ namespace QuoridorAI
                 return false;
 
             acrossBB |= centerBB;
+            dijkstra.PutFence<direction>(se);
             return true;
         }
 
@@ -180,6 +244,7 @@ namespace QuoridorAI
                 return false;
 
             acrossBB |= centerBB;
+            dijkstra.PutFence(fenceIndex);
             return true;
         }
 
