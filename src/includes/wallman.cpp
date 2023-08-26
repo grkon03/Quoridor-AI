@@ -58,4 +58,8 @@ namespace QuoridorAI
     {
         return dijkstra.GetDistance(se, color);
     }
+
+    void WallMan::CalcAvailableFenceBB()
+    {
+    }
 }

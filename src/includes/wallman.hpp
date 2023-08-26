@@ -341,7 +341,7 @@ namespace QuoridorAI
     inline void WallMan::UpdateAvailableFenceByPutFence<Vertical>(SquareEdge se)
     {
         // overlap
-        availableFenceBB[Vertical] &= Constant::availableFenceRemainBySquareEdge[Vertical].at(se);
+        availableFenceBB[Vertical] &= Constant::availableFenceRemainMaskBySquareEdge[Vertical].at(se);
         // intersect
         availableFenceBB[Horizontal] &= ~misc::oneBitMask64[((GetRank(se) << 3) + GetFile(se) - 1)];
     }
@@ -350,7 +350,7 @@ namespace QuoridorAI
     inline void WallMan::UpdateAvailableFenceByPutFence<Horizontal>(SquareEdge se)
     {
         // overlap
-        availableFenceBB[Horizontal] &= Constant::availableFenceRemainBySquareEdge[Horizontal].at(se);
+        availableFenceBB[Horizontal] &= Constant::availableFenceRemainMaskBySquareEdge[Horizontal].at(se);
         // intersect
         availableFenceBB[Vertical] &= ~misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
     }
