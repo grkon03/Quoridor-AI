@@ -5,6 +5,9 @@
 #include "indexer/IndexerAllIncludes.hpp"
 #include "dijkstra/DijkstraAllIncludes.hpp"
 
+#include <iostream>
+#include <bitset>
+
 namespace QuoridorAI
 {
     /**
@@ -20,14 +23,6 @@ namespace QuoridorAI
          *
          */
         WallBBs wallBBs;
-
-        /**
-         * @brief bitboard for across fence such that:
-         * C3C5 and B4D4, in this case, these fences have intersection at C4.
-         * Bits is set which the center square edge of fences
-         *
-         */
-        Bitboard64 acrossBB;
 
         /**
          * @brief dijkstra algorithm
@@ -47,7 +42,7 @@ namespace QuoridorAI
         // constructors
 
         WallMan();
-        WallMan(WallBBs, Bitboard64);
+        WallMan(WallBBs);
         WallMan(const WallMan &);
 
         // functions
@@ -61,29 +56,6 @@ namespace QuoridorAI
 
         template <WallDir direction>
         WallBBOD<direction> GetWallBBOD() const;
-
-        /**
-         * @brief verify whether the fence have intersection with walls
-         *
-         * @param fence the fence
-         */
-        bool IsIntersect(Fence fence) const;
-
-        /**
-         * @brief verify whether the fence have intersection with walls
-         *
-         * @tparam direction direction of the fence
-         * @param se left-bottom square edge of the fence
-         */
-        template <WallDir direction>
-        bool IsIntersect(SquareEdge se) const;
-
-        /**
-         * @brief verify whether the fence have intersection with walls
-         *
-         * @param fenceIndex index of the fence
-         */
-        bool IsIntersect(int fenceIndex) const;
 
         /**
          * @brief put fence
@@ -169,34 +141,6 @@ namespace QuoridorAI
          */
         Distance GetDistance(SquareEdge se, Color color) const;
 
-        // static functions
-
-        /**
-         * @brief calculate acrossBB from fence
-         *
-         * @param fence the fence
-         * @return acrossBB
-         */
-        static Bitboard64 FenceToAcrossBB(Fence fence);
-
-        /**
-         * @brief calculate acrossBB from fence
-         *
-         * @tparam direction direction of the fence
-         * @param se left-bottom square edge of the fence
-         * @return acrossBB
-         */
-        template <WallDir direction>
-        static Bitboard64 FenceToAcrossBB(SquareEdge se);
-
-        /**
-         * @brief calculate acrossBB from fence
-         *
-         * @param fenceIndex index of the fence
-         * @return acrossBB
-         */
-        static Bitboard64 FenceToAcrossBB(int fenceIndex);
-
     private:
         // private functions
 
@@ -244,70 +188,52 @@ namespace QuoridorAI
 
     inline bool WallMan::PutFence(Fence fence)
     {
-        Bitboard64 centerBB = FenceToAcrossBB(fence);
-        if ((acrossBB & centerBB) == 0)
-        {
-            if (!wallBBs.PutFenceWithOverlapVerification(fence))
-                return false;
-
-            acrossBB |= centerBB;
-            dijkstra.PutFence(fence);
-            UpdateAvailableFenceByPutFence(fence);
-            return true;
-        }
-
-        return false;
+        return PutFence(Indexer::FenceToIndex(fence));
     }
 
     template <WallDir direction>
     inline bool WallMan::PutFence(SquareEdge se)
     {
-        Bitboard64 centerBB = FenceToAcrossBB<direction>(se);
-        if ((acrossBB & centerBB) == 0)
-        {
-            if (!wallBBs.PutFenceWithOverlapVerification<direction>(se))
-                return false;
+        if ((availableFenceBB[direction] & misc::oneBitMask64[((GetRank(se) - direction) << 3) + GetFile(se) + direction - 1]) == 0)
+            return false;
 
-            acrossBB |= centerBB;
-            dijkstra.PutFence<direction>(se);
-            UpdateAvailableFenceByPutFence<direction>(se);
-            return true;
-        }
+        wallBBs.PutFence<direction>(se);
+        dijkstra.PutFence<direction>(se);
+        UpdateAvailableFenceByPutFence<direction>(se);
 
-        return false;
+        return true;
     }
 
     inline bool WallMan::PutFence(int fenceIndex)
     {
-        Bitboard64 centerBB = FenceToAcrossBB(fenceIndex);
-        if ((acrossBB & centerBB) == 0)
+        if (fenceIndex < 64)
         {
-            if (!wallBBs.PutFenceWithOverlapVerification(fenceIndex))
+            // vertical
+
+            if ((availableFenceBB[Vertical] & misc::oneBitMask64[fenceIndex]) == 0)
                 return false;
 
-            acrossBB |= centerBB;
+            wallBBs.PutFence(fenceIndex);
             dijkstra.PutFence(fenceIndex);
             UpdateAvailableFenceByPutFence(fenceIndex);
+
+            return true;
+        }
+        else if (fenceIndex < 128)
+        {
+            // vertical
+
+            if ((availableFenceBB[Horizontal] & misc::oneBitMask64[fenceIndex - 64]) == 0)
+                return false;
+
+            wallBBs.PutFence(fenceIndex);
+            dijkstra.PutFence(fenceIndex);
+            UpdateAvailableFenceByPutFence(fenceIndex);
+
             return true;
         }
 
         return false;
-    }
-
-    inline bool WallMan::IsIntersect(Fence fence) const
-    {
-        return (acrossBB & FenceToAcrossBB(fence)) != 0;
-    }
-
-    template <WallDir direction>
-    inline bool WallMan::IsIntersect(SquareEdge se) const
-    {
-        return (acrossBB & FenceToAcrossBB<direction>(se)) != 0;
-    }
-
-    inline bool WallMan::IsIntersect(int fenceIndex) const
-    {
-        return (acrossBB & FenceToAcrossBB(fenceIndex)) != 0;
     }
 
     inline void WallMan::UpdateAvailableFenceByPutFence(Fence fence)
@@ -353,27 +279,5 @@ namespace QuoridorAI
         availableFenceBB[Horizontal] &= Constant::availableFenceRemainMaskBySquareEdge[Horizontal].at(se);
         // intersect
         availableFenceBB[Vertical] &= ~misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
-    }
-
-    template <>
-    inline Bitboard64 WallMan::FenceToAcrossBB<Vertical>(SquareEdge se)
-    {
-        return misc::oneBitMask64[(GetRank(se) << 3) + GetFile(se) - 1];
-    }
-
-    template <>
-    inline Bitboard64 WallMan::FenceToAcrossBB<Horizontal>(SquareEdge se)
-    {
-        return misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
-    }
-
-    inline Bitboard64 WallMan::FenceToAcrossBB(Fence fence)
-    {
-        return FenceToAcrossBB(Indexer::FenceToIndex(fence));
-    }
-
-    inline Bitboard64 WallMan::FenceToAcrossBB(int fenceIndex)
-    {
-        return misc::oneBitMask64[fenceIndex & 0x3f];
     }
 }

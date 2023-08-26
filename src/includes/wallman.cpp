@@ -3,22 +3,17 @@
 namespace QuoridorAI
 {
     WallMan::WallMan()
-        : wallBBs(), acrossBB(0ULL)
-    {
-        availableFenceBB[Vertical] = misc::fullbits64;
-        availableFenceBB[Horizontal] = misc::fullbits64;
-    }
-    WallMan::WallMan(WallBBs wallBBs, Bitboard64 acrossBB)
-        : wallBBs(wallBBs), acrossBB(acrossBB), dijkstra(wallBBs)
+        : wallBBs(), availableFenceBB{misc::fullbits64, misc::fullbits64} {}
+
+    WallMan::WallMan(WallBBs wallBBs)
+        : wallBBs(wallBBs), dijkstra(wallBBs)
     {
         CalcAvailableFenceBB();
     }
     WallMan::WallMan(const WallMan &wm)
-        : wallBBs(wm.wallBBs), acrossBB(wm.acrossBB), dijkstra(wm.dijkstra)
-    {
-        availableFenceBB[Vertical] = wm.availableFenceBB[Vertical];
-        availableFenceBB[Horizontal] = wm.availableFenceBB[Horizontal];
-    }
+        : wallBBs(wm.wallBBs), dijkstra(wm.dijkstra), availableFenceBB{
+                                                          wm.availableFenceBB[Vertical], wm.availableFenceBB[Horizontal]} {}
+
     WallBBs WallMan::GetWallBBs() const
     {
         return wallBBs;
