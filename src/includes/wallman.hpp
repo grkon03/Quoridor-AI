@@ -310,6 +310,51 @@ namespace QuoridorAI
         return (acrossBB & FenceToAcrossBB(fenceIndex)) != 0;
     }
 
+    inline void WallMan::UpdateAvailableFenceByPutFence(Fence fence)
+    {
+        UpdateAvailableFenceByPutFence(Indexer::FenceToIndex(fence));
+    }
+
+    inline void WallMan::UpdateAvailableFenceByPutFence(int fenceIndex)
+    {
+        if (fenceIndex < 64)
+        {
+            // vertical
+
+            // overlap
+            availableFenceBB[Vertical] &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
+            // intersect
+            availableFenceBB[Horizontal] &= ~misc::oneBitMask64[fenceIndex];
+        }
+        else if (fenceIndex < 128)
+        {
+            // horizontal
+
+            // overlap
+            availableFenceBB[Horizontal] &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
+            // intersect
+            availableFenceBB[Vertical] &= ~misc::oneBitMask64[fenceIndex - 64];
+        }
+    }
+
+    template <>
+    inline void WallMan::UpdateAvailableFenceByPutFence<Vertical>(SquareEdge se)
+    {
+        // overlap
+        availableFenceBB[Vertical] &= Constant::availableFenceRemainBySquareEdge[Vertical].at(se);
+        // intersect
+        availableFenceBB[Horizontal] &= ~misc::oneBitMask64[((GetRank(se) << 3) + GetFile(se) - 1)];
+    }
+
+    template <>
+    inline void WallMan::UpdateAvailableFenceByPutFence<Horizontal>(SquareEdge se)
+    {
+        // overlap
+        availableFenceBB[Horizontal] &= Constant::availableFenceRemainBySquareEdge[Horizontal].at(se);
+        // intersect
+        availableFenceBB[Vertical] &= ~misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
+    }
+
     template <>
     inline Bitboard64 WallMan::FenceToAcrossBB<Vertical>(SquareEdge se)
     {
