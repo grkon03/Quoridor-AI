@@ -35,6 +35,14 @@ namespace QuoridorAI
          */
         Dijkstra dijkstra;
 
+        /**
+         * @brief bitboards for available fences such that:
+         * if there is only the C3C5 fence, C2C4, C3C5, C4C6, B4D4 sections are unable to put fence, and the other sections are able to put.
+         * Then, n-th bit with a WallDir is not set if n is remainder of index of C2C4, C3C5, C4C6, B4D4 after dividing by 64 along with the WallDir,
+         * and is set if n is the others.
+         */
+        Bitboard64 availableFenceBB[WallDirLimit];
+
     public:
         // constructors
 
@@ -188,6 +196,38 @@ namespace QuoridorAI
          * @return acrossBB
          */
         static Bitboard64 FenceToAcrossBB(int fenceIndex);
+
+    private:
+        // private functions
+
+        /**
+         * @brief calculate availableFenceBB from other informations
+         *
+         */
+        void CalcAvailableFenceBB();
+
+        /**
+         * @brief update availableFenceBB after putting fence
+         *
+         * @param fence the put fence
+         */
+        void UpdateAvailableFenceByPutFence(Fence fence);
+
+        /**
+         * @brief update availableFenceBB after putting fence
+         *
+         * @param fenceIndex index of the put fence
+         */
+        void UpdateAvailableFenceByPutFence(int fenceIndex);
+
+        /**
+         * @brief update availableFenceBB after putting fence
+         *
+         * @tparam direction direction of the put fence
+         * @param se left-bottom square edge of the put fence
+         */
+        template <WallDir direction>
+        void UpdateAvailableFenceByPutFence(SquareEdge se);
     };
 
     template <>
@@ -212,6 +252,7 @@ namespace QuoridorAI
 
             acrossBB |= centerBB;
             dijkstra.PutFence(fence);
+            UpdateAvailableFenceByPutFence(fence);
             return true;
         }
 
@@ -229,6 +270,7 @@ namespace QuoridorAI
 
             acrossBB |= centerBB;
             dijkstra.PutFence<direction>(se);
+            UpdateAvailableFenceByPutFence<direction>(se);
             return true;
         }
 
@@ -245,6 +287,7 @@ namespace QuoridorAI
 
             acrossBB |= centerBB;
             dijkstra.PutFence(fenceIndex);
+            UpdateAvailableFenceByPutFence(fenceIndex);
             return true;
         }
 
