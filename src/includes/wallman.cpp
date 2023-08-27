@@ -56,5 +56,62 @@ namespace QuoridorAI
 
     void WallMan::CalcAvailableFenceBB()
     {
+        Bitboard96 vbb = GetWallBBOD<Vertical>(), hbb = GetWallBBOD<Horizontal>();
+
+        Bitboard64 overlapV, overlapH, intersectV, intersectH;
+        int i;
+
+        // overlap verification
+
+        Bitboard96 overlapH96;
+
+        overlapV = ((vbb >> 8) | (vbb)).GetLowerBits();
+        overlapH = 0;
+        for (i = 0; i < 8; ++i)
+        {
+            overlapH96 |= (((hbb >> (9 * i)) & 0xff) << (8 * i)) | (((hbb >> (9 * i + 1)) & 0xff) << (8 * i));
+        }
+        overlapH = overlapH96.GetLowerBits();
+
+        // intersection verification
+
+        Bitboard96 intersectV96;
+        Bitboard96 _lsb, extendedAvailableFenceBB;
+
+        intersectV = intersectH = 0;
+
+        // vertical
+
+        while (hbb != 0)
+        {
+            _lsb = lsb(hbb);
+            // delete the least significant fence
+            hbb ^= _lsb | (_lsb << 1);
+            extendedAvailableFenceBB = _lsb;
+        }
+
+        for (i = 0; i < 8; ++i)
+        {
+            intersectV96 |= (((extendedAvailableFenceBB >> (9 * i)) & 0xff) << (8 * i)) |
+                            (((extendedAvailableFenceBB >> (9 * i + 1)) & 0xff) << (8 * i));
+        }
+        intersectV = intersectV96.GetLowerBits();
+
+        // horizontal
+
+        while (vbb != 0)
+        {
+            _lsb = lsb(vbb);
+            // delete the least significant fence
+            vbb ^= _lsb | (_lsb << 8);
+            extendedAvailableFenceBB = _lsb;
+        }
+
+        intersectH = extendedAvailableFenceBB.GetLowerBits();
+
+        // assign out of themj
+
+        availableFenceBB[Vertical] = ~(overlapV | intersectV);
+        availableFenceBB[Horizontal] = ~(overlapH | intersectH);
     }
 }
