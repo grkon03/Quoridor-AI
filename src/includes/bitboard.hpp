@@ -98,11 +98,13 @@ namespace QuoridorAI
 
         void InheritError(const Bitboard96 &);
 
+        std::string ToString(misc::BaseType);
+
         Bitboard64 GetLowerBits() const;
     };
 
     inline Bitboard96 lsb(Bitboard96 bb)
     {
-        return bb & ~(~bb + 1);
+        return bb & (~bb + 1);
     }
 }

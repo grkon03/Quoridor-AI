@@ -5,9 +5,6 @@
 #include "indexer/IndexerAllIncludes.hpp"
 #include "dijkstra/DijkstraAllIncludes.hpp"
 
-#include <iostream>
-#include <bitset>
-
 namespace QuoridorAI
 {
     /**
@@ -140,6 +137,9 @@ namespace QuoridorAI
          * @param color color of the king
          */
         Distance GetDistance(SquareEdge se, Color color) const;
+
+        template <WallDir direction>
+        Bitboard64 GetAvailableFenceBB() const;
 
     private:
         // private functions
@@ -279,5 +279,11 @@ namespace QuoridorAI
         availableFenceBB[Horizontal] &= Constant::availableFenceRemainMaskBySquareEdge[Horizontal].at(se);
         // intersect
         availableFenceBB[Vertical] &= ~misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
+    }
+
+    template <WallDir direction>
+    inline Bitboard64 WallMan::GetAvailableFenceBB() const
+    {
+        return availableFenceBB[direction];
     }
 }

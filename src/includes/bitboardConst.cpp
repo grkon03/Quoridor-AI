@@ -152,7 +152,7 @@ namespace QuoridorAI::Constant
         oneBitMask96[39] | oneBitMask96[47],
         oneBitMask96[40] | oneBitMask96[48],
         oneBitMask96[41] | oneBitMask96[49],
-        oneBitMask96[42] | oneBitMask96[40],
+        oneBitMask96[42] | oneBitMask96[50],
         oneBitMask96[43] | oneBitMask96[51],
         oneBitMask96[44] | oneBitMask96[52],
         oneBitMask96[45] | oneBitMask96[53],

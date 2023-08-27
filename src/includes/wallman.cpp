@@ -66,10 +66,10 @@ namespace QuoridorAI
         Bitboard96 overlapH96;
 
         overlapV = ((vbb >> 8) | (vbb)).GetLowerBits();
-        overlapH = 0;
+        overlapH96 = Bitboard96(0);
         for (i = 0; i < 8; ++i)
         {
-            overlapH96 |= (((hbb >> (9 * i)) & 0xff) << (8 * i)) | (((hbb >> (9 * i + 1)) & 0xff) << (8 * i));
+            overlapH96 |= (((hbb >> (9 * i)) | (hbb >> (9 * i + 1))) & 0xff) << (8 * i);
         }
         overlapH = overlapH96.GetLowerBits();
 
@@ -87,7 +87,8 @@ namespace QuoridorAI
             _lsb = lsb(hbb);
             // delete the least significant fence
             hbb ^= _lsb | (_lsb << 1);
-            extendedAvailableFenceBB = _lsb;
+
+            extendedAvailableFenceBB |= _lsb;
         }
 
         for (i = 0; i < 8; ++i)
@@ -98,12 +99,14 @@ namespace QuoridorAI
 
         // horizontal
 
+        extendedAvailableFenceBB = Bitboard96(0);
+
         while (vbb != 0)
         {
             _lsb = lsb(vbb);
             // delete the least significant fence
             vbb ^= _lsb | (_lsb << 8);
-            extendedAvailableFenceBB = _lsb;
+            extendedAvailableFenceBB |= _lsb;
         }
 
         intersectH = extendedAvailableFenceBB.GetLowerBits();
