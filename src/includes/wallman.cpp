@@ -92,8 +92,7 @@ namespace QuoridorAI
 
         for (i = 0; i < 8; ++i)
         {
-            intersectV96 |= (((extendedAvailableFenceBB >> (9 * i)) & 0xff) << (8 * i)) |
-                            (((extendedAvailableFenceBB >> (9 * i + 1)) & 0xff) << (8 * i));
+            intersectV96 |= ((extendedAvailableFenceBB >> (9 * i)) & 0xff) << (8 * i);
         }
         intersectV = intersectV96.GetLowerBits();
 
@@ -109,7 +108,7 @@ namespace QuoridorAI
 
         intersectH = extendedAvailableFenceBB.GetLowerBits();
 
-        // assign out of themj
+        // assign out of them
 
         availableFenceBB[Vertical] = ~(overlapV | intersectV);
         availableFenceBB[Horizontal] = ~(overlapH | intersectH);
