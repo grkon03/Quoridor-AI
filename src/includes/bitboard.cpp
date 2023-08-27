@@ -435,4 +435,9 @@ namespace QuoridorAI
         overflow |= b.overflow;
         invalidExpression |= b.invalidExpression;
     }
+
+    Bitboard64 Bitboard96::GetLowerBits() const
+    {
+        return lowerBits;
+    }
 }

@@ -152,7 +152,7 @@ namespace QuoridorAI::Constant
         oneBitMask96[39] | oneBitMask96[47],
         oneBitMask96[40] | oneBitMask96[48],
         oneBitMask96[41] | oneBitMask96[49],
-        oneBitMask96[42] | oneBitMask96[40],
+        oneBitMask96[42] | oneBitMask96[50],
         oneBitMask96[43] | oneBitMask96[51],
         oneBitMask96[44] | oneBitMask96[52],
         oneBitMask96[45] | oneBitMask96[53],
@@ -310,5 +310,182 @@ namespace QuoridorAI::Constant
     const Map<SquareEdge, Bitboard96> fenceMaskBySquareEdge[WallDirLimit] = {
         __fenceMaskBySquareEdge__V(),
         __fenceMaskBySquareEdge__H(),
+    };
+
+    const Bitboard64 availableFenceRemainMaskByIndex[NumberOfFence] = {
+        // vertical
+
+        ~(misc::oneBitMask64[0] | misc::oneBitMask64[8]),
+        ~(misc::oneBitMask64[1] | misc::oneBitMask64[9]),
+        ~(misc::oneBitMask64[2] | misc::oneBitMask64[10]),
+        ~(misc::oneBitMask64[3] | misc::oneBitMask64[11]),
+        ~(misc::oneBitMask64[4] | misc::oneBitMask64[12]),
+        ~(misc::oneBitMask64[5] | misc::oneBitMask64[13]),
+        ~(misc::oneBitMask64[6] | misc::oneBitMask64[14]),
+        ~(misc::oneBitMask64[7] | misc::oneBitMask64[15]),
+        ~(misc::oneBitMask64[0] | misc::oneBitMask64[8] | misc::oneBitMask64[16]),
+        ~(misc::oneBitMask64[1] | misc::oneBitMask64[9] | misc::oneBitMask64[17]),
+        ~(misc::oneBitMask64[2] | misc::oneBitMask64[10] | misc::oneBitMask64[18]),
+        ~(misc::oneBitMask64[3] | misc::oneBitMask64[11] | misc::oneBitMask64[19]),
+        ~(misc::oneBitMask64[4] | misc::oneBitMask64[12] | misc::oneBitMask64[20]),
+        ~(misc::oneBitMask64[5] | misc::oneBitMask64[13] | misc::oneBitMask64[21]),
+        ~(misc::oneBitMask64[6] | misc::oneBitMask64[14] | misc::oneBitMask64[22]),
+        ~(misc::oneBitMask64[7] | misc::oneBitMask64[15] | misc::oneBitMask64[23]),
+        ~(misc::oneBitMask64[8] | misc::oneBitMask64[16] | misc::oneBitMask64[24]),
+        ~(misc::oneBitMask64[9] | misc::oneBitMask64[17] | misc::oneBitMask64[25]),
+        ~(misc::oneBitMask64[10] | misc::oneBitMask64[18] | misc::oneBitMask64[26]),
+        ~(misc::oneBitMask64[11] | misc::oneBitMask64[19] | misc::oneBitMask64[27]),
+        ~(misc::oneBitMask64[12] | misc::oneBitMask64[20] | misc::oneBitMask64[28]),
+        ~(misc::oneBitMask64[13] | misc::oneBitMask64[21] | misc::oneBitMask64[29]),
+        ~(misc::oneBitMask64[14] | misc::oneBitMask64[22] | misc::oneBitMask64[30]),
+        ~(misc::oneBitMask64[15] | misc::oneBitMask64[23] | misc::oneBitMask64[31]),
+        ~(misc::oneBitMask64[16] | misc::oneBitMask64[24] | misc::oneBitMask64[32]),
+        ~(misc::oneBitMask64[17] | misc::oneBitMask64[25] | misc::oneBitMask64[33]),
+        ~(misc::oneBitMask64[18] | misc::oneBitMask64[26] | misc::oneBitMask64[34]),
+        ~(misc::oneBitMask64[19] | misc::oneBitMask64[27] | misc::oneBitMask64[35]),
+        ~(misc::oneBitMask64[20] | misc::oneBitMask64[28] | misc::oneBitMask64[36]),
+        ~(misc::oneBitMask64[21] | misc::oneBitMask64[29] | misc::oneBitMask64[37]),
+        ~(misc::oneBitMask64[22] | misc::oneBitMask64[30] | misc::oneBitMask64[38]),
+        ~(misc::oneBitMask64[23] | misc::oneBitMask64[31] | misc::oneBitMask64[39]),
+        ~(misc::oneBitMask64[24] | misc::oneBitMask64[32] | misc::oneBitMask64[40]),
+        ~(misc::oneBitMask64[25] | misc::oneBitMask64[33] | misc::oneBitMask64[41]),
+        ~(misc::oneBitMask64[26] | misc::oneBitMask64[34] | misc::oneBitMask64[42]),
+        ~(misc::oneBitMask64[27] | misc::oneBitMask64[35] | misc::oneBitMask64[43]),
+        ~(misc::oneBitMask64[28] | misc::oneBitMask64[36] | misc::oneBitMask64[44]),
+        ~(misc::oneBitMask64[29] | misc::oneBitMask64[37] | misc::oneBitMask64[45]),
+        ~(misc::oneBitMask64[30] | misc::oneBitMask64[38] | misc::oneBitMask64[46]),
+        ~(misc::oneBitMask64[31] | misc::oneBitMask64[39] | misc::oneBitMask64[47]),
+        ~(misc::oneBitMask64[32] | misc::oneBitMask64[40] | misc::oneBitMask64[48]),
+        ~(misc::oneBitMask64[33] | misc::oneBitMask64[41] | misc::oneBitMask64[49]),
+        ~(misc::oneBitMask64[34] | misc::oneBitMask64[42] | misc::oneBitMask64[50]),
+        ~(misc::oneBitMask64[35] | misc::oneBitMask64[43] | misc::oneBitMask64[51]),
+        ~(misc::oneBitMask64[36] | misc::oneBitMask64[44] | misc::oneBitMask64[52]),
+        ~(misc::oneBitMask64[37] | misc::oneBitMask64[45] | misc::oneBitMask64[53]),
+        ~(misc::oneBitMask64[38] | misc::oneBitMask64[46] | misc::oneBitMask64[54]),
+        ~(misc::oneBitMask64[39] | misc::oneBitMask64[47] | misc::oneBitMask64[55]),
+        ~(misc::oneBitMask64[40] | misc::oneBitMask64[48] | misc::oneBitMask64[56]),
+        ~(misc::oneBitMask64[41] | misc::oneBitMask64[49] | misc::oneBitMask64[57]),
+        ~(misc::oneBitMask64[42] | misc::oneBitMask64[50] | misc::oneBitMask64[58]),
+        ~(misc::oneBitMask64[43] | misc::oneBitMask64[51] | misc::oneBitMask64[59]),
+        ~(misc::oneBitMask64[44] | misc::oneBitMask64[52] | misc::oneBitMask64[60]),
+        ~(misc::oneBitMask64[45] | misc::oneBitMask64[53] | misc::oneBitMask64[61]),
+        ~(misc::oneBitMask64[46] | misc::oneBitMask64[54] | misc::oneBitMask64[62]),
+        ~(misc::oneBitMask64[47] | misc::oneBitMask64[55] | misc::oneBitMask64[63]),
+        ~(misc::oneBitMask64[48] | misc::oneBitMask64[56]),
+        ~(misc::oneBitMask64[49] | misc::oneBitMask64[57]),
+        ~(misc::oneBitMask64[50] | misc::oneBitMask64[58]),
+        ~(misc::oneBitMask64[51] | misc::oneBitMask64[59]),
+        ~(misc::oneBitMask64[52] | misc::oneBitMask64[60]),
+        ~(misc::oneBitMask64[53] | misc::oneBitMask64[61]),
+        ~(misc::oneBitMask64[54] | misc::oneBitMask64[62]),
+        ~(misc::oneBitMask64[55] | misc::oneBitMask64[63]),
+
+        // horizontal
+
+        ~(misc::oneBitMask64[0] | misc::oneBitMask64[1]),
+        ~(misc::oneBitMask64[0] | misc::oneBitMask64[1] | misc::oneBitMask64[2]),
+        ~(misc::oneBitMask64[1] | misc::oneBitMask64[2] | misc::oneBitMask64[3]),
+        ~(misc::oneBitMask64[2] | misc::oneBitMask64[3] | misc::oneBitMask64[4]),
+        ~(misc::oneBitMask64[3] | misc::oneBitMask64[4] | misc::oneBitMask64[5]),
+        ~(misc::oneBitMask64[4] | misc::oneBitMask64[5] | misc::oneBitMask64[6]),
+        ~(misc::oneBitMask64[5] | misc::oneBitMask64[6] | misc::oneBitMask64[7]),
+        ~(misc::oneBitMask64[6] | misc::oneBitMask64[7]),
+        ~(misc::oneBitMask64[8] | misc::oneBitMask64[9]),
+        ~(misc::oneBitMask64[8] | misc::oneBitMask64[9] | misc::oneBitMask64[10]),
+        ~(misc::oneBitMask64[9] | misc::oneBitMask64[10] | misc::oneBitMask64[11]),
+        ~(misc::oneBitMask64[10] | misc::oneBitMask64[11] | misc::oneBitMask64[12]),
+        ~(misc::oneBitMask64[11] | misc::oneBitMask64[12] | misc::oneBitMask64[13]),
+        ~(misc::oneBitMask64[12] | misc::oneBitMask64[13] | misc::oneBitMask64[14]),
+        ~(misc::oneBitMask64[13] | misc::oneBitMask64[14] | misc::oneBitMask64[15]),
+        ~(misc::oneBitMask64[14] | misc::oneBitMask64[15]),
+        ~(misc::oneBitMask64[16] | misc::oneBitMask64[17]),
+        ~(misc::oneBitMask64[16] | misc::oneBitMask64[17] | misc::oneBitMask64[18]),
+        ~(misc::oneBitMask64[17] | misc::oneBitMask64[18] | misc::oneBitMask64[19]),
+        ~(misc::oneBitMask64[18] | misc::oneBitMask64[19] | misc::oneBitMask64[20]),
+        ~(misc::oneBitMask64[19] | misc::oneBitMask64[20] | misc::oneBitMask64[21]),
+        ~(misc::oneBitMask64[20] | misc::oneBitMask64[21] | misc::oneBitMask64[22]),
+        ~(misc::oneBitMask64[21] | misc::oneBitMask64[22] | misc::oneBitMask64[23]),
+        ~(misc::oneBitMask64[22] | misc::oneBitMask64[23]),
+        ~(misc::oneBitMask64[24] | misc::oneBitMask64[25]),
+        ~(misc::oneBitMask64[24] | misc::oneBitMask64[25] | misc::oneBitMask64[26]),
+        ~(misc::oneBitMask64[25] | misc::oneBitMask64[26] | misc::oneBitMask64[27]),
+        ~(misc::oneBitMask64[26] | misc::oneBitMask64[27] | misc::oneBitMask64[28]),
+        ~(misc::oneBitMask64[27] | misc::oneBitMask64[28] | misc::oneBitMask64[29]),
+        ~(misc::oneBitMask64[28] | misc::oneBitMask64[29] | misc::oneBitMask64[30]),
+        ~(misc::oneBitMask64[29] | misc::oneBitMask64[30] | misc::oneBitMask64[31]),
+        ~(misc::oneBitMask64[30] | misc::oneBitMask64[31]),
+        ~(misc::oneBitMask64[32] | misc::oneBitMask64[33]),
+        ~(misc::oneBitMask64[32] | misc::oneBitMask64[33] | misc::oneBitMask64[34]),
+        ~(misc::oneBitMask64[33] | misc::oneBitMask64[34] | misc::oneBitMask64[35]),
+        ~(misc::oneBitMask64[34] | misc::oneBitMask64[35] | misc::oneBitMask64[36]),
+        ~(misc::oneBitMask64[35] | misc::oneBitMask64[36] | misc::oneBitMask64[37]),
+        ~(misc::oneBitMask64[36] | misc::oneBitMask64[37] | misc::oneBitMask64[38]),
+        ~(misc::oneBitMask64[37] | misc::oneBitMask64[38] | misc::oneBitMask64[39]),
+        ~(misc::oneBitMask64[38] | misc::oneBitMask64[39]),
+        ~(misc::oneBitMask64[40] | misc::oneBitMask64[41]),
+        ~(misc::oneBitMask64[40] | misc::oneBitMask64[41] | misc::oneBitMask64[42]),
+        ~(misc::oneBitMask64[41] | misc::oneBitMask64[42] | misc::oneBitMask64[43]),
+        ~(misc::oneBitMask64[42] | misc::oneBitMask64[43] | misc::oneBitMask64[44]),
+        ~(misc::oneBitMask64[43] | misc::oneBitMask64[44] | misc::oneBitMask64[45]),
+        ~(misc::oneBitMask64[44] | misc::oneBitMask64[45] | misc::oneBitMask64[46]),
+        ~(misc::oneBitMask64[45] | misc::oneBitMask64[46] | misc::oneBitMask64[47]),
+        ~(misc::oneBitMask64[46] | misc::oneBitMask64[47]),
+        ~(misc::oneBitMask64[48] | misc::oneBitMask64[49]),
+        ~(misc::oneBitMask64[48] | misc::oneBitMask64[49] | misc::oneBitMask64[50]),
+        ~(misc::oneBitMask64[49] | misc::oneBitMask64[50] | misc::oneBitMask64[51]),
+        ~(misc::oneBitMask64[50] | misc::oneBitMask64[51] | misc::oneBitMask64[52]),
+        ~(misc::oneBitMask64[51] | misc::oneBitMask64[52] | misc::oneBitMask64[53]),
+        ~(misc::oneBitMask64[52] | misc::oneBitMask64[53] | misc::oneBitMask64[54]),
+        ~(misc::oneBitMask64[53] | misc::oneBitMask64[54] | misc::oneBitMask64[55]),
+        ~(misc::oneBitMask64[54] | misc::oneBitMask64[55]),
+        ~(misc::oneBitMask64[56] | misc::oneBitMask64[57]),
+        ~(misc::oneBitMask64[56] | misc::oneBitMask64[57] | misc::oneBitMask64[58]),
+        ~(misc::oneBitMask64[57] | misc::oneBitMask64[58] | misc::oneBitMask64[59]),
+        ~(misc::oneBitMask64[58] | misc::oneBitMask64[59] | misc::oneBitMask64[60]),
+        ~(misc::oneBitMask64[59] | misc::oneBitMask64[60] | misc::oneBitMask64[61]),
+        ~(misc::oneBitMask64[60] | misc::oneBitMask64[61] | misc::oneBitMask64[62]),
+        ~(misc::oneBitMask64[61] | misc::oneBitMask64[62] | misc::oneBitMask64[63]),
+        ~(misc::oneBitMask64[62] | misc::oneBitMask64[63]),
+    };
+
+    namespace
+    {
+
+        Map<SquareEdge, Bitboard64> __availableFenceRemainMaskBySquareEdge__V()
+        {
+            Map<SquareEdge, Bitboard64> ret;
+            SquareEdge se;
+            Fence fence;
+
+            for (se = SE_B0; se <= SE_I7; ++se)
+            {
+                fence = MakeFence(se, se + 20);
+                if (fence != FenceInvalid)
+                    ret[se] = availableFenceRemainMaskByIndex[Indexer::FenceToIndex(fence)];
+            }
+
+            return ret;
+        }
+
+        Map<SquareEdge, Bitboard64> __availableFenceRemainMaskBySquareEdge__H()
+        {
+            Map<SquareEdge, Bitboard64> ret;
+            SquareEdge se;
+            Fence fence;
+
+            for (se = SE_A1; se <= SE_H8; ++se)
+            {
+                fence = MakeFence(se, se + 2);
+                if (fence != FenceInvalid)
+                    ret[se] = availableFenceRemainMaskByIndex[Indexer::FenceToIndex(fence)];
+            }
+
+            return ret;
+        }
+    }
+
+    const Map<SquareEdge, Bitboard64> availableFenceRemainMaskBySquareEdge[WallDirLimit] = {
+        __availableFenceRemainMaskBySquareEdge__V(),
+        __availableFenceRemainMaskBySquareEdge__H(),
     };
 }

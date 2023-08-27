@@ -21,5 +21,8 @@ namespace QuoridorAI
         extern const Bitboard96 fenceMaskByIndex[NumberOfFence];
         extern const Map<Fence, Bitboard96> fenceMaskByFence;
         extern const Map<SquareEdge, Bitboard96> fenceMaskBySquareEdge[WallDirLimit];
+
+        extern const Bitboard64 availableFenceRemainMaskByIndex[NumberOfFence];
+        extern const Map<SquareEdge, Bitboard64> availableFenceRemainMaskBySquareEdge[WallDirLimit];
     }
 }
