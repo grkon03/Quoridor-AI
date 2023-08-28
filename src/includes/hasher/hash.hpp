@@ -75,6 +75,20 @@ namespace QuoridorAI
              * @return next hash key after this move
              */
             HashKey GetNextKey(Move);
+            /**
+             * @brief Get the Next Key after fence move
+             *
+             * @param fenceIndex index of the fence
+             * @return next hash key after this move
+             */
+            HashKey GetNextKeyAfterFenceMove(int fenceIndex);
+            /**
+             * @brief Get the Next Key after king move
+             *
+             * @param squareIndex index of the square
+             * @return next hash key after this move
+             */
+            HashKey GetNextKeyAfterKingMove(int squareIndex);
 
             // operators
 
