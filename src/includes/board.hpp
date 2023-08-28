@@ -10,7 +10,7 @@ namespace QuoridorAI
         int kingSquareIndex[ColorLimit];
         unsigned char numberOfRemainingFence[ColorLimit];
         Color turnPlayer; // player to do move in this turn
-        int kingMovableSquaresIndex[5];
+        int kingMovableSquaresIndex[ColorLimit][5];
 
         int turnSpend;
 
