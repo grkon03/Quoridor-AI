@@ -8,11 +8,11 @@ namespace QuoridorAI
     {
         WallMan wallMan;
         int kingSquareIndex[ColorLimit];
-        unsigned char numberOfRemainingFence[ColorLimit];
-        Color turnPlayer; // player to do move in this turn
+        unsigned char numberOfRemainingFence[ColorLimit]; // -1 expresses no square
+        Color turnPlayer;                                 // player to do move in this turn
         int kingMovableSquaresIndex[ColorLimit][5];
 
-        int turnSpend;
+        int turnSpend; // start with 0
 
         // recorder
 
@@ -30,7 +30,15 @@ namespace QuoridorAI
         // constructors
 
         Board();
+        /**
+         * @note shallow copy
+         *
+         */
         Board(BoardInfo);
+        /**
+         * @note shallow copy
+         *
+         */
         Board(const Board &);
 
         // functions
