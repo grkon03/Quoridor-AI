@@ -1,6 +1,7 @@
 #pragma once
 
 #include "wallman.hpp"
+#include "hasher/HasherAllIncludes.hpp"
 
 namespace QuoridorAI
 {
@@ -18,6 +19,8 @@ namespace QuoridorAI
 
         BoardInfo *prevousBoard;
         int prevousMoveIndex;
+
+        Hasher::ZobristHash hash;
     };
 
     class Board
