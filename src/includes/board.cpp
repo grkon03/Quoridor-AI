@@ -9,17 +9,12 @@ namespace QuoridorAI
               {10, 10},
               White,
               {{3, 5, 13, -1, -1}, {75, 77, 67, -1, -1}},
-              Bitboard96(misc::fullbits32, misc::fullbits64),
+              {misc::fullbits64, misc::fullbits64},
               0,
               Hasher::ZobristHash(),
-              {
-                  std::vector<int>(),
-                  std::vector<int>(),
-              },
-              {
-                  std::vector<int>(4),
-                  std::vector<int>(76),
-              }}
+              {{}, {}},
+              {{4}, {76}},
+          }
     {
     }
 
@@ -60,8 +55,10 @@ namespace QuoridorAI
               _d.IsThereReachableToGoal(boardInfo.kingSquareIndex[Black], Black)))
             return false;
 
-        if (!boardInfo.wallMan.PutFence(fenceIndex))
+        if ((boardInfo.availableFenceBB[fenceIndex >> 6] & misc::oneBitMask64[fenceIndex & 0b111111]) == 0)
             return false;
+
+        boardInfo.wallMan.PutFence(fenceIndex);
 
         boardInfo.hash.GetNextKeyAfterFenceMove(fenceIndex);
         --boardInfo.numberOfRemainingFence[boardInfo.turnPlayer];

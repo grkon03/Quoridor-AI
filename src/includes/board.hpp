@@ -22,7 +22,7 @@ namespace QuoridorAI
          * @note wallMan.availableFenceBB doesn't consider the king shutting up
          *
          */
-        Bitboard96 availableFenceBB;
+        Bitboard64 availableFenceBB[WallDirLimit];
 
         int turnSpent; // start with 0
 
