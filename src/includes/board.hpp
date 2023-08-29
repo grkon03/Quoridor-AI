@@ -127,5 +127,11 @@ namespace QuoridorAI
          *
          */
         void CalcKingMovableSquares();
+
+        /**
+         * @brief calculate availableFenceBB
+         *
+         */
+        void CalcAvailableFenceBB();
     };
 }

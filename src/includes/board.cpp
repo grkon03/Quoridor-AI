@@ -66,6 +66,7 @@ namespace QuoridorAI
         boardInfo.hash.GetNextKeyAfterFenceMove(fenceIndex);
         --boardInfo.numberOfRemainingFence[boardInfo.turnPlayer];
         CalcKingMovableSquares();
+        CalcAvailableFenceBB();
 
         // record process
 
@@ -105,6 +106,7 @@ namespace QuoridorAI
 
         boardInfo.hash.GetNextKeyAfterKingMove(squareIndex);
         CalcKingMovableSquares();
+        CalcAvailableFenceBB();
 
         // record process
 
