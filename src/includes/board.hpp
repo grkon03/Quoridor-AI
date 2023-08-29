@@ -16,6 +16,13 @@ namespace QuoridorAI
         unsigned char numberOfRemainingFence[ColorLimit]; // -1 expresses no square
         Color turnPlayer;                                 // player to do move in this turn
         int kingMovableSquaresIndex[ColorLimit][5];
+        /**
+         * @brief proper available fence
+         *
+         * @note wallMan.availableFenceBB doesn't consider the king shutting up
+         *
+         */
+        Bitboard96 availableFenceBB;
 
         int turnSpent; // start with 0
 
