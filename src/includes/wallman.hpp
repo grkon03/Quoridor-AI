@@ -54,6 +54,8 @@ namespace QuoridorAI
         template <WallDir direction>
         WallBBOD<direction> GetWallBBOD() const;
 
+        Dijkstra GetDijkstra() const;
+
         /**
          * @brief put fence
          *

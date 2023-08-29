@@ -3,24 +3,30 @@
 #include "wallman.hpp"
 #include "hasher/HasherAllIncludes.hpp"
 
+#include <vector>
+
 namespace QuoridorAI
 {
     struct BoardInfo
     {
+        // central
+
         WallMan wallMan;
         int kingSquareIndex[ColorLimit];
         unsigned char numberOfRemainingFence[ColorLimit]; // -1 expresses no square
         Color turnPlayer;                                 // player to do move in this turn
         int kingMovableSquaresIndex[ColorLimit][5];
 
-        int turnSpend; // start with 0
+        int turnSpent; // start with 0
+
+        // hash
+
+        Hasher::ZobristHash hash;
 
         // recorder
 
-        BoardInfo *prevousBoard;
-        int prevousMoveIndex;
-
-        Hasher::ZobristHash hash;
+        std::vector<int> moveRecorder[ColorLimit];
+        std::vector<int> kingRecorder[ColorLimit];
     };
 
     class Board

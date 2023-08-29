@@ -60,8 +60,9 @@ namespace QuoridorAI
 
         HashKey ZobristHash::GetNextKeyAfterKingMove(int squareIndex)
         {
+            currentKey ^= basicKeys.SquareKey[turnPlayer][indexOfKings[turnPlayer]];
+            indexOfKings[turnPlayer] = squareIndex;
             turnPlayer = !turnPlayer;
-            indexOfKings[!turnPlayer] = squareIndex;
             return currentKey ^= basicKeys.SquareKey[!turnPlayer][squareIndex];
         }
 

@@ -19,6 +19,11 @@ namespace QuoridorAI
         return wallBBs;
     }
 
+    Dijkstra WallMan::GetDijkstra() const
+    {
+        return dijkstra;
+    }
+
     bool WallMan::IsThereReachableToGoal(Square square, Color color) const
     {
         return dijkstra.IsThereReachableToGoal(square, color);
