@@ -86,6 +86,15 @@ namespace QuoridorAI
         bool PutFence(int fenceIndex);
 
         /**
+         * @brief verify whether there is wall at the section
+         *
+         * @tparam direction direction
+         * @param se left-bottom square edge of the section
+         */
+        template <WallDir direction>
+        bool IsThereWall(SquareEdge se) const;
+
+        /**
          * @brief verify whether a king of the color can reach to his goal from the specified square
          *
          * @param color color of the king
@@ -236,6 +245,12 @@ namespace QuoridorAI
         }
 
         return false;
+    }
+
+    template <WallDir direction>
+    inline bool WallMan::IsThereWall<direction>(SquareEdge se) const
+    {
+        return wallBBs.IsThereWall<direction>(se);
     }
 
     inline void WallMan::UpdateAvailableFenceByPutFence(Fence fence)

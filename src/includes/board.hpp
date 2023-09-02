@@ -129,6 +129,64 @@ namespace QuoridorAI
         void CalcKingMovableSquares();
 
         /**
+         * @brief calculate king movable squares when both kings are adjacent to above each other
+         *
+         */
+        void CalcKingMovableSquaresAdjacentUp();
+        /**
+         * @brief calculate king movable squares when both kings are adjacent to below each other
+         *
+         */
+        void CalcKingMovableSquaresAdjacentDown();
+        /**
+         * @brief calculate king movable squares when both kings are adjacent to left each other
+         *
+         */
+        void CalcKingMovableSquaresAdjacentLeft();
+        /**
+         * @brief calculate king movable squares when both kings are adjacent to right each other
+         *
+         */
+        void CalcKingMovableSquaresAdjacentRight();
+        /**
+         * @brief calculate king movable squares when both kings are not adjacent each other
+         *
+         */
+        void CalcKingMovableSquaresNoAdjacent();
+
+        /**
+         * @brief calc wall existing if kings are adjacent vertical
+         *
+         * @param lcsb left-center square edge of kings
+         *
+         *          ・-・
+         *          ｜B｜
+         * here ->  ・-・
+         *          ｜W｜
+         *          ・-・
+         *
+         */
+        void WallExistingVertical(
+            SquareEdge lcsb,
+            bool *center, bool *top, bool *topleft, bool *topright, bool *bottom, bool *bottomleft, bool *bottomright);
+
+        /**
+         * @brief calc wall existing if kings are adjacent horiznotal
+         *
+         * @param cbse center-boottom square edge of kings
+         *
+         *  here
+         * 　 |
+         * 　 v
+         * ・-・-・
+         * ｜B｜W｜
+         * ・-・-・
+         */
+        void WallExistingHorizontal(
+            SquareEdge cbse,
+            bool *center, bool *left, bool *topleft, bool *bottomleft, bool *right, bool *topright, bool *bottomright);
+
+        /**
          * @brief calculate availableFenceBB
          *
          */
