@@ -615,4 +615,8 @@ namespace QuoridorAI
             *bottomright = boardInfo.wallMan.IsThereWall<Horizontal>(cbse);
         }
     }
+
+    void Board::CalcAvailableFenceBB()
+    {
+    }
 }
