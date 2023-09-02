@@ -247,10 +247,16 @@ namespace QuoridorAI
         return false;
     }
 
-    template <WallDir direction>
-    inline bool WallMan::IsThereWall<direction>(SquareEdge se) const
+    template <>
+    inline bool WallMan::IsThereWall<Horizontal>(SquareEdge se) const
     {
-        return wallBBs.IsThereWall<direction>(se);
+        return wallBBs.IsThereWall<Horizontal>(se);
+    }
+
+    template <>
+    inline bool WallMan::IsThereWall<Vertical>(SquareEdge se) const
+    {
+        return wallBBs.IsThereWall<Vertical>(se);
     }
 
     inline void WallMan::UpdateAvailableFenceByPutFence(Fence fence)
