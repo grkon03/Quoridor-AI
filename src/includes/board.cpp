@@ -9,7 +9,8 @@ namespace QuoridorAI
               {10, 10},
               White,
               {{3, 5, 13, -1, -1}, {75, 77, 67, -1, -1}},
-              {misc::fullbits64, misc::fullbits64},
+              Bitboard128(misc::fullbits64, misc::fullbits64),
+              Bitboard128("0xffe01806018060180601807ff"),
               0,
               Hasher::ZobristHash(),
               {{}, {}},
@@ -55,7 +56,7 @@ namespace QuoridorAI
               _d.IsThereReachableToGoal(boardInfo.kingSquareIndex[Black], Black)))
             return false;
 
-        if ((boardInfo.availableFenceBB[fenceIndex >> 6] & misc::oneBitMask64[fenceIndex & 0b111111]) == 0)
+        if ((boardInfo.availableFenceBB & Constant::oneBitMask128[fenceIndex]) == 0)
             return false;
 
         boardInfo.wallMan.PutFence(fenceIndex);
@@ -63,6 +64,7 @@ namespace QuoridorAI
         boardInfo.hash.GetNextKeyAfterFenceMove(fenceIndex);
         --boardInfo.numberOfRemainingFence[boardInfo.turnPlayer];
         CalcKingMovableSquares();
+        UpdateUsedSquareEdgeBB(fenceIndex);
         CalcAvailableFenceBB();
 
         // record process
@@ -618,5 +620,51 @@ namespace QuoridorAI
 
     void Board::CalcAvailableFenceBB()
     {
+        // availableFenceBB updated
+        Bitboard128 updaterAvailableFenceBB(boardInfo.wallMan.GetAvailableFenceBB<Vertical>(),
+                                            boardInfo.wallMan.GetAvailableFenceBB<Horizontal>());
+        bool bitset1, bitset2, bitset3;
+        SquareEdge startSquareEdge;
+        Dijkstra shutupTester;
+
+        for (int fenceIndex = 0; fenceIndex < NumberOfFence; ++fenceIndex)
+        {
+            // cannot put fence there
+            if ((updaterAvailableFenceBB & Constant::oneBitMask128[fenceIndex]) == 0)
+                continue;
+
+            startSquareEdge = ExtractSquareEdgeLower((Move)Indexer::indexer.IndexedFence[fenceIndex]);
+
+            if (fenceIndex < 64)
+            {
+                bitset1 = (boardInfo.usedSquareEdgeBB & Constant::oneBitMask128[startSquareEdge]) == 0;
+                bitset2 = (boardInfo.usedSquareEdgeBB & Constant::oneBitMask128[startSquareEdge + 10]) == 0;
+                bitset3 = (boardInfo.usedSquareEdgeBB & Constant::oneBitMask128[startSquareEdge + 20]) == 0;
+            }
+            else
+            {
+                bitset1 = (boardInfo.usedSquareEdgeBB & Constant::oneBitMask128[startSquareEdge]) == 0;
+                bitset2 = (boardInfo.usedSquareEdgeBB & Constant::oneBitMask128[startSquareEdge + 1]) == 0;
+                bitset3 = (boardInfo.usedSquareEdgeBB & Constant::oneBitMask128[startSquareEdge + 2]) == 0;
+            }
+
+            // cannot shut up the king
+            if ((bitset1 & (bitset2 | bitset3)) | (bitset2 & bitset3))
+            {
+                ++fenceIndex;
+                continue;
+            }
+
+            // verify if the king is shut up
+            shutupTester = boardInfo.wallMan.GetDijkstra();
+            shutupTester.PutFence(fenceIndex);
+
+            if (shutupTester.IsThereReachableToGoal(boardInfo.kingSquareIndex[White], White) ||
+                shutupTester.IsThereReachableToGoal(boardInfo.kingSquareIndex[Black], Black))
+                // delete this fence from availableFenceBB because this fence shut up some kings
+                updaterAvailableFenceBB ^= Constant::oneBitMask128[fenceIndex];
+        }
+
+        boardInfo.availableFenceBB = updaterAvailableFenceBB;
     }
 }

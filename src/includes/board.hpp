@@ -17,12 +17,17 @@ namespace QuoridorAI
         Color turnPlayer;                                 // player to do move in this turn
         int kingMovableSquaresIndex[ColorLimit][5];
         /**
-         * @brief proper available fence
+         * @brief the n-th bit is set if n-th fence is available
          *
          * @note wallMan.availableFenceBB doesn't consider the king shutting up
          *
          */
-        Bitboard64 availableFenceBB[WallDirLimit];
+        Bitboard128 availableFenceBB;
+        /**
+         * @brief the n-th bit is set if the n-th square edge is used by wall
+         *
+         */
+        Bitboard128 usedSquareEdgeBB;
 
         int turnSpent; // start with 0
 
@@ -187,9 +192,21 @@ namespace QuoridorAI
             bool *center, bool *left, bool *topleft, bool *bottomleft, bool *right, bool *topright, bool *bottomright);
 
         /**
+         * @brief update usedSquareEdgeBB after fence move
+         *
+         * @param fenceIndex index of the fence
+         */
+        void UpdateUsedSquareEdgeBB(int fenceIndex);
+
+        /**
          * @brief calculate availableFenceBB
          *
          */
         void CalcAvailableFenceBB();
     };
+
+    inline void Board::UpdateUsedSquareEdgeBB(int fenceIndex)
+    {
+        boardInfo.usedSquareEdgeBB |= Constant::usedSquareEdgeByFenceBB[fenceIndex];
+    }
 }
