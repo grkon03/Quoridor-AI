@@ -56,27 +56,27 @@ namespace QuoridorAI
 
     void WallMan::CalcAvailableFenceBB()
     {
-        Bitboard96 vbb = GetWallBBOD<Vertical>(), hbb = GetWallBBOD<Horizontal>();
+        Bitboard128 vbb = GetWallBBOD<Vertical>(), hbb = GetWallBBOD<Horizontal>();
 
         Bitboard64 overlapV, overlapH, intersectV, intersectH;
         int i;
 
         // overlap verification
 
-        Bitboard96 overlapH96;
+        Bitboard128 overlapH128;
 
         overlapV = ((vbb >> 8) | (vbb)).GetLowerBits();
-        overlapH96 = Bitboard96(0);
+        overlapH128 = Bitboard128(0);
         for (i = 0; i < 8; ++i)
         {
-            overlapH96 |= (((hbb >> (9 * i)) | (hbb >> (9 * i + 1))) & 0xff) << (8 * i);
+            overlapH128 |= (((hbb >> (9 * i)) | (hbb >> (9 * i + 1))) & 0xff) << (8 * i);
         }
-        overlapH = overlapH96.GetLowerBits();
+        overlapH = overlapH128.GetLowerBits();
 
         // intersection verification
 
-        Bitboard96 intersectV96;
-        Bitboard96 _lsb, extendedAvailableFenceBB;
+        Bitboard128 intersectV128;
+        Bitboard128 _lsb, extendedAvailableFenceBB;
 
         intersectV = intersectH = 0;
 
@@ -93,13 +93,13 @@ namespace QuoridorAI
 
         for (i = 0; i < 8; ++i)
         {
-            intersectV96 |= ((extendedAvailableFenceBB >> (9 * i)) & 0xff) << (8 * i);
+            intersectV128 |= ((extendedAvailableFenceBB >> (9 * i)) & 0xff) << (8 * i);
         }
-        intersectV = intersectV96.GetLowerBits();
+        intersectV = intersectV128.GetLowerBits();
 
         // horizontal
 
-        extendedAvailableFenceBB = Bitboard96(0);
+        extendedAvailableFenceBB = Bitboard128(0);
 
         while (vbb != 0)
         {
