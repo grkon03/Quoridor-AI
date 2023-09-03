@@ -11,76 +11,60 @@
 
 using namespace QuoridorAI;
 
-TEST(Bitboard96Comparations, Bitboard96Comprations)
+TEST(Bitboard128Comparations, Bitboard128Comprations)
 {
-    Bitboard96 b, c;
+    Bitboard128 b, c;
     EXPECT_EQ(b, c);
 }
 
-TEST(Bitboard96Constructions, Bitboard96ConstructionsWithString)
+TEST(Bitboard128Constructions, Bitboard128ConstructionsWithString)
 {
-    Bitboard96 a, b;
+    Bitboard128 a, b;
 
-    a = Bitboard96(0xffff, 0xffffUL);
+    a = Bitboard128(0xffff, 0xffffUL);
 
-    b = Bitboard96("ffff000000000000ffff", misc::BaseType::BT_HEX);
+    b = Bitboard128("ffff000000000000ffff", misc::BaseType::BT_HEX);
     EXPECT_EQ(a, b);
-    b = Bitboard96("ffff000000000000fffa", misc::BaseType::BT_HEX);
+    b = Bitboard128("ffff000000000000fffa", misc::BaseType::BT_HEX);
     EXPECT_NE(a, b);
-    b = Bitboard96(
+    b = Bitboard128(
         std::string("111111111111111100000000000000000000000000000000") +
             std::string("00000000000000001111111111111111"),
         misc::BaseType::BT_BIN);
     EXPECT_EQ(a, b);
-    b = Bitboard96("0xffff000000000000ffff");
+    b = Bitboard128("0xffff000000000000ffff");
     EXPECT_EQ(a, b);
-    b = Bitboard96(
+    b = Bitboard128(
         std::string("0b111111111111111100000000000000000000000000000000") +
         std::string("00000000000000001111111111111111"));
     EXPECT_EQ(a, b);
 
-    a = Bitboard96(0xeaff9f91U, 0xf10083eabc87d6deULL);
+    a = Bitboard128(0xeaff9f91U, 0xf10083eabc87d6deULL);
 
-    b = Bitboard96("0xeaff9f91f10083eabc87d6de");
+    b = Bitboard128("0xeaff9f91f10083eabc87d6de");
     EXPECT_EQ(a, b);
 }
 
-TEST(Bitboard96Operations, Bitboard96Additions)
+TEST(Bitboard128Operations, Bitboard128Additions)
 {
-    Bitboard96 a, b, cor;
+    Bitboard128 a, b, cor;
     uint64_t n;
 
-    // + Bitboard96, non-moveup
+    // + Bitboard128, non-moveup
 
-    a = "0xabcd000012340000ffff";
-    b = "0x4f120000deeaff0000ff";
-    cor = "0xfadf0000f11eff0100fe";
-
-    EXPECT_EQ(a + b, cor);
-
-    // + Bitboard96, moveup
-
-    a = "0xff24ffacfdeeeddff";
-    b = "0xcdc87019afcfbbd67";
-    cor = "0x1cced6fc6adbea9b66";
+    a = "0xc8812dfdabcd000012340000ffff";
+    b = "0xa09229cd4f120000deeaff0000ff";
+    cor = "0x1691357cafadf0000f11eff0100fe";
 
     EXPECT_EQ(a + b, cor);
 
-    // + Bitboard96, overflow errors, moveup
+    // + Bitboard128, moveup
 
-    a = Bitboard96(misc::fullbits32, misc::fullbits64);
-    b = Bitboard96(1);
-    a += b;
+    a = "0xc12f1fda93eff24ffacfdeeeddff";
+    b = "0x192fdc8a3ebcdc87019afcfbbd67";
+    cor = "0xda5efc64d2acced6fc6adbea9b66";
 
-    EXPECT_EQ(a.IsOverflow(), true);
-
-    // + Bitboard96, overflow errors, upperBits
-
-    a = Bitboard96(misc::fullbits32, 0);
-    b = Bitboard96(1, 0);
-    a += b;
-
-    EXPECT_EQ(a.IsOverflow(), true);
+    EXPECT_EQ(a + b, cor);
 
     // + uint64_t, non-moveup
 
@@ -97,51 +81,28 @@ TEST(Bitboard96Operations, Bitboard96Additions)
     cor = "0x100000fffffffffffffffe";
 
     EXPECT_EQ(a + n, cor);
-
-    // + uint64_t, overflow errors
-    a = "0xffffffffffffffffffffaaaa";
-    n = 0xaaaaaaaa;
-    a += n;
-
-    EXPECT_EQ(a.IsOverflow(), true);
 }
 
-TEST(Bitboard96Operations, Bitboard96Substructions)
+TEST(Bitboard128Operations, Bitboard128Substructions)
 {
-    Bitboard96 a, b, cor;
+    Bitboard128 a, b, cor;
     uint64_t n;
 
-    // - Bitboard96, non-movedown
+    // - Bitboard128, non-movedown
 
-    a = "0xf870fac7cb21bbcae7a73f";
-    b = "0x12a8fba311c13d8ee176ac";
-    cor = "0xe5c7ff24b9607e3c063093";
+    a = "0xc12f1fda93ef870fac7cb21bbcae7a73f";
+    b = "0x192fdc8a3eb12a8fba311c13d8ee176ac";
+    cor = "0xa7ff4350553e5c7ff24b9607e3c063093";
 
     EXPECT_EQ(a - b, cor);
 
-    // - Bitboard96, movedown
+    // - Bitboard128, movedown
 
-    a = "0x10ffa3e0d982cbbc302";
-    b = "0x100ff2eab3f27c727cc";
+    a = "0xcd1e8122bcbb10ffa3e0d982cbbc302";
+    b = "0xcd1e8122bcbb100ff2eab3f27c727cc";
     cor = "0xefb0f625904f49b36";
 
     EXPECT_EQ(a - b, cor);
-
-    // - Bitboard96, upperBits overflow
-
-    a = "0xa1f2f2ff2f1f223331f";
-    b = "0xe12ffdfefa8761f18ca";
-    a -= b;
-
-    EXPECT_EQ(a.IsOverflow(), true);
-
-    // - Bitboard96, movedown overflow
-
-    a = "0xffffffff11111111111";
-    b = "0xffffffff11111111112";
-    a -= b;
-
-    EXPECT_EQ(a.IsOverflow(), true);
 
     // - uint64_t, non-movedown
 
@@ -158,26 +119,18 @@ TEST(Bitboard96Operations, Bitboard96Substructions)
     cor = "0xee09d5c7489ca6561";
 
     EXPECT_EQ(a - n, cor);
-
-    // - uint64_t, non-movedown overflow
-
-    a = "0xffffaaaa";
-    n = 0xfffffaaaaa;
-    a -= n;
-
-    EXPECT_EQ(a.IsOverflow(), true);
 }
 
-TEST(Bitboard96Operations, Bitboard96LeftShift)
+TEST(Bitboard128Operations, Bitboard128LeftShift)
 {
-    Bitboard96 a, cor;
+    Bitboard128 a, cor;
     unsigned int n;
 
     // left-shift, no overflow
 
-    a = "0b01111000010100111111001110001101101101101001010101011101011111111000101011101";
+    a = "0b11001100100111101111000010100111111001110001101101101101001010101011101011111111000101011101";
     n = 10;
-    cor = "0b011110000101001111110011100011011011011010010101010111010111111110001010111010000000000";
+    cor = "0b110011001001111011110000101001111110011100011011011011010010101010111010111111110001010111010000000000";
 
     EXPECT_EQ(a << n, cor);
 
@@ -185,32 +138,31 @@ TEST(Bitboard96Operations, Bitboard96LeftShift)
 
     a = "0b011110101011111010101001001111010101001001101010101110000000010111010101101101111";
     n = 70;
-    cor = "0b101110101011011011110000000000000000000000000000000000000000000000000000000000000000000000";
+    cor = "0b1001111010101001001101010101110000000010111010101101101111"
+          "0000000000000000000000000000000000000000000000000000000000000000000000";
 
     EXPECT_EQ(a << n, cor);
 
     // left-shift, 0
-    a = "0b010010011111001010010110000111111110000111101011100100100000000111111010100010111000";
-    n = 100;
-    cor = Bitboard96(0);
+    a = "0b111010010101101011010010011111001010010110000111111110000111101011100100100000000111111010100010111000";
+    n = 130;
+    cor = Bitboard128(0);
 
     EXPECT_EQ(a << n, 0);
 }
 
-TEST(Bitboard96Operations, Bitboard96RightShift)
+TEST(Bitboard128Operations, Bitboard128RightShift)
 {
-    Bitboard96 a, cor;
+    Bitboard128 a, cor;
     unsigned int n;
 
-    // right-shift, n < 32
+    // right-shift
 
-    a = "0b10010101101011111101011010010110000001110110000010010111101010100110110001111101001";
+    a = "0b1111000110111001101010010101101011111101011010010110000001110110000010010111101010100110110001111101001";
     n = 10;
-    cor = "0b1001010110101111110101101001011000000111011000001001011110101010011011000";
+    cor = "0b111100011011100110101001010110101111110101101001011000000111011000001001011110101010011011000";
 
     EXPECT_EQ(a >> n, cor);
-
-    // right-shift, 32 <= n < 64
 
     a = "0b1100010010100100011001101011101000011010100100100011111100001001010101111000011010100010000";
     n = 40;
@@ -218,26 +170,24 @@ TEST(Bitboard96Operations, Bitboard96RightShift)
 
     EXPECT_EQ(a >> n, cor);
 
-    // right-shift, 64 <= n < 96
-
-    a = "0b1111100001010100001110100101010100100111101001001011101111110010011000011101000011";
+    a = "0b111100001111101011101111100001010100001110100101010100100111101001001011101111110010011000011101000011";
     n = 80;
-    cor = "0b11";
+    cor = "0b1111000011111010111011";
 
     EXPECT_EQ(a >> n, cor);
 
     // right-shift, 0
 
-    a = "0b1101010000101001001111111101001001010010000010101010011111001011111110000010100100111";
-    n = 100;
-    cor = Bitboard96(0);
+    a = "0b100101111000111101010000101001001111111101001001010010000010101010011111001011111110000010100100111";
+    n = 110;
+    cor = Bitboard128(0);
 
     EXPECT_EQ(a >> n, cor);
 }
 
-TEST(Bitboard96Operations, Bitboard96LogicalAnd)
+TEST(Bitboard128Operations, Bitboard128LogicalAnd)
 {
-    Bitboard96 a, b, cor;
+    Bitboard128 a, b, cor;
 
     a = "0b1111011101110101010110010111110000101011001110101101001101111110001010110111011111";
     b = "0b0001111001011010111101001000000111011101011011011111000101101111001011101111011011";
@@ -246,9 +196,9 @@ TEST(Bitboard96Operations, Bitboard96LogicalAnd)
     EXPECT_EQ(a & b, cor);
 }
 
-TEST(Bitboard96Operations, Bitboard96LogicalOr)
+TEST(Bitboard128Operations, Bitboard128LogicalOr)
 {
-    Bitboard96 a, b, cor;
+    Bitboard128 a, b, cor;
 
     a = "0b1111011101110101010110010111110000101011001110101101001101111110001010110111011111";
     b = "0b0001111001011010111101001000000111011101011011011111000101101111001011101111011011";
@@ -257,9 +207,9 @@ TEST(Bitboard96Operations, Bitboard96LogicalOr)
     EXPECT_EQ(a | b, cor);
 }
 
-TEST(Bitboard96Operations, Bitboard96LogicalXor)
+TEST(Bitboard128Operations, Bitboard128LogicalXor)
 {
-    Bitboard96 a, b, cor;
+    Bitboard128 a, b, cor;
 
     a = "0b1111011101110101010110010111110000101011001110101101001101111110001010110111011111";
     b = "0b0001111001011010111101001000000111011101011011011111000101101111001011101111011011";
@@ -268,12 +218,14 @@ TEST(Bitboard96Operations, Bitboard96LogicalXor)
     EXPECT_EQ(a ^ b, cor);
 }
 
-TEST(Bitboard96Operations, Bitboard96LogicalNot)
+TEST(Bitboard128Operations, Bitboard128LogicalNot)
 {
-    Bitboard96 a, cor;
+    Bitboard128 a, cor;
 
-    a = "0b000000000000001111011101110101010110010111110000101011001110101101001101111110001010110111011111";
-    cor = "0b111111111111110000100010001010101001101000001111010100110001010010110010000001110101001000100000";
+    a = "0b10110111110101011010010100010101"
+        "000000000000001111011101110101010110010111110000101011001110101101001101111110001010110111011111";
+    cor = "0b01001000001010100101101011101010"
+          "111111111111110000100010001010101001101000001111010100110001010010110010000001110101001000100000";
 
     EXPECT_EQ(~a, cor);
 }

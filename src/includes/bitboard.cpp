@@ -5,23 +5,21 @@ namespace QuoridorAI
 {
     /**
      *
-     * Bitboard96
+     * Bitboard128
      *
      */
 
     // constructors
 
-    Bitboard96::Bitboard96()
-        : lowerBits(0), upperBits(0), overflow(false), invalidExpression(false){};
-    Bitboard96::Bitboard96(uint64_t n)
-        : lowerBits(n), upperBits(0), overflow(false), invalidExpression(false){};
-    Bitboard96::Bitboard96(uint32_t upp, uint64_t low)
-        : lowerBits(low), upperBits(upp), overflow(false), invalidExpression(false){};
-    Bitboard96::Bitboard96(std::string number, misc::BaseType bt)
-    {
-        overflow = false;
-        invalidExpression = false;
+    Bitboard128::Bitboard128()
+        : lowerBits(0), upperBits(0) {}
+    Bitboard128::Bitboard128(Bitboard64 n)
+        : lowerBits(n), upperBits(0) {}
+    Bitboard128::Bitboard128(Bitboard64 upp, Bitboard64 low)
+        : lowerBits(low), upperBits(upp) {}
 
+    Bitboard128::Bitboard128(std::string number, misc::BaseType bt)
+    {
         int i;
         int length;
         int digit;
@@ -37,12 +35,8 @@ namespace QuoridorAI
         {
         case misc::BaseType::BT_BIN:
 
-            // over
-            if (length > 96)
-            {
-                overflow = true;
-                return;
-            }
+            if (length >= 128)
+                length = 128;
 
             for (i = length - 1; i >= 0; --i)
             {
@@ -63,18 +57,15 @@ namespace QuoridorAI
                 default:
                     lowerBits = 0;
                     upperBits = 0;
-                    invalidExpression = true;
                     return;
                 }
             }
 
             break;
         case misc::BaseType::BT_HEX:
-            if (length > 24)
-            {
-                overflow = true;
-                return;
-            }
+
+            if (length >= 32)
+                length = 32;
 
             for (i = length - 1; i >= 0; --i)
             {
@@ -95,7 +86,6 @@ namespace QuoridorAI
                 {
                     lowerBits = 0;
                     upperBits = 0;
-                    invalidExpression = true;
                     return;
                 }
 
@@ -111,59 +101,42 @@ namespace QuoridorAI
 
             break;
         default:
-            invalidExpression = true;
             return;
         }
     }
 
-    Bitboard96::Bitboard96(std::string exp)
+    Bitboard128::Bitboard128(std::string exp)
     {
         if (exp.substr(0, 2) == "0x")
-            *this = Bitboard96(exp.substr(2), misc::BaseType::BT_HEX);
+            *this = Bitboard128(exp.substr(2), misc::BaseType::BT_HEX);
         else if (exp.substr(0, 2) == "0b")
-            *this = Bitboard96(exp.substr(2), misc::BaseType::BT_BIN);
+            *this = Bitboard128(exp.substr(2), misc::BaseType::BT_BIN);
         else
         {
             lowerBits = 0;
             upperBits = 0;
-            overflow = false;
-            invalidExpression = true;
         }
     }
 
     // operators
 
-    Bitboard96 Bitboard96::operator=(const Bitboard96 &b)
+    Bitboard128 Bitboard128::operator=(const Bitboard128 &b)
     {
         upperBits = b.upperBits;
         lowerBits = b.lowerBits;
-        overflow = b.overflow;
-        invalidExpression = b.invalidExpression;
 
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator=(const std::string number)
+    Bitboard128 Bitboard128::operator=(const std::string number)
     {
-        return (*this = Bitboard96(number));
+        return (*this = Bitboard128(number));
     }
 
-    Bitboard96 &Bitboard96::operator+=(const Bitboard96 &b)
+    Bitboard128 &Bitboard128::operator+=(const Bitboard128 &b)
     {
-        if (IsError() | b.IsError())
-        {
-            InheritError(b);
-            return *this;
-        }
-
         if (misc::fullbits64 - b.lowerBits < lowerBits)
         {
-            if (misc::fullbits32 == upperBits)
-            {
-                overflow = true;
-                return *this;
-            }
-
             lowerBits -= misc::fullbits64 - b.lowerBits + 1;
             ++upperBits;
         }
@@ -172,36 +145,21 @@ namespace QuoridorAI
             lowerBits += b.lowerBits;
         }
 
-        if (misc::fullbits32 - b.upperBits < upperBits)
-        {
-            overflow = true;
-            return *this;
-        }
-
         upperBits += b.upperBits;
 
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator+(const Bitboard96 &b) const
+    Bitboard128 Bitboard128::operator+(const Bitboard128 &b) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res += b);
     }
 
-    Bitboard96 &Bitboard96::operator+=(const uint64_t n)
+    Bitboard128 &Bitboard128::operator+=(const Bitboard64 n)
     {
-        if (IsError())
-            return *this;
-
         if (misc::fullbits64 - n < lowerBits)
         {
-            if (misc::fullbits32 == upperBits)
-            {
-                overflow = true;
-                return *this;
-            }
-
             lowerBits -= misc::fullbits64 - n + 1;
             ++upperBits;
         }
@@ -213,34 +171,16 @@ namespace QuoridorAI
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator+(const uint64_t n) const
+    Bitboard128 Bitboard128::operator+(const Bitboard64 n) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res += n);
     }
 
-    Bitboard96 &Bitboard96::operator-=(const Bitboard96 &b)
+    Bitboard128 &Bitboard128::operator-=(const Bitboard128 &b)
     {
-        if (IsError() || b.IsError())
-        {
-            InheritError(b);
-            return *this;
-        }
-
-        if (upperBits < b.upperBits)
-        {
-            overflow = true;
-            return *this;
-        }
-
         if (lowerBits < b.lowerBits)
         {
-            if (upperBits == b.upperBits)
-            {
-                overflow = true;
-                return *this;
-            }
-
             upperBits -= b.upperBits + 1;
             lowerBits += misc::fullbits64 - b.lowerBits + 1;
         }
@@ -253,25 +193,16 @@ namespace QuoridorAI
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator-(const Bitboard96 &b) const
+    Bitboard128 Bitboard128::operator-(const Bitboard128 &b) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res -= b);
     }
 
-    Bitboard96 &Bitboard96::operator-=(const uint64_t n)
+    Bitboard128 &Bitboard128::operator-=(const Bitboard64 n)
     {
-        if (IsError())
-            return *this;
-
         if (lowerBits < n)
         {
-            if (upperBits == 0)
-            {
-                overflow = true;
-                return *this;
-            }
-
             --upperBits;
             lowerBits += misc::fullbits64 - n + 1;
         }
@@ -283,26 +214,26 @@ namespace QuoridorAI
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator-(const uint64_t n) const
+    Bitboard128 Bitboard128::operator-(const Bitboard64 n) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res -= n);
     }
 
-    Bitboard96 &Bitboard96::operator<<=(const unsigned int n)
+    Bitboard128 &Bitboard128::operator<<=(const unsigned int n)
     {
-        uint32_t moveup;
+        Bitboard64 moveup;
 
         if (n < 64)
         {
-            moveup = static_cast<uint32_t>(((lowerBits & misc::upperBitsFullMask64[n]) >> (64 - n)) & misc::fullbits32);
+            moveup = (lowerBits & misc::upperBitsFullMask64[n]) >> (64 - n);
             lowerBits <<= n;
             upperBits <<= n;
             upperBits += moveup;
         }
-        else if (n < 96)
+        else if (n < 128)
         {
-            upperBits = static_cast<uint32_t>(lowerBits & misc::fullbits32) << (n - 64);
+            upperBits = lowerBits << (n - 64);
             lowerBits = 0;
         }
         else
@@ -314,25 +245,25 @@ namespace QuoridorAI
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator<<(const unsigned int n) const
+    Bitboard128 Bitboard128::operator<<(const unsigned int n) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res <<= n);
     }
 
-    Bitboard96 &Bitboard96::operator>>=(const unsigned int n)
+    Bitboard128 &Bitboard128::operator>>=(const unsigned int n)
     {
-        uint64_t movedown;
+        Bitboard64 movedown;
 
-        if (n >= 96)
+        if (n >= 128)
         {
             upperBits = 0;
             lowerBits = 0;
         }
         else if (n < 64)
         {
-            movedown = uint64_t(upperBits) << (64 - n);
-            if (n < 32)
+            movedown = upperBits << (64 - n);
+            if (n < 64)
             {
                 upperBits >>= n;
             }
@@ -345,7 +276,7 @@ namespace QuoridorAI
         }
         else
         {
-            movedown = uint64_t(upperBits) >> (n - 64);
+            movedown = upperBits >> (n - 64);
             upperBits = 0;
             lowerBits = movedown;
         }
@@ -353,90 +284,67 @@ namespace QuoridorAI
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator>>(const unsigned int n) const
+    Bitboard128 Bitboard128::operator>>(const unsigned int n) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res >>= n);
     }
 
-    Bitboard96 &Bitboard96::operator&=(const Bitboard96 &b)
+    Bitboard128 &Bitboard128::operator&=(const Bitboard128 &b)
     {
         upperBits &= b.upperBits;
         lowerBits &= b.lowerBits;
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator&(const Bitboard96 &b) const
+    Bitboard128 Bitboard128::operator&(const Bitboard128 &b) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res &= b);
     }
 
-    Bitboard96 &Bitboard96::operator|=(const Bitboard96 &b)
+    Bitboard128 &Bitboard128::operator|=(const Bitboard128 &b)
     {
         upperBits |= b.upperBits;
         lowerBits |= b.lowerBits;
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator|(const Bitboard96 &b) const
+    Bitboard128 Bitboard128::operator|(const Bitboard128 &b) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res |= b);
     }
 
-    Bitboard96 &Bitboard96::operator^=(const Bitboard96 &b)
+    Bitboard128 &Bitboard128::operator^=(const Bitboard128 &b)
     {
         upperBits ^= b.upperBits;
         lowerBits ^= b.lowerBits;
         return *this;
     }
 
-    Bitboard96 Bitboard96::operator^(const Bitboard96 &b) const
+    Bitboard128 Bitboard128::operator^(const Bitboard128 &b) const
     {
-        Bitboard96 res = *this;
+        Bitboard128 res = *this;
         return (res ^= b);
     }
 
-    Bitboard96 Bitboard96::operator~() const
+    Bitboard128 Bitboard128::operator~() const
     {
-        if (IsError())
-            return *this;
-        return Bitboard96(~upperBits, ~lowerBits);
+        return Bitboard128(~upperBits, ~lowerBits);
     }
 
-    bool Bitboard96::operator==(const Bitboard96 &b) const
+    bool Bitboard128::operator==(const Bitboard128 &b) const
     {
-        if (overflow || invalidExpression || b.overflow || b.invalidExpression)
-            return false;
-
         return ((upperBits == b.upperBits) && (lowerBits == b.lowerBits));
     }
 
-    bool Bitboard96::operator!=(const Bitboard96 &b) const
+    bool Bitboard128::operator!=(const Bitboard128 &b) const
     {
         return !operator==(b);
     }
 
-    // functions
-
-    bool Bitboard96::IsError() const
-    {
-        return (
-            overflow |
-            invalidExpression);
-    }
-
-    bool Bitboard96::IsOverflow() const { return overflow; }
-    bool Bitboard96::IsInvalidExpression() const { return invalidExpression; }
-
-    void Bitboard96::InheritError(const Bitboard96 &b)
-    {
-        overflow |= b.overflow;
-        invalidExpression |= b.invalidExpression;
-    }
-
-    Bitboard64 Bitboard96::GetLowerBits() const
+    Bitboard64 Bitboard128::GetLowerBits() const
     {
         return lowerBits;
     }
