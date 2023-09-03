@@ -11,7 +11,7 @@ TEST(WallBBODTest, WallBBODHorizontalIsThereWallTest)
     /*
         wall existing at: a1-b1, b2-c2, c3-d3, d4-e4, e5-f5, f6-g6, g7-h7, i8-j8
     */
-    hw = WallBBOD<Horizontal>(Bitboard96(
+    hw = WallBBOD<Horizontal>(Bitboard128(
         "0b100000000001000000000100000000010000000001000000000100000000010000000001"));
 
     // all the true conditions
@@ -41,7 +41,7 @@ TEST(WallBBODTest, WallBBODVerticalIsThereWallTest)
     /*
         wall existing at: b0-b1, c2-c3, d3-d4, e4-e5, f5-f6, g6-g7, h7-h8, i8-i9
     */
-    vw = WallBBOD<Vertical>(Bitboard96(
+    vw = WallBBOD<Vertical>(Bitboard128(
         "0b100000000100000000100000000100000000100000000100000000100000000000000001"));
 
     // all the true conditions
