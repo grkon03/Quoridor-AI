@@ -10,7 +10,7 @@ namespace QuoridorAI
               White,
               {{3, 5, 13, -1, -1}, {75, 77, 67, -1, -1}},
               Bitboard128(misc::fullbits64, misc::fullbits64),
-              Bitboard128("0xffe01806018060180601807ff"),
+              Bitboard128(0xffe018060ULL, 0x18060180601807ffULL),
               0,
               Hasher::ZobristHash(),
               {{}, {}},
