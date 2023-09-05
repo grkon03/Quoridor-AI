@@ -23,6 +23,8 @@ namespace QuoridorAI
 
     Board::Board(const Board &board) : boardInfo(board.boardInfo) {}
 
+    BoardInfo Board::GetBoardInfo() const { return boardInfo; }
+
     bool Board::DoMove(Move move)
     {
         return DoMove(Indexer::MoveToIndex(move));

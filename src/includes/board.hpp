@@ -65,6 +65,13 @@ namespace QuoridorAI
         // functions
 
         /**
+         * @brief Get the BoardInfo object
+         *
+         * @return BoardInfo
+         */
+        BoardInfo GetBoardInfo() const;
+
+        /**
          * @brief do move
          *
          * @param move the move
