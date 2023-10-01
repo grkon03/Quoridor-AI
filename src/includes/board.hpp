@@ -39,6 +39,10 @@ namespace QuoridorAI
 
         std::vector<int> moveRecorder[ColorLimit];
         std::vector<int> kingRecorder[ColorLimit];
+
+        // functions for test
+
+        bool IsSameAsByFullScan(const BoardInfo &) const;
     };
 
     class Board

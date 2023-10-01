@@ -1,7 +1,54 @@
 #include "board.hpp"
+#include <unordered_set>
 
 namespace QuoridorAI
 {
+    bool BoardInfo::IsSameAsByFullScan(const BoardInfo &bi) const
+    {
+        int i, j;
+        std::unordered_set<int> setA, setB;
+
+        if (wallMan.GetWallBBOD<Vertical>() != bi.wallMan.GetWallBBOD<Vertical>())
+            return false;
+        if (wallMan.GetWallBBOD<Horizontal>() != bi.wallMan.GetWallBBOD<Horizontal>())
+            return false;
+        for (i = 0; i < ColorLimit; ++i)
+            if (kingSquareIndex[i] != bi.kingSquareIndex[i])
+                return false;
+        for (i = 0; i < ColorLimit; ++i)
+            if (numberOfRemainingFence[i] != bi.numberOfRemainingFence[i])
+                return false;
+        if (turnPlayer != bi.turnPlayer)
+            return false;
+        for (i = 0; i < ColorLimit; ++i)
+        {
+            setA = std::unordered_set<int>(kingMovableSquaresIndex[i], kingMovableSquaresIndex[i] + 5);
+            setB = std::unordered_set<int>(bi.kingMovableSquaresIndex[i], bi.kingMovableSquaresIndex[i] + 5);
+            setA.erase(-1);
+            setB.erase(-1);
+            if (setA != setB)
+                return false;
+        }
+        if (availableFenceBB != bi.availableFenceBB)
+            return false;
+        if (usedSquareEdgeBB != bi.usedSquareEdgeBB)
+            return false;
+        if (turnSpent != bi.turnSpent)
+            return false;
+        if (hash != bi.hash)
+            return false;
+
+        for (i = 0; i < ColorLimit; ++i)
+        {
+            if (moveRecorder[i] != bi.moveRecorder[i])
+                return false;
+            if (kingRecorder[i] != bi.kingRecorder[i])
+                return false;
+        }
+
+        return true;
+    }
+
     Board::Board()
         : boardInfo{
               WallMan(),

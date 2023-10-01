@@ -92,7 +92,8 @@ namespace QuoridorAI
 
             // operators
 
-            inline bool operator==(const ZobristHash &h) const { return (currentKey == h.currentKey); };
+            inline bool operator==(const ZobristHash &h) const { return (currentKey == h.currentKey); }
+            inline bool operator!=(const ZobristHash &h) const { return (currentKey != h.currentKey); }
         };
     }
 }
