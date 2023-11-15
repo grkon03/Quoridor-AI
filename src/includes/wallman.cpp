@@ -62,7 +62,7 @@ namespace QuoridorAI
     {
         Bitboard128 vbb = GetWallBBOD<Vertical>(), hbb = GetWallBBOD<Horizontal>();
 
-        Bitboard64 overlapV, overlapH, intersectV, intersectH;
+        Bitboard128 overlapV, overlapH, intersectV, intersectH;
         int i;
 
         // overlap verification
@@ -82,7 +82,7 @@ namespace QuoridorAI
         Bitboard128 intersectV128;
         Bitboard128 _lsb, extendedAvailableFenceBB;
 
-        intersectV = intersectH = 0;
+        intersectV = intersectH = Bitboard128(0);
 
         // vertical
 

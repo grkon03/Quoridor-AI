@@ -274,7 +274,7 @@ namespace QuoridorAI
         // overlap
         availableFenceBB &= Constant::availableFenceRemainMaskBySquareEdge[Vertical].at(se);
         // intersect
-        availableFenceBB &= ~Constant::oneBitMask128[64 + ((GetRank(se) << 3) + GetFile(se) - 1)];
+        availableFenceBB &= ~Constant::oneBitMask128[(GetRank(se) << 3) + GetFile(se) + 63];
     }
 
     template <>
@@ -283,7 +283,7 @@ namespace QuoridorAI
         // overlap
         availableFenceBB &= Constant::availableFenceRemainMaskBySquareEdge[Horizontal].at(se);
         // intersect
-        availableFenceBB &= ~misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
+        availableFenceBB &= ~Constant::oneBitMask128[((GetRank(se) - 1) << 3) + GetFile(se)];
     }
 
     inline Bitboard128 WallMan::GetAvailableFenceBB() const
