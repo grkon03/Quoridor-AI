@@ -224,9 +224,12 @@ namespace QuoridorAI
     {
         Bitboard64 moveup;
 
+        if (n == 0)
+            return *this;
+
         if (n < 64)
         {
-            moveup = (lowerBits & misc::upperBitsFullMask64[n]) >> (64 - n);
+            moveup = lowerBits >> (64 - n);
             lowerBits <<= n;
             upperBits <<= n;
             upperBits += moveup;
@@ -255,6 +258,9 @@ namespace QuoridorAI
     {
         Bitboard64 movedown;
 
+        if (n == 0)
+            return *this;
+
         if (n >= 128)
         {
             upperBits = 0;
@@ -263,22 +269,14 @@ namespace QuoridorAI
         else if (n < 64)
         {
             movedown = upperBits << (64 - n);
-            if (n < 64)
-            {
-                upperBits >>= n;
-            }
-            else
-            {
-                upperBits = 0;
-            }
+            upperBits >>= n;
             lowerBits >>= n;
             lowerBits += movedown;
         }
         else
         {
-            movedown = upperBits >> (n - 64);
+            lowerBits = upperBits >> (n - 64);
             upperBits = 0;
-            lowerBits = movedown;
         }
 
         return *this;
@@ -347,5 +345,10 @@ namespace QuoridorAI
     Bitboard64 Bitboard128::GetLowerBits() const
     {
         return lowerBits;
+    }
+
+    Bitboard64 Bitboard128::GetUpperBits() const
+    {
+        return upperBits;
     }
 }
