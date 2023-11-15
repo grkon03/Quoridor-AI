@@ -670,8 +670,7 @@ namespace QuoridorAI
     void Board::CalcAvailableFenceBB()
     {
         // availableFenceBB updated
-        Bitboard128 updaterAvailableFenceBB(boardInfo.wallMan.GetAvailableFenceBB<Vertical>(),
-                                            boardInfo.wallMan.GetAvailableFenceBB<Horizontal>());
+        Bitboard128 updaterAvailableFenceBB(boardInfo.wallMan.GetAvailableFenceBB());
         bool bitset1, bitset2, bitset3;
         SquareEdge startSquareEdge;
         Dijkstra shutupTester;
