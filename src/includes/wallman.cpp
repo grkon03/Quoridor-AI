@@ -11,8 +11,7 @@ namespace QuoridorAI
         CalcAvailableFenceBB();
     }
     WallMan::WallMan(const WallMan &wm)
-        : wallBBs(wm.wallBBs), dijkstra(wm.dijkstra), availableFenceBB{
-                                                          wm.availableFenceBB[Vertical], wm.availableFenceBB[Horizontal]} {}
+        : wallBBs(wm.wallBBs), dijkstra(wm.dijkstra), availableFenceBB(wm.availableFenceBB) {}
 
     WallBBs WallMan::GetWallBBs() const
     {
@@ -118,7 +117,7 @@ namespace QuoridorAI
 
         // assign out of them
 
-        availableFenceBB[Vertical] = ~(overlapV | intersectV);
-        availableFenceBB[Horizontal] = ~(overlapH | intersectH);
+        availableFenceBB = ~(overlapV | intersectV);
+        availableFenceBB = ~((overlapH | intersectH) << 64);
     }
 }
