@@ -254,18 +254,18 @@ namespace QuoridorAI
             // vertical
 
             // overlap
-            availableFenceBB[Vertical] &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
+            availableFenceBB &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
             // intersect
-            availableFenceBB[Horizontal] &= ~misc::oneBitMask64[fenceIndex];
+            availableFenceBB &= ~Constant::oneBitMask128[64 + fenceIndex];
         }
         else if (fenceIndex < 128)
         {
             // horizontal
 
             // overlap
-            availableFenceBB[Horizontal] &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
+            availableFenceBB &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
             // intersect
-            availableFenceBB[Vertical] &= ~misc::oneBitMask64[fenceIndex - 64];
+            availableFenceBB &= ~Constant::oneBitMask128[fenceIndex - 64];
         }
     }
 
