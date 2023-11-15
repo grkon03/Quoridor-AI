@@ -149,8 +149,7 @@ namespace QuoridorAI
          */
         Distance GetDistance(SquareEdge se, Color color) const;
 
-        template <WallDir direction>
-        Bitboard64 GetAvailableFenceBB() const;
+        Bitboard128 GetAvailableFenceBB() const;
 
     private:
         // private functions
@@ -273,23 +272,22 @@ namespace QuoridorAI
     inline void WallMan::UpdateAvailableFenceByPutFence<Vertical>(SquareEdge se)
     {
         // overlap
-        availableFenceBB[Vertical] &= Constant::availableFenceRemainMaskBySquareEdge[Vertical].at(se);
+        availableFenceBB &= Constant::availableFenceRemainMaskBySquareEdge[Vertical].at(se);
         // intersect
-        availableFenceBB[Horizontal] &= ~misc::oneBitMask64[((GetRank(se) << 3) + GetFile(se) - 1)];
+        availableFenceBB &= ~Constant::oneBitMask128[64 + ((GetRank(se) << 3) + GetFile(se) - 1)];
     }
 
     template <>
     inline void WallMan::UpdateAvailableFenceByPutFence<Horizontal>(SquareEdge se)
     {
         // overlap
-        availableFenceBB[Horizontal] &= Constant::availableFenceRemainMaskBySquareEdge[Horizontal].at(se);
+        availableFenceBB &= Constant::availableFenceRemainMaskBySquareEdge[Horizontal].at(se);
         // intersect
-        availableFenceBB[Vertical] &= ~misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
+        availableFenceBB &= ~misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
     }
 
-    template <WallDir direction>
-    inline Bitboard64 WallMan::GetAvailableFenceBB() const
+    inline Bitboard128 WallMan::GetAvailableFenceBB() const
     {
-        return availableFenceBB[direction];
+        return availableFenceBB;
     }
 }
