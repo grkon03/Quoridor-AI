@@ -33,7 +33,7 @@ namespace QuoridorAI
          * Then, n-th bit with a WallDir is not set if n is remainder of index of C2C4, C3C5, C4C6, B4D4 after dividing by 64 along with the WallDir,
          * and is set if n is the others.
          */
-        Bitboard64 availableFenceBB[WallDirLimit];
+        Bitboard128 availableFenceBB;
 
     public:
         // constructors
@@ -217,34 +217,17 @@ namespace QuoridorAI
 
     inline bool WallMan::PutFence(int fenceIndex)
     {
-        if (fenceIndex < 64)
-        {
-            // vertical
+        if (fenceIndex < 0 || fenceIndex >= 128)
+            return false;
 
-            if ((availableFenceBB[Vertical] & misc::oneBitMask64[fenceIndex]) == 0)
-                return false;
+        if ((availableFenceBB & Constant::oneBitMask128[fenceIndex]) == 0)
+            return false;
 
-            wallBBs.PutFence(fenceIndex);
-            dijkstra.PutFence(fenceIndex);
-            UpdateAvailableFenceByPutFence(fenceIndex);
+        wallBBs.PutFence(fenceIndex);
+        dijkstra.PutFence(fenceIndex);
+        UpdateAvailableFenceByPutFence(fenceIndex);
 
-            return true;
-        }
-        else if (fenceIndex < 128)
-        {
-            // vertical
-
-            if ((availableFenceBB[Horizontal] & misc::oneBitMask64[fenceIndex - 64]) == 0)
-                return false;
-
-            wallBBs.PutFence(fenceIndex);
-            dijkstra.PutFence(fenceIndex);
-            UpdateAvailableFenceByPutFence(fenceIndex);
-
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     template <>
