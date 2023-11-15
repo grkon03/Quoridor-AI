@@ -205,7 +205,7 @@ namespace QuoridorAI
     template <WallDir direction>
     inline bool WallMan::PutFence(SquareEdge se)
     {
-        if ((availableFenceBB[direction] & misc::oneBitMask64[((GetRank(se) - direction) << 3) + GetFile(se) + direction - 1]) == 0)
+        if ((availableFenceBB & Constant::oneBitMask128[direction << 6 + ((GetRank(se) - direction) << 3) + GetFile(se) + direction - 1]) == 0)
             return false;
 
         wallBBs.PutFence<direction>(se);
