@@ -224,8 +224,7 @@ TEST(WallManTest, WallManCalcAvailableFenceBBTest)
     wallManCor.PutFence(MakeFence(SE_H2, SE_J2));
     wallManCor.PutFence(MakeFence(SE_A5, SE_C5));
 
-    EXPECT_EQ(wallMan.GetAvailableFenceBB<Vertical>(), wallManCor.GetAvailableFenceBB<Vertical>());
-    EXPECT_EQ(wallMan.GetAvailableFenceBB<Horizontal>(), wallManCor.GetAvailableFenceBB<Horizontal>());
+    EXPECT_EQ(wallMan.GetAvailableFenceBB(), wallManCor.GetAvailableFenceBB());
 
     wallBBs = WallBBs();
 
@@ -255,6 +254,5 @@ TEST(WallManTest, WallManCalcAvailableFenceBBTest)
     wallManCor.PutFence(MakeFence(SE_B1, SE_B3));
     wallManCor.PutFence(MakeFence(SE_F0, SE_F2));
 
-    EXPECT_EQ(wallMan.GetAvailableFenceBB<Vertical>(), wallManCor.GetAvailableFenceBB<Vertical>());
-    EXPECT_EQ(wallMan.GetAvailableFenceBB<Horizontal>(), wallManCor.GetAvailableFenceBB<Horizontal>());
+    EXPECT_EQ(wallMan.GetAvailableFenceBB(), wallManCor.GetAvailableFenceBB());
 }
