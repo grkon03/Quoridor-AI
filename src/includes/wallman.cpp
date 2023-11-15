@@ -117,7 +117,6 @@ namespace QuoridorAI
 
         // assign out of them
 
-        availableFenceBB = ~(overlapV | intersectV);
-        availableFenceBB = ~((overlapH | intersectH) << 64);
+        availableFenceBB = ~(overlapV | intersectV | ((overlapH | intersectH) << 64));
     }
 }

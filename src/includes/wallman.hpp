@@ -255,7 +255,7 @@ namespace QuoridorAI
             // overlap
             availableFenceBB &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
             // intersect
-            availableFenceBB &= ~Constant::oneBitMask128[64 + fenceIndex];
+            availableFenceBB &= ~Constant::oneBitMask128[fenceIndex + 64];
         }
         else if (fenceIndex < 128)
         {
