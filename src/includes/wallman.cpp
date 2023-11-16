@@ -1,3 +1,5 @@
+#include <vector>
+#include <algorithm>
 #include "wallman.hpp"
 
 namespace QuoridorAI
@@ -21,6 +23,25 @@ namespace QuoridorAI
     Dijkstra WallMan::GetDijkstra() const
     {
         return dijkstra;
+    }
+
+    bool WallMan::PutFencesByGameRecord(std::vector<int> moveRecords[ColorLimit])
+    {
+        int i;
+        for (i = 0; i < std::min(moveRecords[White].size(), moveRecords[Black].size()); ++i)
+        {
+            if (!PutFence(moveRecords[White][i]))
+                return false;
+            if (!PutFence(moveRecords[Black][i]))
+                return false;
+        }
+
+        // the case exists, in which white did one more move than black did.
+
+        if (moveRecords[White].size() <= i)
+            return true;
+
+        return PutFence(moveRecords[White][i]);
     }
 
     bool WallMan::IsThereReachableToGoal(Square square, Color color) const

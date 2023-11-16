@@ -86,6 +86,16 @@ namespace QuoridorAI
         bool PutFence(int fenceIndex);
 
         /**
+         * @brief put fences as reading a game record
+         *
+         * @note no verification of the justifiableness of each size of vector moveRecords
+         *
+         * @param moveRecords array of the move records (per a color)
+         * @return whether succeed or not (whether the fences doesn't overlaps with walls and doesn't intersect wit walls)
+         */
+        bool PutFencesByGameRecord(std::vector<int> moveRecords[ColorLimit]);
+
+        /**
          * @brief verify whether there is wall at the section
          *
          * @tparam direction direction
