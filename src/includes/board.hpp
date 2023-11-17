@@ -94,6 +94,14 @@ namespace QuoridorAI
         bool DoMove(int moveIndex);
 
         /**
+         * @brief do move by using a game record
+         *
+         * @param moveRecords the move records (per a color)
+         * @return whether succeed or not
+         */
+        bool DoMoveByGameRecord(std::vector<int> moveRecords[ColorLimit]);
+
+        /**
          * @brief do fence move
          *
          * @param fence the fence

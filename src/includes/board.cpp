@@ -1,5 +1,6 @@
 #include "board.hpp"
 #include <unordered_set>
+#include <algorithm>
 
 namespace QuoridorAI
 {
@@ -85,6 +86,27 @@ namespace QuoridorAI
             return DoFenceMove(moveIndex - 81);
         else
             return false;
+    }
+
+    bool Board::DoMoveByGameRecord(std::vector<int> moveRecords[ColorLimit])
+    {
+        int i;
+        Color turnPlayerAtLoopBegining = boardInfo.turnPlayer;
+
+        for (i = 0; i < std::min(moveRecords[White].size(), moveRecords[Black].size()); ++i)
+        {
+            if (!DoMove(moveRecords[turnPlayerAtLoopBegining][i]))
+                return false;
+            if (!DoMove(moveRecords[!turnPlayerAtLoopBegining][i]))
+                return false;
+        }
+
+        // the case exists, in which a turn player at loop begining did one more move than the opponent did.
+
+        if (moveRecords[turnPlayerAtLoopBegining].size() <= i)
+            return true;
+
+        return DoMove(moveRecords[turnPlayerAtLoopBegining][i]);
     }
 
     bool Board::DoFenceMove(Fence fence)
