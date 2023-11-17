@@ -54,6 +54,12 @@ namespace QuoridorAI
              *
              */
             ZobristHash();
+            /**
+             * @brief Construct a new Zobrist Hasher
+             *
+             * @param moveRecords move records (per a color)
+             */
+            ZobristHash(std::vector<int> moveRecords[ColorLimit]);
 
             // functions
 

@@ -7,17 +7,28 @@ namespace QuoridorAI
 {
     namespace Hasher
     {
+        namespace
+        {
+            const int _indexOfKingsW = Indexer::SquareToIndex(MakeSquare(SE_E0, SE_F1));
+            const int _indexOfKingsB = Indexer::SquareToIndex(MakeSquare(SE_E8, SE_F9));
+            const HashKey _startHash = basicKeys.SquareKey[White][_indexOfKingsW] ^
+                                       basicKeys.SquareKey[Black][_indexOfKingsB];
+        }
+
         ZobristHash::ZobristHash(Square whiteKing, Square blackKing, Color turnPlayer, HashKey currentKey)
             : indexOfKings{Indexer::SquareToIndex(whiteKing), Indexer::SquareToIndex(blackKing)},
               turnPlayer(turnPlayer), currentKey(currentKey){};
         ZobristHash::ZobristHash()
-            : indexOfKings{Indexer::SquareToIndex(MakeSquare(SE_E0, SE_F1)),
-                           Indexer::SquareToIndex(MakeSquare(SE_E8, SE_F9))},
-              turnPlayer(White),
-              currentKey(basicKeys.SquareKey[White][Indexer::SquareToIndex(
-                             MakeSquare(SE_E0, SE_F1))] ^
-                         basicKeys.SquareKey[Black][Indexer::SquareToIndex(
-                             MakeSquare(SE_E8, SE_F9))]){};
+            : indexOfKings{
+                  _indexOfKingsW,
+                  _indexOfKingsB,
+              },
+              turnPlayer(White), currentKey(_startHash){};
+        ZobristHash::ZobristHash(std::vector<int> moveRecords[ColorLimit])
+            : ZobristHash()
+        {
+            GetKeyByGameRecord(moveRecords);
+        }
 
         HashKey ZobristHash::GetNextKey(Move move, Color color)
         {
