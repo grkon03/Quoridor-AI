@@ -15,6 +15,11 @@ namespace QuoridorAI
     WallMan::WallMan(const WallMan &wm)
         : wallBBs(wm.wallBBs), dijkstra(wm.dijkstra), availableFenceBB(wm.availableFenceBB) {}
 
+    WallMan::WallMan(std::vector<int> moveRecords[ColorLimit]) : WallMan()
+    {
+        PutFencesByGameRecord(moveRecords, White);
+    }
+
     WallBBs WallMan::GetWallBBs() const
     {
         return wallBBs;
@@ -30,10 +35,16 @@ namespace QuoridorAI
         int i;
         for (i = 0; i < std::min(moveRecords[turnPlayer].size(), moveRecords[!turnPlayer].size()); ++i)
         {
-            if (!PutFence(moveRecords[turnPlayer][i]))
-                return false;
-            if (!PutFence(moveRecords[!turnPlayer][i]))
-                return false;
+            if (moveRecords[turnPlayer][i] >= 81)
+            {
+                if (!PutFence(moveRecords[turnPlayer][i]))
+                    return false;
+            }
+            if (moveRecords[!turnPlayer][i] >= 81)
+            {
+                if (!PutFence(moveRecords[!turnPlayer][i]))
+                    return false;
+            }
         }
 
         // the case exists, in which turnPlayer did one more move than the opponent did.

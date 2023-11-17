@@ -41,6 +41,7 @@ namespace QuoridorAI
         WallMan();
         WallMan(WallBBs);
         WallMan(const WallMan &);
+        WallMan(std::vector<int>[ColorLimit]);
 
         // functions
 
