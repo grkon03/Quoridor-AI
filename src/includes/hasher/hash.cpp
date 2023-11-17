@@ -1,6 +1,8 @@
 #include "../indexer/indexer.hpp"
 #include "hash.hpp"
 
+#include <vector>
+
 namespace QuoridorAI
 {
     namespace Hasher
@@ -52,6 +54,14 @@ namespace QuoridorAI
             return currentKey;
         }
 
+        HashKey ZobristHash::GetNextKey(int moveIndex)
+        {
+            if (moveIndex < 81)
+                return GetNextKeyAfterKingMove(moveIndex);
+            else
+                return GetNextKeyAfterFenceMove(moveIndex - 81);
+        }
+
         HashKey ZobristHash::GetNextKeyAfterFenceMove(int fenceIndex)
         {
             turnPlayer = !turnPlayer;
@@ -64,6 +74,25 @@ namespace QuoridorAI
             indexOfKings[turnPlayer] = squareIndex;
             turnPlayer = !turnPlayer;
             return currentKey ^= basicKeys.SquareKey[!turnPlayer][squareIndex];
+        }
+
+        HashKey ZobristHash::GetKeyByGameRecord(std::vector<int> moveRecords[ColorLimit])
+        {
+            int i;
+            Color turnPlayerAtLoopBegining = turnPlayer;
+
+            for (i = 0; i < std::min(moveRecords[White].size(), moveRecords[Black].size()); ++i)
+            {
+                GetNextKey(moveRecords[turnPlayerAtLoopBegining][i]);
+                GetNextKey(moveRecords[!turnPlayerAtLoopBegining][i]);
+            }
+
+            // the case exists, in which a turn player at loop begining did one more move than the opponent did.
+
+            if (moveRecords[turnPlayerAtLoopBegining].size() > i)
+                GetNextKey(moveRecords[turnPlayerAtLoopBegining][i]);
+
+            return currentKey;
         }
 
         namespace

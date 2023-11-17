@@ -76,6 +76,13 @@ namespace QuoridorAI
              */
             HashKey GetNextKey(Move);
             /**
+             * @brief Get the Next Key
+             *
+             * @param moveIndex index of the move
+             * @return next hash key after this move
+             */
+            HashKey GetNextKey(int moveIndex);
+            /**
              * @brief Get the Next Key after fence move
              *
              * @param fenceIndex index of the fence
@@ -89,6 +96,14 @@ namespace QuoridorAI
              * @return next hash key after this move
              */
             HashKey GetNextKeyAfterKingMove(int squareIndex);
+
+            /**
+             * @brief Get the Key by reading a game record
+             *
+             * @param moveRecords move records (per a color)
+             * @return the key after all moves are did
+             */
+            HashKey GetKeyByGameRecord(std::vector<int> moveRecords[ColorLimit]);
 
             // operators
 
