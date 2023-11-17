@@ -25,23 +25,23 @@ namespace QuoridorAI
         return dijkstra;
     }
 
-    bool WallMan::PutFencesByGameRecord(std::vector<int> moveRecords[ColorLimit])
+    bool WallMan::PutFencesByGameRecord(std::vector<int> moveRecords[ColorLimit], Color turnPlayer)
     {
         int i;
-        for (i = 0; i < std::min(moveRecords[White].size(), moveRecords[Black].size()); ++i)
+        for (i = 0; i < std::min(moveRecords[turnPlayer].size(), moveRecords[!turnPlayer].size()); ++i)
         {
-            if (!PutFence(moveRecords[White][i]))
+            if (!PutFence(moveRecords[turnPlayer][i]))
                 return false;
-            if (!PutFence(moveRecords[Black][i]))
+            if (!PutFence(moveRecords[!turnPlayer][i]))
                 return false;
         }
 
-        // the case exists, in which white did one more move than black did.
+        // the case exists, in which turnPlayer did one more move than the opponent did.
 
-        if (moveRecords[White].size() <= i)
+        if (moveRecords[turnPlayer].size() <= i)
             return true;
 
-        return PutFence(moveRecords[White][i]);
+        return PutFence(moveRecords[turnPlayer][i]);
     }
 
     bool WallMan::IsThereReachableToGoal(Square square, Color color) const
