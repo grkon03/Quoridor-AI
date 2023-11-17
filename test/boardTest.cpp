@@ -38,6 +38,8 @@ TEST(BoardTest, BoardDoMoveTest)
 
     // case 1
 
+    boardTested = Board();
+
     moves[White] = std::vector<int>({13});
 
     moves[Black] = std::vector<int>({67});
@@ -59,4 +61,8 @@ TEST(BoardTest, BoardDoMoveTest)
         {moves[White], moves[Black]},
         {kingmoves[White], kingmoves[Black]},
     };
+
+    boardTested.DoMoveByGameRecord(moves);
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
 }
