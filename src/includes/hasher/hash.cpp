@@ -11,8 +11,8 @@ namespace QuoridorAI
         {
             const int _indexOfKingsW = Indexer::SquareToIndex(MakeSquare(SE_E0, SE_F1));
             const int _indexOfKingsB = Indexer::SquareToIndex(MakeSquare(SE_E8, SE_F9));
-            const HashKey _startHash = basicKeys.SquareKey[White][_indexOfKingsW] ^
-                                       basicKeys.SquareKey[Black][_indexOfKingsB];
+            const HashKey _startHash = ZobristHash::basicKeys.SquareKey[White][_indexOfKingsW] ^
+                                       ZobristHash::basicKeys.SquareKey[Black][_indexOfKingsB];
         }
 
         ZobristHash::ZobristHash(Square whiteKing, Square blackKing, Color turnPlayer, HashKey currentKey)
