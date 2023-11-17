@@ -3,6 +3,8 @@
 #include "../types.hpp"
 #include "keys.hpp"
 
+#include <vector>
+
 namespace QuoridorAI
 {
     namespace Hasher

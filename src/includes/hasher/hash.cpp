@@ -1,8 +1,6 @@
 #include "../indexer/indexer.hpp"
 #include "hash.hpp"
 
-#include <vector>
-
 namespace QuoridorAI
 {
     namespace Hasher
