@@ -32,10 +32,31 @@ using namespace QuoridorAI;
 
 TEST(BoardTest, BoardDoMoveTest)
 {
-    BoardInfo biStart, biCor;
-    WallMan wmStart, wmCor;
+    Board boardTested;
+    BoardInfo biCor;
+    std::vector<int> moves[ColorLimit], kingmoves[ColorLimit];
 
-    biStart = BoardInfo{
+    // case 1
 
+    moves[White] = std::vector<int>({13});
+
+    moves[Black] = std::vector<int>({67});
+
+    kingmoves[White] = std::vector<int>({4, 13});
+
+    kingmoves[Black] = std::vector<int>({76, 67});
+
+    biCor = BoardInfo{
+        WallMan(moves),
+        {13, 67},
+        {10, 10},
+        White,
+        {{4, 12, 14, 22, -1}, {58, 66, 68, 76, -1}},
+        Bitboard128(misc::fullbits64, misc::fullbits64),
+        Bitboard128(0xffe018060ULL, 0x18060180601807ffULL),
+        2,
+        Hasher::ZobristHash(moves),
+        {moves[White], moves[Black]},
+        {kingmoves[White], kingmoves[Black]},
     };
 }
