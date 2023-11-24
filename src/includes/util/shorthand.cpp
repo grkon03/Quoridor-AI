@@ -29,7 +29,7 @@ namespace QuoridorAI::Util
             else if (Rank0 > _rank || _rank >= FileI)
                 return -1;
             else
-                return _rank * 8 + _file - 1;
+                return _rank * 8 + _file + 80;
         }
 
         int _MIMSNH(char file, char rank)
@@ -42,7 +42,7 @@ namespace QuoridorAI::Util
             else if (Rank0 >= _rank || _rank >= Rank9)
                 return -1;
             else
-                return (_rank - 1) * 8 + _file + 64;
+                return (_rank - 1) * 8 + _file + 145;
         }
     }
 
@@ -66,7 +66,7 @@ namespace QuoridorAI::Util
 
     std::vector<int> MakeIMoveSNs(std::vector<std::string> sns)
     {
-        std::vector<int> ret;
+        std::vector<int> ret(sns.size());
         std::transform(sns.begin(), sns.end(), ret.begin(), MakeIMoveSN);
         return ret;
     }
