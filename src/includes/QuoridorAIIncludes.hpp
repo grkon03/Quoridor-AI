@@ -13,6 +13,7 @@
 
 #include "indexer/IndexerAllIncludes.hpp"
 #include "hasher/HasherAllIncludes.hpp"
+#include "util/UtilAllIncludes.hpp"
 
 #include "bitboard.hpp"
 #include "bitboardConst.hpp"

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "../src/includes/board.hpp"
+#include "../src/includes/util/UtilAllIncludes.hpp"
 
 using namespace QuoridorAI;
 
