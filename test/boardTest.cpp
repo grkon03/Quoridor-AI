@@ -4,6 +4,7 @@
 #include "../src/includes/util/UtilAllIncludes.hpp"
 
 using namespace QuoridorAI;
+using namespace QuoridorAI::Util;
 
 /*
     BoardInfo memo:
@@ -58,6 +59,49 @@ TEST(BoardTest, BoardDoMoveTest)
         Bitboard128(misc::fullbits64, misc::fullbits64),
         Bitboard128(0xffe018060ULL, 0x18060180601807ffULL),
         2,
+        Hasher::ZobristHash(moves),
+        {moves[White], moves[Black]},
+        {kingmoves[White], kingmoves[Black]},
+    };
+
+    boardTested.DoMoveByGameRecord(moves);
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
+
+    // case 2
+
+    boardTested = Board();
+
+    moves[White] = MakeIMoveSNs({
+        "Ke1",
+        "Ke2",
+        "Ke3",
+        "Ke4",
+        "He5",
+        "He4",
+    });
+
+    moves[Black] = MakeIMoveSNs({
+        "Ke7",
+        "Ke6",
+        "He7",
+        "Ve5",
+        "Ve3",
+    });
+
+    kingmoves[White] = ExtractKingTracking(moves[White], 4);
+
+    kingmoves[Black] = ExtractKingTracking(moves[Black], 76);
+
+    biCor = BoardInfo{
+        WallMan(moves),
+        {40, 58},
+        {8, 7},
+        Black,
+        {{41, -1, -1, -1, -1}, {59, 49, -1, -1, -1}},
+        Bitboard128(0xffc7f7c7c7ffffffULL, 0xffe7c7c7c7f7ffffULL),
+        Bitboard128(0xffe019c61ULL, 0x19c67184601807ffULL),
+        11,
         Hasher::ZobristHash(moves),
         {moves[White], moves[Black]},
         {kingmoves[White], kingmoves[Black]},
