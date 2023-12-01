@@ -720,17 +720,14 @@ namespace QuoridorAI
 
             // cannot shut up the king
             if ((bitset1 & (bitset2 | bitset3)) | (bitset2 & bitset3))
-            {
-                ++fenceIndex;
                 continue;
-            }
 
             // verify if the king is shut up
             shutupTester = boardInfo.wallMan.GetDijkstra();
             shutupTester.PutFence(fenceIndex);
 
-            if (shutupTester.IsThereReachableToGoal(boardInfo.kingSquareIndex[White], White) ||
-                shutupTester.IsThereReachableToGoal(boardInfo.kingSquareIndex[Black], Black))
+            if (!(shutupTester.IsThereReachableToGoal(boardInfo.kingSquareIndex[White], White) &&
+                  shutupTester.IsThereReachableToGoal(boardInfo.kingSquareIndex[Black], Black)))
                 // delete this fence from availableFenceBB because this fence shut up some kings
                 updaterAvailableFenceBB ^= Constant::oneBitMask128[fenceIndex];
         }

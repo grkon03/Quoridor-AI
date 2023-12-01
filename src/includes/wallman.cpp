@@ -37,12 +37,12 @@ namespace QuoridorAI
         {
             if (moveRecords[turnPlayer][i] >= 81)
             {
-                if (!PutFence(moveRecords[turnPlayer][i]))
+                if (!PutFence(moveRecords[turnPlayer][i] - 81))
                     return false;
             }
             if (moveRecords[!turnPlayer][i] >= 81)
             {
-                if (!PutFence(moveRecords[!turnPlayer][i]))
+                if (!PutFence(moveRecords[!turnPlayer][i] - 81))
                     return false;
             }
         }
@@ -52,7 +52,7 @@ namespace QuoridorAI
         if (moveRecords[turnPlayer].size() <= i)
             return true;
 
-        return PutFence(moveRecords[turnPlayer][i]);
+        return PutFence(moveRecords[turnPlayer][i] - 81);
     }
 
     bool WallMan::IsThereReachableToGoal(Square square, Color color) const
