@@ -123,8 +123,6 @@ TEST(BoardTest, BoardDoMoveTestLongCase1)
     boardTested = Board();
 
     moves[White] = MakeIMoveSNs({
-        // 1
-
         "Ke1",
         "Ke2",
         "Ke3",
@@ -136,8 +134,6 @@ TEST(BoardTest, BoardDoMoveTestLongCase1)
     });
 
     moves[Black] = MakeIMoveSNs({
-        // 1
-
         "Ke7",
         "Ke6",
         "Ke5",
