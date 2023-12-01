@@ -111,3 +111,57 @@ TEST(BoardTest, BoardDoMoveTest)
 
     EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
 }
+
+TEST(BoardTest, BoardDoMoveTestLongCase1)
+{
+    Board boardTested;
+    BoardInfo biCor;
+    std::vector<int> moves[ColorLimit], kingmoves[ColorLimit];
+
+    // 1
+
+    boardTested = Board();
+
+    moves[White] = MakeIMoveSNs({
+        "Ke1",
+        "Ke2",
+        "Ke3",
+        "Ke4",
+        "He3",
+        "Ve2",
+        "Vg2",
+        "Hc4",
+    });
+
+    moves[Black] = MakeIMoveSNs({
+        "Ke7",
+        "Ke6",
+        "Ke5",
+        "Ke3",
+        "He5",
+        "Hc5",
+        "Hg5",
+        "Hh6",
+    });
+
+    kingmoves[White] = ExtractKingTracking(moves[White], 4);
+    kingmoves[Black] = ExtractKingTracking(moves[Black], 76);
+
+    biCor = BoardInfo{
+        WallMan(moves),
+        {40, 31},
+        {6, 6},
+        White,
+        {{39, 41, 32, -1, -1}, {39, 41, 32, -1, -1}},
+        Bitboard128(0xffff3f01e1c7ffffULL, 0xffff7fabd3c7d7ffULL),
+        Bitboard128(0xffe018078ULL, 0x1ff65d9c651807ffULL),
+        16,
+        Hasher::ZobristHash(moves),
+        {moves[White], moves[Black]},
+        {kingmoves[White], kingmoves[Black]},
+    };
+
+    boardTested.DoMoveByGameRecord(moves);
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
+}
