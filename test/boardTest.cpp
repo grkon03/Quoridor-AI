@@ -442,10 +442,4 @@ TEST(BoardTest, BoardDoMoveTestLongCase1)
     boardTested.DoMoveByGameRecord(exmoves);
 
     EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
-
-    for (int i = 0; i < 5; ++i)
-    {
-        std::cout << boardTested.GetBoardInfo().kingMovableSquaresIndex[Black][i];
-    }
-    std::cout << std::endl;
 }
