@@ -368,9 +368,9 @@ namespace QuoridorAI
             if (top)
             {
                 if (!topleft)
-                    boardInfo.kingMovableSquaresIndex[Black][index++] = kingB + 10;
-                if (!topright)
                     boardInfo.kingMovableSquaresIndex[Black][index++] = kingB + 8;
+                if (!topright)
+                    boardInfo.kingMovableSquaresIndex[Black][index++] = kingB + 10;
             }
             else
             {
