@@ -535,11 +535,11 @@ namespace QuoridorAI
         index = 0;
 
         // up
-        if (!bottomleft)
+        if (!bottomright)
             boardInfo.kingMovableSquaresIndex[Black][index++] = kingB - 9;
 
         // down
-        if (!topleft)
+        if (!topright)
             boardInfo.kingMovableSquaresIndex[Black][index++] = kingB + 9;
 
         // left
