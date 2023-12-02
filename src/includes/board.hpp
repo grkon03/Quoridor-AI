@@ -197,14 +197,15 @@ namespace QuoridorAI
         /**
          * @brief calc wall existing if kings are adjacent horiznotal
          *
-         * @param cbse center-boottom square edge of kings
+         * @param cbse center-bottom square edge of kings
          *
-         *  here
-         * 　 |
-         * 　 v
          * ・-・-・
          * ｜B｜W｜
          * ・-・-・
+         *    ^
+         *    |
+         *   here
+         *
          */
         void WallExistingHorizontal(
             SquareEdge cbse,
