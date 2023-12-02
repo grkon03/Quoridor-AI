@@ -409,4 +409,43 @@ TEST(BoardTest, BoardDoMoveTestLongCase1)
     boardTested.DoMoveByGameRecord(exmoves);
 
     EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
+
+    // 9
+
+    // this is a game record followed by the previous ones.
+
+    exmoves[White] = std::vector<int>();
+
+    exmoves[Black] = MakeIMoveSNs({
+        "Ki4",
+    });
+
+    moves[Black].insert(moves[Black].end(), exmoves[Black].begin(), exmoves[Black].end());
+
+    kingmoves[White] = ExtractKingTracking(moves[White], 4);
+    kingmoves[Black] = ExtractKingTracking(moves[Black], 76);
+
+    biCor = BoardInfo{
+        WallMan(moves),
+        {43, 44},
+        {2, 3},
+        White,
+        {{34, 35, 53, -1, -1}, {34, 35, 53, -1, -1}},
+        Bitboard128(0xffff3f0031471f1fULL, 0xffff37221307171fULL),
+        Bitboard128(0xffe018079ULL, 0x1fffddfc7d1f07ffULL),
+        32,
+        Hasher::ZobristHash(moves),
+        {moves[White], moves[Black]},
+        {kingmoves[White], kingmoves[Black]},
+    };
+
+    boardTested.DoMoveByGameRecord(exmoves);
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
+
+    for (int i = 0; i < 5; ++i)
+    {
+        std::cout << boardTested.GetBoardInfo().kingMovableSquaresIndex[Black][i];
+    }
+    std::cout << std::endl;
 }
