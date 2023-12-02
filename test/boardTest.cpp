@@ -241,7 +241,7 @@ TEST(BoardTest, BoardDoMoveTestLongCase1)
 
     EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
 
-    // 3
+    // 4
 
     // this is a game record followed by the previous ones.
 
