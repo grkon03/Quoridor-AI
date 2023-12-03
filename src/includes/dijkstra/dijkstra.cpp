@@ -261,24 +261,25 @@ namespace QuoridorAI
 
     void Dijkstra::UpdateDistancesByPutFence(const Color color, const int lbSquareIndex)
     {
-        int numOfSquaresToUpdate = 0;
-        int squaresToUpdate[81];
+        int numOfSquaresToUpdate[4] = {0, 0, 0, 0};
+        int squaresToUpdate[4][81];
 
-        ReverseDijkstraRecursive(color, lbSquareIndex, &numOfSquaresToUpdate, squaresToUpdate);
-        ReverseDijkstraRecursive(color, lbSquareIndex + 1, &numOfSquaresToUpdate, squaresToUpdate);
-        ReverseDijkstraRecursive(color, lbSquareIndex + 9, &numOfSquaresToUpdate, squaresToUpdate);
-        ReverseDijkstraRecursive(color, lbSquareIndex + 10, &numOfSquaresToUpdate, squaresToUpdate);
+        ReverseDijkstraRecursive(color, lbSquareIndex, numOfSquaresToUpdate, squaresToUpdate[0]);
+        ReverseDijkstraRecursive(color, lbSquareIndex + 1, numOfSquaresToUpdate + 1, squaresToUpdate[1]);
+        ReverseDijkstraRecursive(color, lbSquareIndex + 9, numOfSquaresToUpdate + 2, squaresToUpdate[2]);
+        ReverseDijkstraRecursive(color, lbSquareIndex + 10, numOfSquaresToUpdate + 3, squaresToUpdate[3]);
 
-        if (numOfSquaresToUpdate == 0)
-            return;
-
-        Distance minDistance = Unreachable;
-
-        for (int i = 0; i < numOfSquaresToUpdate; ++i)
+        Distance minDistance[4] = {Unreachable, Unreachable, Unreachable, Unreachable};
+        int i, j;
+        for (i = 0; i < 4; ++i)
         {
-            minDistance = std::min(minDistance, CalcTemporaryDistance(color, squaresToUpdate[i]));
+            if (numOfSquaresToUpdate[i] == 0)
+                continue;
+            for (j = 0; j < numOfSquaresToUpdate[i]; ++j)
+            {
+                minDistance[i] = std::min(minDistance[i], CalcTemporaryDistance(color, squaresToUpdate[i][j]));
+            }
+            DijkstraRecursive(color, minDistance[i]);
         }
-
-        DijkstraRecursive(color, minDistance);
     }
 }

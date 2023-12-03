@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "misc.hpp"
 #include "wall.hpp"
 #include "indexer/IndexerAllIncludes.hpp"
@@ -33,7 +35,7 @@ namespace QuoridorAI
          * Then, n-th bit with a WallDir is not set if n is remainder of index of C2C4, C3C5, C4C6, B4D4 after dividing by 64 along with the WallDir,
          * and is set if n is the others.
          */
-        Bitboard64 availableFenceBB[WallDirLimit];
+        Bitboard128 availableFenceBB;
 
     public:
         // constructors
@@ -41,6 +43,7 @@ namespace QuoridorAI
         WallMan();
         WallMan(WallBBs);
         WallMan(const WallMan &);
+        WallMan(std::vector<int>[ColorLimit]);
 
         // functions
 
@@ -53,6 +56,8 @@ namespace QuoridorAI
 
         template <WallDir direction>
         WallBBOD<direction> GetWallBBOD() const;
+
+        Dijkstra GetDijkstra() const;
 
         /**
          * @brief put fence
@@ -82,6 +87,26 @@ namespace QuoridorAI
          * @return whether succeed or not (whether the fence doesn't overlaps with walls and doesn't intersect wit walls)
          */
         bool PutFence(int fenceIndex);
+
+        /**
+         * @brief put fences as reading a game record
+         *
+         * @note no verification of the justifiableness of each size of vector moveRecords
+         *
+         * @param moveRecords array of the move records (per a color)
+         * @param turnPlayer a color of the player to play in this turn
+         * @return whether succeed or not (whether the fences doesn't overlaps with walls and doesn't intersect wit walls)
+         */
+        bool PutFencesByGameRecord(std::vector<int> moveRecords[ColorLimit], Color turnPlayer);
+
+        /**
+         * @brief verify whether there is wall at the section
+         *
+         * @tparam direction direction
+         * @param se left-bottom square edge of the section
+         */
+        template <WallDir direction>
+        bool IsThereWall(SquareEdge se) const;
 
         /**
          * @brief verify whether a king of the color can reach to his goal from the specified square
@@ -138,8 +163,7 @@ namespace QuoridorAI
          */
         Distance GetDistance(SquareEdge se, Color color) const;
 
-        template <WallDir direction>
-        Bitboard64 GetAvailableFenceBB() const;
+        Bitboard128 GetAvailableFenceBB() const;
 
     private:
         // private functions
@@ -194,7 +218,7 @@ namespace QuoridorAI
     template <WallDir direction>
     inline bool WallMan::PutFence(SquareEdge se)
     {
-        if ((availableFenceBB[direction] & misc::oneBitMask64[((GetRank(se) - direction) << 3) + GetFile(se) + direction - 1]) == 0)
+        if ((availableFenceBB & Constant::oneBitMask128[(direction << 6) + ((GetRank(se) - direction) << 3) + GetFile(se) + direction - 1]) == 0)
             return false;
 
         wallBBs.PutFence<direction>(se);
@@ -206,34 +230,29 @@ namespace QuoridorAI
 
     inline bool WallMan::PutFence(int fenceIndex)
     {
-        if (fenceIndex < 64)
-        {
-            // vertical
+        if (fenceIndex < 0 || fenceIndex >= 128)
+            return false;
 
-            if ((availableFenceBB[Vertical] & misc::oneBitMask64[fenceIndex]) == 0)
-                return false;
+        if ((availableFenceBB & Constant::oneBitMask128[fenceIndex]) == 0)
+            return false;
 
-            wallBBs.PutFence(fenceIndex);
-            dijkstra.PutFence(fenceIndex);
-            UpdateAvailableFenceByPutFence(fenceIndex);
+        wallBBs.PutFence(fenceIndex);
+        dijkstra.PutFence(fenceIndex);
+        UpdateAvailableFenceByPutFence(fenceIndex);
 
-            return true;
-        }
-        else if (fenceIndex < 128)
-        {
-            // vertical
+        return true;
+    }
 
-            if ((availableFenceBB[Horizontal] & misc::oneBitMask64[fenceIndex - 64]) == 0)
-                return false;
+    template <>
+    inline bool WallMan::IsThereWall<Horizontal>(SquareEdge se) const
+    {
+        return wallBBs.IsThereWall<Horizontal>(se);
+    }
 
-            wallBBs.PutFence(fenceIndex);
-            dijkstra.PutFence(fenceIndex);
-            UpdateAvailableFenceByPutFence(fenceIndex);
-
-            return true;
-        }
-
-        return false;
+    template <>
+    inline bool WallMan::IsThereWall<Vertical>(SquareEdge se) const
+    {
+        return wallBBs.IsThereWall<Vertical>(se);
     }
 
     inline void WallMan::UpdateAvailableFenceByPutFence(Fence fence)
@@ -248,18 +267,18 @@ namespace QuoridorAI
             // vertical
 
             // overlap
-            availableFenceBB[Vertical] &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
+            availableFenceBB &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
             // intersect
-            availableFenceBB[Horizontal] &= ~misc::oneBitMask64[fenceIndex];
+            availableFenceBB &= ~Constant::oneBitMask128[fenceIndex + 64];
         }
         else if (fenceIndex < 128)
         {
             // horizontal
 
             // overlap
-            availableFenceBB[Horizontal] &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
+            availableFenceBB &= Constant::availableFenceRemainMaskByIndex[fenceIndex];
             // intersect
-            availableFenceBB[Vertical] &= ~misc::oneBitMask64[fenceIndex - 64];
+            availableFenceBB &= ~Constant::oneBitMask128[fenceIndex - 64];
         }
     }
 
@@ -267,23 +286,22 @@ namespace QuoridorAI
     inline void WallMan::UpdateAvailableFenceByPutFence<Vertical>(SquareEdge se)
     {
         // overlap
-        availableFenceBB[Vertical] &= Constant::availableFenceRemainMaskBySquareEdge[Vertical].at(se);
+        availableFenceBB &= Constant::availableFenceRemainMaskBySquareEdge[Vertical].at(se);
         // intersect
-        availableFenceBB[Horizontal] &= ~misc::oneBitMask64[((GetRank(se) << 3) + GetFile(se) - 1)];
+        availableFenceBB &= ~Constant::oneBitMask128[(GetRank(se) << 3) + GetFile(se) + 63];
     }
 
     template <>
     inline void WallMan::UpdateAvailableFenceByPutFence<Horizontal>(SquareEdge se)
     {
         // overlap
-        availableFenceBB[Horizontal] &= Constant::availableFenceRemainMaskBySquareEdge[Horizontal].at(se);
+        availableFenceBB &= Constant::availableFenceRemainMaskBySquareEdge[Horizontal].at(se);
         // intersect
-        availableFenceBB[Vertical] &= ~misc::oneBitMask64[((GetRank(se) - 1) << 3) + GetFile(se)];
+        availableFenceBB &= ~Constant::oneBitMask128[((GetRank(se) - 1) << 3) + GetFile(se)];
     }
 
-    template <WallDir direction>
-    inline Bitboard64 WallMan::GetAvailableFenceBB() const
+    inline Bitboard128 WallMan::GetAvailableFenceBB() const
     {
-        return availableFenceBB[direction];
+        return availableFenceBB;
     }
 }

@@ -1,3 +1,5 @@
+#include <vector>
+#include <algorithm>
 #include "wallman.hpp"
 
 namespace QuoridorAI
@@ -11,12 +13,46 @@ namespace QuoridorAI
         CalcAvailableFenceBB();
     }
     WallMan::WallMan(const WallMan &wm)
-        : wallBBs(wm.wallBBs), dijkstra(wm.dijkstra), availableFenceBB{
-                                                          wm.availableFenceBB[Vertical], wm.availableFenceBB[Horizontal]} {}
+        : wallBBs(wm.wallBBs), dijkstra(wm.dijkstra), availableFenceBB(wm.availableFenceBB) {}
+
+    WallMan::WallMan(std::vector<int> moveRecords[ColorLimit]) : WallMan()
+    {
+        PutFencesByGameRecord(moveRecords, White);
+    }
 
     WallBBs WallMan::GetWallBBs() const
     {
         return wallBBs;
+    }
+
+    Dijkstra WallMan::GetDijkstra() const
+    {
+        return dijkstra;
+    }
+
+    bool WallMan::PutFencesByGameRecord(std::vector<int> moveRecords[ColorLimit], Color turnPlayer)
+    {
+        int i;
+        for (i = 0; i < std::min(moveRecords[turnPlayer].size(), moveRecords[!turnPlayer].size()); ++i)
+        {
+            if (moveRecords[turnPlayer][i] >= 81)
+            {
+                if (!PutFence(moveRecords[turnPlayer][i] - 81))
+                    return false;
+            }
+            if (moveRecords[!turnPlayer][i] >= 81)
+            {
+                if (!PutFence(moveRecords[!turnPlayer][i] - 81))
+                    return false;
+            }
+        }
+
+        // the case exists, in which turnPlayer did one more move than the opponent did.
+
+        if (moveRecords[turnPlayer].size() <= i)
+            return true;
+
+        return PutFence(moveRecords[turnPlayer][i] - 81);
     }
 
     bool WallMan::IsThereReachableToGoal(Square square, Color color) const
@@ -58,7 +94,7 @@ namespace QuoridorAI
     {
         Bitboard128 vbb = GetWallBBOD<Vertical>(), hbb = GetWallBBOD<Horizontal>();
 
-        Bitboard64 overlapV, overlapH, intersectV, intersectH;
+        Bitboard128 overlapV, overlapH, intersectV, intersectH;
         int i;
 
         // overlap verification
@@ -78,7 +114,7 @@ namespace QuoridorAI
         Bitboard128 intersectV128;
         Bitboard128 _lsb, extendedAvailableFenceBB;
 
-        intersectV = intersectH = 0;
+        intersectV = intersectH = Bitboard128(0);
 
         // vertical
 
@@ -113,7 +149,6 @@ namespace QuoridorAI
 
         // assign out of them
 
-        availableFenceBB[Vertical] = ~(overlapV | intersectV);
-        availableFenceBB[Horizontal] = ~(overlapH | intersectH);
+        availableFenceBB = ~(overlapV | intersectV | ((overlapH | intersectH) << 64));
     }
 }

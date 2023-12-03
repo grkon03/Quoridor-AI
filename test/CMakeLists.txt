@@ -26,13 +26,15 @@ file(GLOB Includes
 ../src/includes/*.cpp
 ../src/includes/indexer/*.cpp
 ../src/includes/hasher/*.cpp
-../src/includes/dijkstra/*.cpp)
+../src/includes/dijkstra/*.cpp
+../src/includes/util/*.cpp)
 
 file(GLOB TestTargets 
 *.cpp 
 indexer/*.cpp
 hasher/*.cpp
-dijkstra/*.cpp)
+dijkstra/*.cpp
+util/*.cpp)
 
 add_executable(
   QuoridorAITest

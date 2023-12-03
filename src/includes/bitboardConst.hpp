@@ -22,7 +22,9 @@ namespace QuoridorAI
         extern const Map<Fence, Bitboard128> fenceMaskByFence;
         extern const Map<SquareEdge, Bitboard128> fenceMaskBySquareEdge[WallDirLimit];
 
-        extern const Bitboard64 availableFenceRemainMaskByIndex[NumberOfFence];
-        extern const Map<SquareEdge, Bitboard64> availableFenceRemainMaskBySquareEdge[WallDirLimit];
+        extern const Bitboard128 availableFenceRemainMaskByIndex[NumberOfFence];
+        extern const Map<SquareEdge, Bitboard128> availableFenceRemainMaskBySquareEdge[WallDirLimit];
+
+        extern const Bitboard128 usedSquareEdgeByFenceBB[NumberOfFence];
     }
 }

@@ -87,6 +87,7 @@ namespace QuoridorAI
         std::string ToString(misc::BaseType);
 
         Bitboard64 GetLowerBits() const;
+        Bitboard64 GetUpperBits() const;
     };
 
     inline Bitboard128 lsb(Bitboard128 bb)
