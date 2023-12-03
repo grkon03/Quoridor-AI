@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "misc.hpp"
 #include "wall.hpp"
 #include "indexer/IndexerAllIncludes.hpp"
