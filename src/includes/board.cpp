@@ -191,6 +191,52 @@ namespace QuoridorAI
         return true;
     }
 
+    bool Board::UndoMove()
+    {
+        if (boardInfo.turnSpent == 0)
+            return false;
+
+        Color undoPlayer = !boardInfo.turnPlayer;
+        int moveIndex = boardInfo.moveRecorder[undoPlayer].back();
+        int fenceIndex;
+
+        // undo process
+
+        boardInfo.moveRecorder[undoPlayer].pop_back();
+
+        if (moveIndex < 81)
+        {
+            // king move
+
+            boardInfo.kingSquareIndex[undoPlayer] = boardInfo.kingRecorder[undoPlayer].back();
+            boardInfo.hash.UndoKingMove(boardInfo.kingRecorder[undoPlayer].back());
+            boardInfo.kingRecorder[undoPlayer].pop_back();
+
+            CalcKingMovableSquares();
+            CalcAvailableFenceBB();
+        }
+        else
+        {
+            // fence move
+
+            fenceIndex = moveIndex - 81;
+
+            boardInfo.wallMan.RemoveFence(fenceIndex);
+            ++boardInfo.numberOfRemainingFence[undoPlayer];
+
+            CalcKingMovableSquares();
+            boardInfo.usedSquareEdgeBB ^= Constant::usedSquareEdgeByFenceBB[fenceIndex];
+            CalcAvailableFenceBB();
+        }
+
+        // end process
+
+        --boardInfo.turnSpent;
+        boardInfo.turnPlayer = undoPlayer;
+
+        return true;
+    }
+
     void Board::CalcKingMovableSquares()
     {
         switch (boardInfo.kingSquareIndex[White] - boardInfo.kingSquareIndex[Black])

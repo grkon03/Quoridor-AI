@@ -67,6 +67,13 @@ namespace QuoridorAI
          * @note for speed, no varification whether the index is out of range
          */
         void PutFence(int fenceIndex);
+
+        /**
+         * @brief remove a fence
+         *
+         * @param fenceIndex index of the fence
+         */
+        void RemoveFence(int fenceIndex);
     };
 
     template <WallDir direction>
@@ -110,6 +117,12 @@ namespace QuoridorAI
     inline void WallBBOD<direction>::PutFence(int fenceIndex)
     {
         operator|=(Constant::fenceMaskByIndex[fenceIndex]);
+    }
+
+    template <WallDir direction>
+    inline void WallBBOD<direction>::RemoveFence(int fenceIndex)
+    {
+        operator&=(~Constant::fenceMaskByIndex[fenceIndex]);
     }
 
     /**
@@ -226,6 +239,13 @@ namespace QuoridorAI
          * @param fenceIndex index of the fence
          */
         void PutFence(int fenceIndex);
+
+        /**
+         * @brief remove a fence
+         *
+         * @param fenceIndex index of the fence
+         */
+        void RemoveFence(int fenceIndex);
 
         /**
          * @brief put fence with overlap verification
@@ -375,6 +395,16 @@ namespace QuoridorAI
         else if (fenceIndex < NumberOfFence)
             // horizontal
             wallHBB.PutFence(fenceIndex);
+    }
+
+    inline void WallBBs::RemoveFence(int fenceIndex)
+    {
+        if (fenceIndex < NumberOfFence / 2)
+            // vertical
+            wallVBB.RemoveFence(fenceIndex);
+        else if (fenceIndex < NumberOfFence)
+            // horizontal
+            wallHBB.RemoveFence(fenceIndex);
     }
 
     template <>

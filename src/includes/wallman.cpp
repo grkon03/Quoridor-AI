@@ -55,6 +55,17 @@ namespace QuoridorAI
         return PutFence(moveRecords[turnPlayer][i] - 81);
     }
 
+    void WallMan::RemoveFence(int fenceIndex)
+    {
+        if (fenceIndex < 0 || fenceIndex >= 128)
+            return;
+
+        wallBBs.RemoveFence(fenceIndex);
+        dijkstra.RemoveFence(fenceIndex);
+
+        UpdateAvailableFenceByRemoveFence(fenceIndex);
+    }
+
     bool WallMan::IsThereReachableToGoal(Square square, Color color) const
     {
         return dijkstra.IsThereReachableToGoal(square, color);
@@ -150,5 +161,27 @@ namespace QuoridorAI
         // assign out of them
 
         availableFenceBB = ~(overlapV | intersectV | ((overlapH | intersectH) << 64));
+    }
+
+    void WallMan::UpdateAvailableFenceByRemoveFence(int fenceIndex)
+    {
+        if (fenceIndex < 64)
+        {
+            // vertical
+
+            // overlap
+            availableFenceBB |= ~Constant::availableFenceRemainMaskByIndex[fenceIndex];
+            // intersect
+            availableFenceBB |= Constant::oneBitMask128[fenceIndex + 64];
+        }
+        else if (fenceIndex < 128)
+        {
+            // horizontal
+
+            // overlap
+            availableFenceBB |= ~Constant::availableFenceRemainMaskByIndex[fenceIndex];
+            // intersect
+            availableFenceBB |= Constant::oneBitMask128[fenceIndex - 64];
+        }
     }
 }
