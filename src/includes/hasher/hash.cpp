@@ -112,9 +112,9 @@ namespace QuoridorAI
             return currentKey ^= basicKeys.SquareKey[turnPlayer][kingIndexBeforeTheMove];
         }
 
-        HashKey ZobristHash::UndoFenceMove(int moveIndex)
+        HashKey ZobristHash::UndoFenceMove(int fenceIndex)
         {
-            return GetNextKey(moveIndex);
+            return GetNextKeyAfterFenceMove(fenceIndex);
         }
 
         namespace

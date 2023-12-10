@@ -140,6 +140,8 @@ namespace QuoridorAI
         /**
          * @brief undo move
          *
+         * @note slow functions, not recomended to use for analysing.
+         *
          * @return if there is no prevous move, return false
          *
          */
@@ -217,6 +219,13 @@ namespace QuoridorAI
          * @param fenceIndex index of the fence
          */
         void UpdateUsedSquareEdgeBB(int fenceIndex);
+
+        /**
+         * @brief update usedSquareEdgeBB after undo fence move
+         *
+         * @param fenceIndex index of the fence
+         */
+        void UpdateUsedSquareEdgeBBByUndoMove(int fenceIndex);
 
         /**
          * @brief calculate availableFenceBB

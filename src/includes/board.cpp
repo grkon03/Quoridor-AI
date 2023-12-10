@@ -222,10 +222,11 @@ namespace QuoridorAI
             fenceIndex = moveIndex - 81;
 
             boardInfo.wallMan.RemoveFence(fenceIndex);
+            boardInfo.hash.UndoFenceMove(fenceIndex);
             ++boardInfo.numberOfRemainingFence[undoPlayer];
 
             CalcKingMovableSquares();
-            boardInfo.usedSquareEdgeBB ^= Constant::usedSquareEdgeByFenceBB[fenceIndex];
+            UpdateUsedSquareEdgeBBByUndoMove(fenceIndex);
             CalcAvailableFenceBB();
         }
 
@@ -732,6 +733,33 @@ namespace QuoridorAI
         {
             *bottomleft = boardInfo.wallMan.IsThereWall<Horizontal>(SquareEdge(cbse - 1));
             *bottomright = boardInfo.wallMan.IsThereWall<Horizontal>(cbse);
+        }
+    }
+
+    void Board::UpdateUsedSquareEdgeBBByUndoMove(int fenceIndex)
+    {
+        Fence fence = Indexer::indexer.IndexedFence[fenceIndex];
+        SquareEdge lower = ExtractSquareEdgeLower((Move)fence),
+                   upper = ExtractSquareEdgeUpper((Move)fence);
+        SquareEdge se[3] = {
+            lower,
+            SquareEdge((lower + upper) / 2),
+            upper,
+        };
+
+        for (int i = 0; i < 3; ++i)
+        {
+            if (se[i] < 10 || se[i] >= 90 || se[i] % 10 == 0 || se[i] % 10 == 9)
+                continue;
+
+            if (
+                boardInfo.wallMan.IsThereWall<Vertical>(se[i] - 10) ||
+                boardInfo.wallMan.IsThereWall<Vertical>(se[i]) ||
+                boardInfo.wallMan.IsThereWall<Horizontal>(se[i] - 1) ||
+                boardInfo.wallMan.IsThereWall<Horizontal>(se[i]))
+                continue;
+
+            boardInfo.usedSquareEdgeBB &= ~(Constant::oneBitMask128[se[i]]);
         }
     }
 

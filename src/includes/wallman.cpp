@@ -165,23 +165,7 @@ namespace QuoridorAI
 
     void WallMan::UpdateAvailableFenceByRemoveFence(int fenceIndex)
     {
-        if (fenceIndex < 64)
-        {
-            // vertical
-
-            // overlap
-            availableFenceBB |= ~Constant::availableFenceRemainMaskByIndex[fenceIndex];
-            // intersect
-            availableFenceBB |= Constant::oneBitMask128[fenceIndex + 64];
-        }
-        else if (fenceIndex < 128)
-        {
-            // horizontal
-
-            // overlap
-            availableFenceBB |= ~Constant::availableFenceRemainMaskByIndex[fenceIndex];
-            // intersect
-            availableFenceBB |= Constant::oneBitMask128[fenceIndex - 64];
-        }
+        // todo: reinforce for quickness
+        this->CalcAvailableFenceBB();
     }
 }
