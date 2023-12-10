@@ -523,3 +523,41 @@ TEST(BoardTest, BoardDoMoveTestLongCase1)
 
     EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
 }
+
+TEST(BoardTest, BoardUndoMoveTest)
+{
+    Board board;
+    BoardInfo biCor;
+    std::vector<int> moves[ColorLimit];
+
+    moves[White] = MakeIMoveSNs({
+        "Ke1",
+        "Ke2",
+        "Ke3",
+        "Ke4",
+        "He3",
+        "Ve2",
+        "Vg2",
+        "Hc4",
+    });
+
+    moves[Black] = MakeIMoveSNs({
+        "Ke7",
+        "Ke6",
+        "Ke5",
+        "Ke3",
+        "He5",
+        "Hc5",
+        "Hg5",
+        "Hh6",
+    });
+
+    board.DoMoveByGameRecord(moves);
+    biCor = board.GetBoardInfo();
+
+    board.DoMove(MakeIMoveSN("Kf3"));
+
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+}
