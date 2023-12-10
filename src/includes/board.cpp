@@ -208,8 +208,8 @@ namespace QuoridorAI
         {
             // king move
 
-            boardInfo.kingSquareIndex[undoPlayer] = boardInfo.kingRecorder[undoPlayer].back();
-            boardInfo.hash.UndoKingMove(boardInfo.kingRecorder[undoPlayer].back());
+            boardInfo.kingSquareIndex[undoPlayer] = *(boardInfo.kingRecorder[undoPlayer].end() - 2);
+            boardInfo.hash.UndoKingMove(*(boardInfo.kingRecorder[undoPlayer].end() - 2));
             boardInfo.kingRecorder[undoPlayer].pop_back();
 
             CalcKingMovableSquares();
