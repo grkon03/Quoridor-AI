@@ -560,4 +560,10 @@ TEST(BoardTest, BoardUndoMoveTest)
     board.UndoMove();
 
     EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    board.DoMove(MakeIMoveSN("Ve4"));
+
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
 }
