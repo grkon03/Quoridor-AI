@@ -566,4 +566,47 @@ TEST(BoardTest, BoardUndoMoveTest)
     board.UndoMove();
 
     EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    board.DoMove(MakeIMoveSN("Hf4"));
+
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    // another case
+
+    board = Board();
+
+    moves[White] = MakeIMoveSNs({
+        "Ke1",
+        "Ke2",
+        "Ke3",
+        "He3",
+        "Vg3",
+        "Hc3",
+        "Hg5",
+    });
+
+    moves[Black] = MakeIMoveSNs({
+        "Ke7",
+        "Ke6",
+        "Ke5",
+        "He6",
+        "Ve4",
+        "Hg6",
+        "Vh3",
+    });
+
+    board.DoMoveByGameRecord(moves);
+    biCor = board.GetBoardInfo();
+
+    board.DoMove(MakeIMoveSN("Ke4"));
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    board.DoMove(MakeIMoveSN("Vg5"));
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
 }
