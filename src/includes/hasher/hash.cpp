@@ -104,6 +104,19 @@ namespace QuoridorAI
             return currentKey;
         }
 
+        HashKey ZobristHash::UndoKingMove(int kingIndexBeforeTheMove)
+        {
+            turnPlayer = !turnPlayer;
+            currentKey ^= basicKeys.SquareKey[turnPlayer][indexOfKings[turnPlayer]];
+            indexOfKings[turnPlayer] = kingIndexBeforeTheMove;
+            return currentKey ^= basicKeys.SquareKey[turnPlayer][kingIndexBeforeTheMove];
+        }
+
+        HashKey ZobristHash::UndoFenceMove(int fenceIndex)
+        {
+            return GetNextKeyAfterFenceMove(fenceIndex);
+        }
+
         namespace
         {
             MTRandomizer __mt(2906);

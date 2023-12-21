@@ -100,6 +100,13 @@ namespace QuoridorAI
         bool PutFencesByGameRecord(std::vector<int> moveRecords[ColorLimit], Color turnPlayer);
 
         /**
+         * @brief remove a fence
+         *
+         * @param fenceIndex index of  the fence
+         */
+        void RemoveFence(int fenceIndex);
+
+        /**
          * @brief verify whether there is wall at the section
          *
          * @tparam direction direction
@@ -187,6 +194,13 @@ namespace QuoridorAI
          * @param fenceIndex index of the put fence
          */
         void UpdateAvailableFenceByPutFence(int fenceIndex);
+
+        /**
+         * @brief update availableFenceBB after removing fence
+         *
+         * @param fenceIndex index of the removed fence
+         */
+        void UpdateAvailableFenceByRemoveFence(int fenceIndex);
 
         /**
          * @brief update availableFenceBB after putting fence

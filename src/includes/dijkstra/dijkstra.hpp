@@ -104,6 +104,13 @@ namespace QuoridorAI
          */
         void PutFence(int fenceIndex);
 
+        /**
+         * @brief remove a fence
+         *
+         * @param fenceIndex
+         */
+        void RemoveFence(int fenceIndex);
+
     private:
         /**
          * @brief main process of dijkstra with recursive function

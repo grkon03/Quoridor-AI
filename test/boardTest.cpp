@@ -523,3 +523,147 @@ TEST(BoardTest, BoardDoMoveTestLongCase1)
 
     EXPECT_TRUE(biCor.IsSameAsByFullScan(boardTested.GetBoardInfo()));
 }
+
+TEST(BoardTest, BoardUndoMoveTest)
+{
+    Board board;
+    BoardInfo biCor;
+    std::vector<int> moves[ColorLimit], exmoves[ColorLimit];
+
+    moves[White] = MakeIMoveSNs({
+        "Ke1",
+        "Ke2",
+        "Ke3",
+        "Ke4",
+        "He3",
+        "Ve2",
+        "Vg2",
+        "Hc4",
+    });
+
+    moves[Black] = MakeIMoveSNs({
+        "Ke7",
+        "Ke6",
+        "Ke5",
+        "Ke3",
+        "He5",
+        "Hc5",
+        "Hg5",
+        "Hh6",
+    });
+
+    board.DoMoveByGameRecord(moves);
+    biCor = board.GetBoardInfo();
+
+    board.DoMove(MakeIMoveSN("Kf3"));
+
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    board.DoMove(MakeIMoveSN("Ve4"));
+
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    board.DoMove(MakeIMoveSN("Hf4"));
+
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    // another case
+
+    board = Board();
+
+    moves[White] = MakeIMoveSNs({
+        "Ke1",
+        "Ke2",
+        "Ke3",
+        "He3",
+        "Vg3",
+        "Hc3",
+        "Hg5",
+    });
+
+    moves[Black] = MakeIMoveSNs({
+        "Ke7",
+        "Ke6",
+        "Ke5",
+        "He6",
+        "Ve4",
+        "Hg6",
+        "Vh3",
+    });
+
+    board.DoMoveByGameRecord(moves);
+    biCor = board.GetBoardInfo();
+
+    board.DoMove(MakeIMoveSN("Ke4"));
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    board.DoMove(MakeIMoveSN("Vg5"));
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    board.DoMove(MakeIMoveSN("Ve2"));
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    exmoves[White] = MakeIMoveSNs({
+        "Ve2",
+        "Vi6",
+    });
+
+    exmoves[Black] = MakeIMoveSNs({
+        "Ha3",
+        "Vh1",
+    });
+
+    moves[White].insert(moves[White].end(), exmoves[White].begin(), exmoves[White].end());
+    moves[Black].insert(moves[Black].end(), exmoves[Black].begin(), exmoves[Black].end());
+
+    board.DoMoveByGameRecord(exmoves);
+    biCor = board.GetBoardInfo();
+
+    board.DoMove(MakeIMoveSN("Ke4"));
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    board.DoMove(MakeIMoveSN("Kf3"));
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+
+    exmoves[White] = MakeIMoveSNs({
+        "Ke4",
+        "Kf4",
+        "Kf5",
+        "Kg5",
+        "Kh5",
+    });
+
+    exmoves[Black] = MakeIMoveSNs({
+        "Kf5",
+        "Kg5",
+        "Kh5",
+        "Ki5",
+    });
+
+    moves[White].insert(moves[White].end(), exmoves[White].begin(), exmoves[White].end());
+    moves[Black].insert(moves[Black].end(), exmoves[Black].begin(), exmoves[Black].end());
+
+    board.DoMoveByGameRecord(exmoves);
+    biCor = board.GetBoardInfo();
+
+    board.DoMove(MakeIMoveSN("Ki4"));
+    board.UndoMove();
+
+    EXPECT_TRUE(biCor.IsSameAsByFullScan(board.GetBoardInfo()));
+}

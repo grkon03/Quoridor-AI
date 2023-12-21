@@ -113,6 +113,22 @@ namespace QuoridorAI
              */
             HashKey GetKeyByGameRecord(std::vector<int> moveRecords[ColorLimit]);
 
+            /**
+             * @brief Get the Key before the king move
+             *
+             * @param kingIndexBeforeTheMove an index of king before the move
+             * @return the key before the move
+             */
+            HashKey UndoKingMove(int kingIndexBeforeTheMove);
+
+            /**
+             * @brief Get the Key before the fence mvoe
+             *
+             * @param fenceIndex the fence index
+             * @return the key before the move
+             */
+            HashKey UndoFenceMove(int fenceIndex);
+
             // operators
 
             inline bool operator==(const ZobristHash &h) const { return (currentKey == h.currentKey); }

@@ -96,6 +96,22 @@ namespace QuoridorAI
         UpdateDistancesByPutFence(Black, lbSquareIndex);
     }
 
+    void Dijkstra::RemoveFence(int fenceIndex)
+    {
+        wallBBs.RemoveFence(fenceIndex);
+
+        // todo: update for quickness
+
+        for (int i = 0; i < NumberOfSquare; ++i)
+        {
+            distances[White][i] = misc::initDistance[White][i];
+            distances[Black][i] = misc::initDistance[Black][i];
+        }
+
+        DijkstraRecursive(White, 1);
+        DijkstraRecursive(Black, 1);
+    }
+
     void Dijkstra::DijkstraRecursive(const Color color, const Distance phase)
     {
         bool continueProcess = false;
